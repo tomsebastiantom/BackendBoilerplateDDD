@@ -21,7 +21,7 @@ export class CreateCheckpointUseCase
   public async execute(
     request: CreateCheckpointDTO
   ): Promise<CreateCheckpointResponse> {
-    //SiteId Not Validated
+    //Todo SiteId Not Validated
     const CreatedCheckpoint = Checkpoint.create({
       siteId: request.siteId,
       checkpointName: request.checkpointName,

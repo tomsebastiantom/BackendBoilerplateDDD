@@ -20,7 +20,7 @@ export class SequelizeSiteRepo implements ISiteRepo {
     await SiteModel.destroy({ where: { siteId: site.siteId.id } });
     return;
   }
-  // async getAll (): Promise<Site[]>{
+  //Todo async getAll (): Promise<Site[]>{
   //     const SiteModel = this.models.Site;
   //     const rawSites = await SiteModel.findAll();
   //     const sites = rawSites.map((rawSite) => SiteMap.toDomain(rawSite));
