@@ -22,6 +22,10 @@ export class Checkpoint extends Entity<CheckpointProps> {
   get checkpointId(): CheckpointId {
     return CheckpointId.create(this._id).getValue();
   }
+  set description(description: string) {
+    this.props.description = description;
+  }
+  
   get isActive(): boolean {
     return this.props.isActive;
   }
