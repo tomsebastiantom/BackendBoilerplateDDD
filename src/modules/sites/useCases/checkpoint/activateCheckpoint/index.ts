@@ -1,5 +1,9 @@
 import { ActivateCheckpointUseCase } from "./ActivateCheckpointUseCase";
 import { ActivateCheckpointController } from "./ActivateCheckpointController";
-import { ICheckpointRepo } from "../../../repos/checkpointRepo";
-// im
-const activateCheckpointUseCase = new ActivateCheckpointUseCase(ICheckpointRepo);
+
+import { checkpointRepo } from "../../../repos";
+
+const activateCheckpointUseCase = new ActivateCheckpointUseCase(checkpointRepo);
+const activateCheckpointController = new ActivateCheckpointController(activateCheckpointUseCase);
+
+export { activateCheckpointUseCase, activateCheckpointController };

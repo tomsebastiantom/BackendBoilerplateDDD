@@ -5,6 +5,7 @@ import * as express from 'express';
 import { ActivateCheckpointDTO } from './ActivateCheckpointDTO';
 import { ActivateCheckpointErrors } from './ActivateCheckpointErrors';
 import { ActivateCheckpointUseCase } from './ActivateCheckpointUseCase';
+import { CheckpointId } from '../../../domain/checkpointId';
 
 export class ActivateCheckpointController extends BaseController {
   private useCase: ActivateCheckpointUseCase;
@@ -18,7 +19,7 @@ export class ActivateCheckpointController extends BaseController {
     req: DecodedExpressRequest,
     res: express.Response
   ): Promise<any> {
-    const { checkpointId } = req.decoded;
+    const checkpointId = (req.decoded as any).checkpointId;
     const dto: ActivateCheckpointDTO = {
       checkpointId: checkpointId
     };

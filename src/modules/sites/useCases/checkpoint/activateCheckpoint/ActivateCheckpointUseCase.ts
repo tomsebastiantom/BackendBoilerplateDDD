@@ -37,7 +37,7 @@ export class ActivateCheckpointUseCase
       const activatedCheckpoint = checkpoint as Checkpoint;
 
       activatedCheckpoint.isActive = true;
-      activatedCheckpoint.LastUpdateDate = new Date();
+      activatedCheckpoint.lastUpdateDate = new Date();
 
       await this.checkPointRepo.save(activatedCheckpoint);
       return right(Result.ok<void>());
