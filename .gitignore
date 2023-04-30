@@ -1,0 +1,27 @@
+# Dependency directories
+/node_modules
+
+# TypeScript build output
+/build
+
+# IDE/Editor files
+.vscode
+.idea
+
+# Compiled output from your text editor/IDE
+*.js
+
+# Compiled TypeScript source maps
+*.js.map
+
+# Other compiled TypeScript files
+*.d.ts
+
+# Environment variables file
+.env
+
+# Log files
+*.log
+
+# macOS specific files
+.DS_Store
