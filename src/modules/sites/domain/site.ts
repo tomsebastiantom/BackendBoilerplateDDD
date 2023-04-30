@@ -8,26 +8,22 @@ import { SiteCreated } from './events/siteCreated';
 import { Contact } from './contact';
 import { Address } from './address';
 import { Instruction } from './instruction';
-
-interface SiteName {
-  siteName: string;
-}
+import { SiteName } from './siteName';
 
 export interface SiteProps {
-  siteId: SiteId;
   siteName: SiteName;
   address: Address;
   companyName: string;
   contacts: [Contact];
   isActive: boolean;
   instructions: [Instruction];
-  siteCreationDate: Date;
-  siteLastUpdatedDate: Date;
+  creationDate: Date;
+  lastUpdatedDate: Date;
 }
 
 export class Site extends AggregateRoot<SiteProps> {
   get siteId(): SiteId {
-    return this.siteId;
+    return SiteId.create(this._id).getValue();
   }
 
   get siteName(): SiteName {
@@ -37,7 +33,30 @@ export class Site extends AggregateRoot<SiteProps> {
   get address(): Address {
     return this.address;
   }
-
+  get companyName(): string {
+    return this.props.companyName;
+  }
+  get isActive(): boolean {
+    return this.props.isActive;
+  }
+  set isActive(isActive: boolean) {
+    this.props.isActive = isActive;
+  }
+  get creationDate(): Date {
+    return this.props.creationDate;
+  }
+  get lastUpdatedDate(): Date {
+    return this.props.lastUpdatedDate;
+  }
+  get instructions(): [Instruction] {
+    return this.props.instructions;
+  }
+  set lastUpdatedDate(lastUpdatedDate: Date) {
+    this.props.lastUpdatedDate = lastUpdatedDate;
+  }
+  get contacts(): [Contact] {
+    return this.props.contacts;
+  }
   public addContact(contact: Contact): void {
     this.props.contacts.push(contact);
     // this.addDomainEvent(new CheckpointCreated(contact));

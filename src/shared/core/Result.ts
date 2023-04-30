@@ -1,8 +1,8 @@
 export class Result<T> {
   public isSuccess: boolean;
   public isFailure: boolean;
-  private error: T | string | null | undefined;
-  private _value: T | undefined;
+  private error: T | string ;
+  private _value: T;
 
   public constructor(isSuccess: boolean, error?: T | string | null, value?: T) {
     if (isSuccess && error) {

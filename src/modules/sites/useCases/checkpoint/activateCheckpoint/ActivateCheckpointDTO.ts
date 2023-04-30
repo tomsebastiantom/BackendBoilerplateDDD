@@ -1,5 +1,5 @@
+import { CheckpointId } from '../../../domain/checkpointId';
+
 export interface ActivateCheckpointDTO {
-    username: string;
-    email: string;
-    password: string;
-  }
+  checkpointId: CheckpointId;
+}

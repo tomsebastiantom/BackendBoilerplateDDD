@@ -1,87 +1,48 @@
+import { Either, Result, left, right } from '../../../../../shared/core/Result';
+import { AppError } from '../../../../../shared/core/AppError';
+import { UseCase } from '../../../../../shared/core/UseCase';
 
-import { ActivateCheckpointDTO } from "./ActivateCheckpointController";
-import { ActivateCheckpointErrors } from "./ActivateCheckpointErrors";
-import { Either, Result, left, right } from "../../../../../shared/core/Result"
-import { AppError } from "../../../../../shared/core/AppError";
-import { IUserRepo } from "../../repos/userRepo";
-import { UseCase } from "../../../../../shared/core/UseCase";
-import { UserEmail } from "../../domain/userEmail";
-import { UserPassword } from "../../domain/userPassword";
-import { UserName } from "../../domain/userName";
-import { User } from "../../domain/user";
+import { ICheckpointRepo } from '../../../repos/checkpointRepo';
+import { ActivateCheckpointErrors } from './ActivateCheckpointErrors';
+import { ActivateCheckpointDTO } from './ActivateCheckpointDTO';
+import { ActivateCheckpointResponse } from './ActivateCheckpointResponse';
+import { Checkpoint } from '../../../domain/checkpoint';
 
-type Response = Either<
-  ActivateCheckpointErrors.CheckpointNotFoundError |
-  AppError.UnexpectedError |
-  Result<any>,
-  Result<void>
->
 
-export class ActivateCheckpointUseCase implements UseCase<ActivateCheckpointDTO, Promise<Response>> {
-  private userRepo: IUserRepo;
-  
-  constructor (userRepo: IUserRepo) {
-    this.userRepo = userRepo;
+export class ActivateCheckpointUseCase
+  implements
+    UseCase<ActivateCheckpointDTO, Promise<ActivateCheckpointResponse>>
+{
+  private checkPointRepo: ICheckpointRepo;
+
+  constructor(checkPointRepo: ICheckpointRepo) {
+    this.checkPointRepo = checkPointRepo;
   }
 
-  async execute (request: CreateUserDTO): Promise<Response> {
-    const emailOrError = UserEmail.create(request.email);
-    const passwordOrError = UserPassword.create({ value: request.password });
-    const usernameOrError = UserName.create({ name: request.username });
-
-    const dtoResult = Result.combine([ 
-      emailOrError, passwordOrError, usernameOrError 
-    ]);
-
-    if (dtoResult.isFailure) {
-      return left(Result.fail<void>(dtoResult.getErrorValue())) as Response;
-    }
-
-    const email: UserEmail = emailOrError.getValue();
-    const password: UserPassword = passwordOrError.getValue();
-    const username: UserName = usernameOrError.getValue();
-
+  public async execute(
+    request: ActivateCheckpointDTO
+  ): Promise<ActivateCheckpointResponse> {
     try {
-      const userAlreadyExists = await this.userRepo.exists(email);
-
-      if (userAlreadyExists) {
+      const checkpoint = await this.checkPointRepo.getByCheckpointId(
+        request.checkpointId
+      );
+      const checkpointFound = !!checkpoint === true;
+      if (!checkpointFound) {
         return left(
-          new CreateUserErrors.EmailAlreadyExistsError(email.value)
-        ) as Response;
+          new ActivateCheckpointErrors.CheckpointIdNotFoundError(
+            request.checkpointId
+          )
+        );
       }
+      const activatedCheckpoint = checkpoint as Checkpoint;
 
-      try {
-        const alreadyCreatedUserByUserName = await this.userRepo
-        .getUserByUserName(username);
+      activatedCheckpoint.isActive = true;
+      activatedCheckpoint.LastUpdateDate = new Date();
 
-        const userNameTaken = !!alreadyCreatedUserByUserName === true;
-
-        if (userNameTaken) {
-          return left (
-            new CreateUserErrors.UsernameTakenError(username.value)
-          ) as Response;
-        }
-      } catch (err) {}
-
-
-      const userOrError: Result<User> = User.create({
-        email, password, username,
-      });
-
-      if (userOrError.isFailure) {
-        return left(
-          Result.fail<User>(userOrError.getErrorValue().toString())
-        ) as Response;
-      }
-
-      const user: User = userOrError.getValue();
-
-      await this.userRepo.save(user);
-
-      return right(Result.ok<void>())
-
+      await this.checkPointRepo.save(activatedCheckpoint);
+      return right(Result.ok<void>());
     } catch (err) {
-      return left(new AppError.UnexpectedError(err)) as Response;
+      return left(new AppError.UnexpectedError(err));
     }
   }
 }

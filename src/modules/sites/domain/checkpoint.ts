@@ -3,26 +3,51 @@ import { Result } from '../../../shared/core/Result';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { Guard } from '../../../shared/core/Guard';
 
+
 import { SiteId } from './siteId';
 import { CheckpointId } from './checkpointId';
 
 interface CheckpointProps {
   checkpointName: string;
-  checkpointDescription?: string;
+  description?: string;
   isActive: boolean;
-  checkpointCreationDate: Date;
-  checkpointLastUpdateDate: Date;
-  checkpointId: CheckpointId;
-  latitude: number;
-  longitude: number;
-  accuracy: number;
+  creationDate: Date;
+  lastUpdateDate: Date;
+  latitude?: number;
+  longitude?: number;
   siteId: SiteId;
 }
 
 export class Checkpoint extends Entity<CheckpointProps> {
   get checkpointId(): CheckpointId {
-    return this.props.checkpointId;
+    return CheckpointId.create(this._id).getValue();
   }
+  get isActive(): boolean {
+    return this.props.isActive;
+  }
+  get lastUpdateDate(): Date {
+    return this.props.lastUpdateDate;
+  }
+  set lastUpdateDate(date: Date) {
+    this.props.lastUpdateDate = date;
+  }
+
+  set isActive(isActive: boolean) {
+    this.props.isActive = isActive;
+  }
+  get creationDate(): Date {
+    return this.props.creationDate;
+  }
+  get siteId(): SiteId {
+    return this.props.siteId;
+  }
+    get checkpointName(): string {
+    return this.props.checkpointName;
+    }
+    get description(): string {
+    return this.props.description;
+    }
+
   private constructor(props: CheckpointProps, id?: UniqueEntityID) {
     super(props, id);
   }

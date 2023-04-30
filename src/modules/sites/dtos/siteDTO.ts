@@ -1,12 +1,17 @@
+import { Address } from "../domain/address";
+import { SiteId } from "../domain/siteId";
+import { SiteName } from "../domain/siteName";
+import { Contact } from "../domain/contact";
+import { Instruction } from "../domain/instruction";
 
 export interface SiteDTO {
-    // siteId: SiteId;
-    // siteName: SiteName;
-    // address: Address;
+    siteId: SiteId;
+    siteName: SiteName;
+    address: Address;
     companyName: string;
-    // contacts: [Contact];
+    contacts?: [Contact];
     isActive: boolean;
-    // instructions: [Instruction];
-    siteCreationDate: Date;
-    siteLastUpdatedDate: Date;
+    instructions?: [Instruction];
+    creationDate: Date;
+    lastUpdatedDate: Date;
 }
