@@ -54,6 +54,9 @@
     "dompurify": "^3.0.2",
     "express": "^4.18.2",
     "jsdom": "^21.1.1",
+    "pg": "^8.10.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.31.0",
     "uuidv4": "^6.2.13",
     "validator": "^13.9.0"
   }

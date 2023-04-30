@@ -11,14 +11,13 @@ import { UserName } from "../../domain/userName";
 import { User } from "../../domain/user";
 
 type Response = Either<
-  CreateUserErrors.EmailAlreadyExistsError |
-  CreateUserErrors.UsernameTakenError |
+  ActivateCheckpointErrors.CheckpointNotFoundError |
   AppError.UnexpectedError |
   Result<any>,
   Result<void>
 >
 
-export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Response>> {
+export class ActivateCheckpointUseCase implements UseCase<ActivateCheckpointDTO, Promise<Response>> {
   private userRepo: IUserRepo;
   
   constructor (userRepo: IUserRepo) {
