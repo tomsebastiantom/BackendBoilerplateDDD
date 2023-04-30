@@ -26,7 +26,7 @@ export class Checkpoint extends Entity<CheckpointProps> {
   private constructor(props: CheckpointProps, id?: UniqueEntityID) {
     super(props, id);
   }
-  public create(
+  public static create(
     props: CheckpointProps,
     id?: UniqueEntityID
   ): Result<Checkpoint> {

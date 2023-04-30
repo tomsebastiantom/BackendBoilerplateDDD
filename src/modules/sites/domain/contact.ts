@@ -15,7 +15,7 @@ export class Contact extends Entity<ContactProps> {
   public constructor(props: ContactProps) {
     super(props);
   }
-  public create(props: ContactProps): Result<Contact> {
+  public static create(props: ContactProps): Result<Contact> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
       { argument: props.contactName, argumentName: 'contactName' }
     ]);

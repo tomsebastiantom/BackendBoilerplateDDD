@@ -17,7 +17,7 @@ export class Instruction extends Entity<InstructionProps> {
   public constructor(props: InstructionProps) {
     super(props);
   }
-  public create(props: InstructionProps): Result<Instruction> {
+  public static create(props: InstructionProps): Result<Instruction> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
       { argument: props.instructionType, argumentName: 'instructionType' }
     ]);
