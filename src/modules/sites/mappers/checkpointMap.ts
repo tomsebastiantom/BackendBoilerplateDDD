@@ -4,7 +4,7 @@ import { Checkpoint } from "../domain/checkpoint";
 
 export class CheckpointMap implements Mapper<Checkpoint>{
  public static toDomain (raw: any): Checkpoint {
-    return new Checkpoint.create({...raw});
+    return Checkpoint.create({...raw});
 
  }
 
