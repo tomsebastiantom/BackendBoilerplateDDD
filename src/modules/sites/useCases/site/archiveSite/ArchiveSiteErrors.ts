@@ -1,19 +1,14 @@
+import { UseCaseError } from '../../../../../shared/core/UseCaseError';
+import { Result } from '../../../../../shared/core/Result';
 
-import { UseCaseError } from "../../../../../shared/core/UseCaseError"
-import { Result } from "../../../../../shared/core/Result"
+import { SiteId } from '../../../domain/siteId';
 
-import { Checkpoint } from "../../../domain/checkpoint"
-export namespace ActivateCheckpointErrors {
-
-  export class CheckpointNotFoundError extends Result<UseCaseError> {    
-    constructor (checkpoint: Checkpoint) {
+export namespace ArchiveSiteErrors {
+  export class SiteIdNotFoundError extends Result<UseCaseError> {
+    constructor(siteId: SiteId) {
       super(false, {
-        message:  `Checkpoint not found`
-      } as UseCaseError)
+        message: `Site with ID ${siteId} not found`
+      } as UseCaseError);
     }
   }
-
-
-
-
 }

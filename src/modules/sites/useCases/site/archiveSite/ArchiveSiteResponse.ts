@@ -1,10 +1,10 @@
 
 import { Either,Result } from "../../../../../shared/core/Result";
-import { ActivateCheckpointErrors } from "./ActivateCheckpointErrors";
+import { ArchiveSiteErrors } from "./ArchiveSiteErrors";
 import { AppError } from "../../../../../shared/core/AppError";
 
-export type CreateUserResponse = Either<
-  ActivateCheckpointErrors.CheckpointNotFoundError |
+export type ArchiveSiteResponse = Either<
+  ArchiveSiteErrors.SiteIdNotFoundError |
   AppError.UnexpectedError |
   Result<any>,
   Result<void>
