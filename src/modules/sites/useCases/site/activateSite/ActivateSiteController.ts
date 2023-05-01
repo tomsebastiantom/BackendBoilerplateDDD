@@ -2,15 +2,15 @@ import { BaseController } from '../../../../../shared/infra/http/models/BaseCont
 import { DecodedExpressRequest } from '../../../../users/infra/http/models/decodedRequest';
 import * as express from 'express';
 
-import { ActivateCheckpointDTO } from './ActivateCheckpointDTO';
-import { ActivateCheckpointErrors } from './ActivateCheckpointErrors';
-import { ActivateCheckpointUseCase } from './ActivateCheckpointUseCase';
-import { CheckpointId } from '../../../domain/checkpointId';
+import { ActivateSiteDTO } from './ActivateSiteDTO';
+import { ActivateSiteErrors } from './ActivateSiteErrors';
+import { ActivateSiteUseCase } from './ActivateSiteUseCase';
+import { SiteId } from '../../../domain/siteId';
 
-export class ActivateCheckpointController extends BaseController {
-  private useCase: ActivateCheckpointUseCase;
+export class ActivateSiteController extends BaseController {
+  private useCase: ActivateSiteUseCase;
 
-  constructor(useCase: ActivateCheckpointUseCase) {
+  constructor(useCase: ActivateSiteUseCase) {
     super();
     this.useCase = useCase;
   }
@@ -19,9 +19,9 @@ export class ActivateCheckpointController extends BaseController {
     req: DecodedExpressRequest,
     res: express.Response
   ): Promise<any> {
-    const checkpointId = (req.decoded as any).checkpointId;
-    const dto: ActivateCheckpointDTO = {
-      checkpointId: checkpointId
+    const siteId = (req.decoded as any).siteId;
+    const dto: ActivateSiteDTO = {
+      siteId: siteId
     };
 
     try {
@@ -31,7 +31,7 @@ export class ActivateCheckpointController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case ActivateCheckpointErrors.CheckpointIdNotFoundError:
+          case ActivateSiteErrors.SiteIdNotFoundError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

@@ -1,0 +1,1 @@
+export type InstructionType = 'FireWatch' | 'Patrol'| 'Other'| 'Permit';

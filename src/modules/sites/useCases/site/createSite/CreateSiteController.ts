@@ -2,14 +2,14 @@ import { BaseController } from '../../../../../shared/infra/http/models/BaseCont
 import { DecodedExpressRequest } from '../../../../users/infra/http/models/decodedRequest';
 import * as express from 'express';
 
-import { CreateCheckpointDTO } from './CreateCheckpointDTO';
-import { CreateCheckpointErrors } from './CreateCheckpointErrors';
-import { CreateCheckpointUseCase } from './CreateCheckpointUseCase';
+import { CreateSiteDTO } from './CreateSiteDTO';
+import { CreateSiteErrors } from './CreateSiteErrors';
+import { CreateSiteUseCase } from './CreateSiteUseCase';
 
-export class CreateCheckpointController extends BaseController {
-  private useCase: CreateCheckpointUseCase;
+export class CreateSiteController extends BaseController {
+  private useCase: CreateSiteUseCase;
 
-  constructor(useCase: CreateCheckpointUseCase) {
+  constructor(useCase: CreateSiteUseCase) {
     super();
     this.useCase = useCase;
   }
@@ -18,7 +18,7 @@ export class CreateCheckpointController extends BaseController {
     req: DecodedExpressRequest,
     res: express.Response
   ): Promise<any> {
-    const dto: CreateCheckpointDTO = req.body as CreateCheckpointDTO;
+    const dto: CreateSiteDTO = req.body as CreateSiteDTO;
     try {
       const result = await this.useCase.execute(dto);
 
@@ -26,7 +26,7 @@ export class CreateCheckpointController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case CreateCheckpointErrors.SiteIdNotFoundError:
+          case CreateSiteErrors.AddressNotValidError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

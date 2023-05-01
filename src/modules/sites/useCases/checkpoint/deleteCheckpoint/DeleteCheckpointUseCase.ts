@@ -6,9 +6,8 @@ import { ICheckpointRepo } from '../../../repos/checkpointRepo';
 import { DeleteCheckpointDTO } from './DeleteCheckpointDTO';
 import { DeleteCheckpointErrors } from './DeleteCheckpointErrors';
 import { DeleteCheckpointResponse } from './DeleteCheckpointResponse';
-import { Checkpoint } from '../../../domain/checkpoint';
-import { Entity } from '../../../../../shared/domain/Entity';
-import { where } from 'sequelize';
+
+
 
 export class DeleteCheckpointUseCase
   implements UseCase<DeleteCheckpointDTO, Promise<DeleteCheckpointResponse>>

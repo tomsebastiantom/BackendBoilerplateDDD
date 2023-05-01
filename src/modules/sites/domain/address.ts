@@ -1,15 +1,15 @@
 import { Result } from '../../../shared/core/Result';
-import { Entity } from '../../../shared/domain/Entity';
 import { Guard } from '../../../shared/core/Guard';
+import { ValueObject } from '../../../shared/domain/ValueObject';
 
 export interface AddressProps {
   city: string;
   state: string;
-  country: string;
+  country?: string;
   postalCode: string;
 }
 
-export class Address extends Entity<any> {
+export class Address extends ValueObject<any> {
   private constructor(props: AddressProps) {
     super(props);
   }
@@ -29,9 +29,19 @@ export class Address extends Entity<any> {
   get postalCode(): string {
     return this.postalCode;
   }
-//Todo Address validation
+  //Todo Address AutoComplete
   public static create(props: AddressProps): Result<Address> {
-    // Add any necessary validation logic here, and return an error if validation fails
-    return Result.ok<Address>(new Address(props));
+    const nullGuard = Guard.againstNullOrUndefinedBulk([
+      { argument: props.city, argumentName: 'city' },
+      { argument: props.state, argumentName: 'state' },
+      { argument: props.postalCode, argumentName: 'postalCode' },
+      { argument: props.country, argumentName: 'country' }
+    ]);
+
+    if (nullGuard.isFailure) {
+      return Result.fail<Address>(nullGuard.getErrorValue());
+    } else {
+      return Result.ok<Address>(new Address(props));
+    }
   }
 }

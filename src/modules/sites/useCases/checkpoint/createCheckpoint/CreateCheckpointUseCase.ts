@@ -4,10 +4,9 @@ import { UseCase } from '../../../../../shared/core/UseCase';
 
 import { ICheckpointRepo } from '../../../repos/checkpointRepo';
 import { CreateCheckpointDTO } from './CreateCheckpointDTO';
-import { CreateCheckpointErrors } from './CreateCheckpointErrors';
 import { CreateCheckpointResponse } from './CreateCheckpointResponse';
 import { Checkpoint } from '../../../domain/checkpoint';
-import { Entity } from '../../../../../shared/domain/Entity';
+import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
 
 export class CreateCheckpointUseCase
   implements UseCase<CreateCheckpointDTO, Promise<CreateCheckpointResponse>>

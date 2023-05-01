@@ -1,13 +1,13 @@
 import { UseCaseError } from '../../../../../shared/core/UseCaseError';
 import { Result } from '../../../../../shared/core/Result';
 
-import { SiteId } from '../../../domain/siteId';
+import { Address } from '../../../domain/address';
 
-export namespace CreateCheckpointErrors {
-  export class SiteIdNotFoundError extends Result<UseCaseError> {
-    constructor(siteId: SiteId) {
+export namespace CreateSiteErrors {
+  export class AddressNotValidError extends Result<UseCaseError> {
+    constructor(address: Address) {
       super(false, {
-        message: `Site with ID ${siteId} not found`
+        message: ` ${address} is not a valid address`
       } as UseCaseError);
     }
   }

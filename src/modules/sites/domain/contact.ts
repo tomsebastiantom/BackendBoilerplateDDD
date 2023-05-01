@@ -1,30 +1,41 @@
-import { Entity } from '../../../shared/domain/Entity';
 import { Result } from '../../../shared/core/Result';
 import { Guard } from '../../../shared/core/Guard';
 
 import { ContactAdded } from './events/contactAdded';
+import { ValueObject } from '../../../shared/domain/ValueObject';
 
 interface ContactProps {
   contactName: string;
-  contactPhone: string;
+  contactPhone?: string;
   contactEmail: string;
   contactRole: string;
 }
 
-export class Contact extends Entity<ContactProps> {
+export class Contact extends ValueObject<ContactProps> {
+  get contactName(): string {
+    return this.props.contactName;
+  }
+  get contactPhone(): string {
+    return this.props.contactPhone;
+  }
+  get contactEmail(): string {
+    return this.props.contactEmail;
+  }
+  get contactRole(): string {
+    return this.props.contactRole;
+  }
   public constructor(props: ContactProps) {
     super(props);
   }
   public static create(props: ContactProps): Result<Contact> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
-      { argument: props.contactName, argumentName: 'contactName' }
+      { argument: props.contactName, argumentName: 'contactName' },
+      { argument: props.contactEmail, argumentName: 'contactEmail' }
     ]);
-//Todo Null Guard
+
     if (nullGuard.isFailure) {
       return Result.fail<Contact>(nullGuard.getErrorValue());
     } else {
-      const contact = new Contact({ ...props });
-
       return Result.ok<Contact>(new Contact(props));
     }
   }

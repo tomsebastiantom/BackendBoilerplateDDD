@@ -14,9 +14,9 @@ export interface SiteProps {
   siteName: SiteName;
   address: Address;
   companyName: string;
-  contacts: [Contact];
+  contacts?: Contact[];
   isActive: boolean;
-  instructions: [Instruction];
+  instructions?: Instruction[];
   creationDate: Date;
   lastUpdatedDate: Date;
 }
@@ -39,6 +39,9 @@ export class Site extends AggregateRoot<SiteProps> {
   get isActive(): boolean {
     return this.props.isActive;
   }
+  set creationDate(creationDate: Date) {
+    this.props.creationDate = creationDate;
+  }
   set isActive(isActive: boolean) {
     this.props.isActive = isActive;
   }
@@ -48,13 +51,13 @@ export class Site extends AggregateRoot<SiteProps> {
   get lastUpdatedDate(): Date {
     return this.props.lastUpdatedDate;
   }
-  get instructions(): [Instruction] {
+  get instructions(): Instruction[] {
     return this.props.instructions;
   }
   set lastUpdatedDate(lastUpdatedDate: Date) {
     this.props.lastUpdatedDate = lastUpdatedDate;
   }
-  get contacts(): [Contact] {
+  get contacts(): Contact[] {
     return this.props.contacts;
   }
   public addContact(contact: Contact): void {
@@ -64,10 +67,16 @@ export class Site extends AggregateRoot<SiteProps> {
   public addInstruction(instruction: Instruction): void {
     this.props.instructions.push(instruction);
   }
+  set instructions(instructions: Instruction[]) {
+    this.props.instructions = instructions;
+  }
+  set contacts(contacts: Contact[]) {
+    this.props.contacts = contacts;
+  }
   private constructor(props: SiteProps, id?: UniqueEntityID) {
     super(props, id);
   }
-
+  //Todo Guard against null or undefined
   public static create(props: SiteProps, id?: UniqueEntityID): Result<Site> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
       { argument: props.siteName, argumentName: 'memberId' }
