@@ -37,7 +37,7 @@ export class DeactivateCheckpointUseCase
       const deactivatedCheckpoint = checkpoint as Checkpoint;
 
       deactivatedCheckpoint.isActive = false;
-      deactivatedCheckpoint.lastUpdateDate = new Date();
+      deactivatedCheckpoint.lastUpdatedDate = new Date();
 
       await this.checkPointRepo.save(deactivatedCheckpoint);
       return right(Result.ok<void>());

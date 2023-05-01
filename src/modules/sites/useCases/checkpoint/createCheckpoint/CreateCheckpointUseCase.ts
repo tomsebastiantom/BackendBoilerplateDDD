@@ -27,7 +27,7 @@ export class CreateCheckpointUseCase
       checkpointName: request.checkpointName,
       isActive: true,
       creationDate: new Date(),
-      lastUpdateDate: new Date()
+      lastUpdatedDate: new Date()
     }).getValue();
 
     if (request.description) {

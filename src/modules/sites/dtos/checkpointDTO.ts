@@ -7,7 +7,7 @@ export interface CheckpointDTO {
     description?: string;
     isActive: boolean;
     creationDate: Date;
-    lastUpdateDate: Date;
+    lastUpdatedDate: Date;
     checkpointId: CheckpointId;
     latitude?: number;
     longitude?: number;

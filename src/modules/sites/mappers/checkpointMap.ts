@@ -12,7 +12,7 @@ export class CheckpointMap implements Mapper<Checkpoint> {
         description: raw.description,
         isActive: raw.isActive,
         creationDate: raw.creationDate,
-        lastUpdateDate: raw.lastUpdateDate,
+        lastUpdatedDate: raw.lastUpdatedDate,
         siteId: raw.siteId
       },
       new UniqueEntityID(raw.checkpointId)
@@ -30,7 +30,7 @@ export class CheckpointMap implements Mapper<Checkpoint> {
       description: checkpoint.description,
       isActive: checkpoint.isActive,
       creationDate: checkpoint.creationDate,
-      lastUpdateDate: checkpoint.lastUpdateDate
+      lastUpdatedDate: checkpoint.lastUpdatedDate
     };
   }
 
@@ -41,7 +41,7 @@ export class CheckpointMap implements Mapper<Checkpoint> {
       checkpointName: checkpoint.checkpointName,
       description: checkpoint.description,
       isActive: checkpoint.isActive,
-      lastUpdateDate: checkpoint.lastUpdateDate,
+      lastUpdatedDate: checkpoint.lastUpdatedDate,
       creationDate: checkpoint.creationDate
     };
   }

@@ -25,7 +25,7 @@ export class UpdateCheckpointUseCase
         siteId: request.siteId,
         checkpointName: request.checkpointName,
         creationDate: request.creationDate,
-        lastUpdateDate: new Date()
+        lastUpdatedDate: new Date()
       },
       new UniqueEntityID(request.checkpointId.toString())
     ).getValue();

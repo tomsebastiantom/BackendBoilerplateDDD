@@ -12,7 +12,7 @@ interface CheckpointProps {
   description?: string;
   isActive?: boolean;
   creationDate: Date;
-  lastUpdateDate: Date;
+  lastUpdatedDate: Date;
   latitude?: number;
   longitude?: number;
   siteId: SiteId;
@@ -29,11 +29,11 @@ export class Checkpoint extends Entity<CheckpointProps> {
   get isActive(): boolean {
     return this.props.isActive;
   }
-  get lastUpdateDate(): Date {
-    return this.props.lastUpdateDate;
+  get lastUpdatedDate(): Date {
+    return this.props.lastUpdatedDate;
   }
-  set lastUpdateDate(date: Date) {
-    this.props.lastUpdateDate = date;
+  set lastUpdatedDate(date: Date) {
+    this.props.lastUpdatedDate = date;
   }
   set latitude(latitude: number) {
     this.props.latitude = latitude;
