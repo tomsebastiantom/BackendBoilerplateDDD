@@ -10,7 +10,7 @@ import { CheckpointId } from './checkpointId';
 interface CheckpointProps {
   checkpointName: string;
   description?: string;
-  isActive: boolean;
+  isActive?: boolean;
   creationDate: Date;
   lastUpdateDate: Date;
   latitude?: number;
@@ -35,6 +35,12 @@ export class Checkpoint extends Entity<CheckpointProps> {
   set lastUpdateDate(date: Date) {
     this.props.lastUpdateDate = date;
   }
+  set latitude(latitude: number) {
+    this.props.latitude = latitude;
+  }
+    set longitude(longitude: number) {
+    this.props.longitude = longitude;
+    }
 
   set isActive(isActive: boolean) {
     this.props.isActive = isActive;
@@ -62,7 +68,7 @@ export class Checkpoint extends Entity<CheckpointProps> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
       { argument: props.checkpointName, argumentName: 'checkpointName' }
     ]);
-
+//Todo Null Guard
     if (nullGuard.isFailure) {
       return Result.fail<Checkpoint>(nullGuard.getErrorValue());
     } else {

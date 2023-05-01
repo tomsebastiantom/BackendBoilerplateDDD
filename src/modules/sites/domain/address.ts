@@ -29,7 +29,7 @@ export class Address extends Entity<any> {
   get postalCode(): string {
     return this.postalCode;
   }
-
+//Todo Address validation
   public static create(props: AddressProps): Result<Address> {
     // Add any necessary validation logic here, and return an error if validation fails
     return Result.ok<Address>(new Address(props));

@@ -20,7 +20,7 @@ export interface SiteProps {
   creationDate: Date;
   lastUpdatedDate: Date;
 }
-
+//Todo Domain Events
 export class Site extends AggregateRoot<SiteProps> {
   get siteId(): SiteId {
     return SiteId.create(this._id).getValue();

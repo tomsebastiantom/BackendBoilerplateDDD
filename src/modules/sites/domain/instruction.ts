@@ -21,7 +21,7 @@ export class Instruction extends Entity<InstructionProps> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
       { argument: props.instructionType, argumentName: 'instructionType' }
     ]);
-
+//Todo Null Guard
     if (nullGuard.isFailure) {
       return Result.fail<Instruction>(nullGuard.getErrorValue());
     } else {

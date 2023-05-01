@@ -19,7 +19,7 @@ export class Contact extends Entity<ContactProps> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
       { argument: props.contactName, argumentName: 'contactName' }
     ]);
-
+//Todo Null Guard
     if (nullGuard.isFailure) {
       return Result.fail<Contact>(nullGuard.getErrorValue());
     } else {
