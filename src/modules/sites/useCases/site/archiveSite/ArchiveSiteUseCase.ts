@@ -8,10 +8,8 @@ import { ArchiveSiteDTO } from './ArchiveSiteDTO';
 import { ArchiveSiteResponse } from './ArchiveSiteResponse';
 import { Site } from '../../../domain/site';
 
-
 export class ArchiveSiteUseCase
-  implements
-    UseCase<ArchiveSiteDTO, Promise<ArchiveSiteResponse>>
+  implements UseCase<ArchiveSiteDTO, Promise<ArchiveSiteResponse>>
 {
   private siteRepo: ISiteRepo;
 
@@ -19,25 +17,17 @@ export class ArchiveSiteUseCase
     this.siteRepo = siteRepo;
   }
 
-  public async execute(
-    request: ArchiveSiteDTO
-  ): Promise<ArchiveSiteResponse> {
+  public async execute(request: ArchiveSiteDTO): Promise<ArchiveSiteResponse> {
     try {
-      const site:Site = await this.siteRepo.getBySiteId(
-        request.siteId
-      );
+      const site: Site = await this.siteRepo.getBySiteId(request.siteId);
       const siteFound = !!site === true;
       if (!siteFound) {
-        return left(
-          new ArchiveSiteErrors.SiteIdNotFoundError(
-            request.siteId
-          )
-        );
+        return left(new ArchiveSiteErrors.SiteIdNotFoundError(request.siteId));
       }
-     
 
-      site.isActive = true;
+      site.isActive = false;
       site.lastUpdatedDate = new Date();
+      site.isArchived = true;
 
       await this.siteRepo.save(site);
       return right(Result.ok<void>());

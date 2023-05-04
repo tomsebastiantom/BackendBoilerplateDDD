@@ -8,10 +8,8 @@ import { ActivateSiteDTO } from './ActivateSiteDTO';
 import { ActivateSiteResponse } from './ActivateSiteResponse';
 import { Site } from '../../../domain/site';
 
-
 export class ActivateSiteUseCase
-  implements
-    UseCase<ActivateSiteDTO, Promise<ActivateSiteResponse>>
+  implements UseCase<ActivateSiteDTO, Promise<ActivateSiteResponse>>
 {
   private siteRepo: ISiteRepo;
 
@@ -23,20 +21,16 @@ export class ActivateSiteUseCase
     request: ActivateSiteDTO
   ): Promise<ActivateSiteResponse> {
     try {
-      const site:Site = await this.siteRepo.getBySiteId(
-        request.siteId
-      );
+      const site: Site = await this.siteRepo.getBySiteId(request.siteId);
       const siteFound = !!site === true;
       if (!siteFound) {
-        return left(
-          new ActivateSiteErrors.SiteIdNotFoundError(
-            request.siteId
-          )
-        );
+        return left(new ActivateSiteErrors.SiteIdNotFoundError(request.siteId));
       }
-     
 
       site.isActive = true;
+      if (site.isArchived) {
+        site.isArchived = false;
+      }
       site.lastUpdatedDate = new Date();
 
       await this.siteRepo.save(site);

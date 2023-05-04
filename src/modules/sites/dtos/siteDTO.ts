@@ -14,4 +14,5 @@ export interface SiteDTO {
   instructions?: Instruction[];
   creationDate: Date;
   lastUpdatedDate: Date;
+  isArchived?: boolean;
 }

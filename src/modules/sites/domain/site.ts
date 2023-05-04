@@ -19,6 +19,7 @@ export interface SiteProps {
   instructions?: Instruction[];
   creationDate: Date;
   lastUpdatedDate: Date;
+  isArchived?: boolean;
 }
 //Todo Domain Events
 export class Site extends AggregateRoot<SiteProps> {
@@ -29,7 +30,12 @@ export class Site extends AggregateRoot<SiteProps> {
   get siteName(): SiteName {
     return this.siteName;
   }
-
+  get isArchived(): boolean {
+    return this.props.isArchived;
+  }
+  set isArchived(isArchived: boolean) {
+    this.props.isArchived = isArchived;
+  }
   get address(): Address {
     return this.address;
   }
