@@ -14,16 +14,18 @@ interface InstructionProps {
 }
 
 export class Instruction extends ValueObject<InstructionProps> {
-    get instructionType(): InstructionType {
+  get instructionType(): InstructionType {
     return this.props.instructionType;
-    }
-    get instructionDescription(): string {
-    return this.props.instructionDescription;}
-    get instructionCreationDate(): Date {
-    return this.props.instructionCreationDate;}
-    get visibility(): Visibility {
+  }
+  get instructionDescription(): string {
+    return this.props.instructionDescription;
+  }
+  get instructionCreationDate(): Date {
+    return this.props.instructionCreationDate;
+  }
+  get visibility(): Visibility {
     return this.props.visibility;
-    }
+  }
 
   public constructor(props: InstructionProps) {
     super(props);
@@ -31,7 +33,10 @@ export class Instruction extends ValueObject<InstructionProps> {
   public static create(props: InstructionProps): Result<Instruction> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
       { argument: props.instructionType, argumentName: 'instructionType' },
-      { argument: props.instructionDescription, argumentName: 'instructionDescription' },
+      {
+        argument: props.instructionDescription,
+        argumentName: 'instructionDescription'
+      }
     ]);
 
     if (nullGuard.isFailure) {

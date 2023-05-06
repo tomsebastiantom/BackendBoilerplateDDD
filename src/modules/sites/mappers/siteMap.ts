@@ -27,7 +27,6 @@ export class SiteMap implements Mapper<Site> {
   public static toPersistence(site: Site): any {
     return {
       siteId: site.siteId.id.toString(),
-
       siteName: site.siteName,
       instructions: site.instructions,
       creationDate: site.creationDate,

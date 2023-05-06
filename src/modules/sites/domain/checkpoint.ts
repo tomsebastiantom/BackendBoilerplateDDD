@@ -3,7 +3,6 @@ import { Result } from '../../../shared/core/Result';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { Guard } from '../../../shared/core/Guard';
 
-
 import { SiteId } from './siteId';
 import { CheckpointId } from './checkpointId';
 
@@ -16,6 +15,7 @@ interface CheckpointProps {
   latitude?: number;
   longitude?: number;
   siteId: SiteId;
+  identifier?: string;
 }
 
 export class Checkpoint extends Entity<CheckpointProps> {
@@ -25,7 +25,13 @@ export class Checkpoint extends Entity<CheckpointProps> {
   set description(description: string) {
     this.props.description = description;
   }
-  
+  get identifier(): string {
+    return this.props.identifier;
+  }
+  set identifier(identifier: string) {
+    this.props.identifier = identifier;
+  }
+
   get isActive(): boolean {
     return this.props.isActive;
   }
@@ -38,9 +44,9 @@ export class Checkpoint extends Entity<CheckpointProps> {
   set latitude(latitude: number) {
     this.props.latitude = latitude;
   }
-    set longitude(longitude: number) {
+  set longitude(longitude: number) {
     this.props.longitude = longitude;
-    }
+  }
 
   set isActive(isActive: boolean) {
     this.props.isActive = isActive;
@@ -51,12 +57,12 @@ export class Checkpoint extends Entity<CheckpointProps> {
   get siteId(): SiteId {
     return this.props.siteId;
   }
-    get checkpointName(): string {
+  get checkpointName(): string {
     return this.props.checkpointName;
-    }
-    get description(): string {
+  }
+  get description(): string {
     return this.props.description;
-    }
+  }
 
   private constructor(props: CheckpointProps, id?: UniqueEntityID) {
     super(props, id);
@@ -68,7 +74,7 @@ export class Checkpoint extends Entity<CheckpointProps> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
       { argument: props.checkpointName, argumentName: 'checkpointName' }
     ]);
-//Todo Null Guard
+    //Todo Null Guard
     if (nullGuard.isFailure) {
       return Result.fail<Checkpoint>(nullGuard.getErrorValue());
     } else {
