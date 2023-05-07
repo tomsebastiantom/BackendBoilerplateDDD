@@ -10,10 +10,10 @@ import { Result } from '../../../shared/core/Result';
 import { Guard } from '../../../shared/core/Guard';
 import { AggregateRoot } from '../../../shared/domain/AggregateRoot';
 import { UserId } from './userId';
-import { Organization } from './organization';
+// import { Organization } from './organization';
 import { OrganizationId } from './organizationId';
 // import { UserRole } from './userRoles';
-
+import { Address } from '../../../shared/nexa/address';
 
 interface UserProps {
   email: UserEmail;
@@ -30,6 +30,7 @@ interface UserProps {
   isDeleted?: boolean;
   lastLogin?: Date;
   roles?: string;
+  Address?: Address;
 }
 
 export class User extends AggregateRoot<UserProps> {
