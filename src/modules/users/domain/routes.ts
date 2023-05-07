@@ -1,0 +1,1 @@
+export type Routes = 'Site' | 'Checkpoint' | 'Scan' | 'Patrol'|'IncidentReport'|'User'|'Organization'|'Role';

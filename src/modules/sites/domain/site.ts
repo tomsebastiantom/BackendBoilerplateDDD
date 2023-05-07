@@ -6,7 +6,7 @@ import { Guard } from '../../../shared/core/Guard';
 import { SiteId } from './siteId';
 import { SiteCreated } from './events/siteCreated';
 import { Contact } from './contact';
-import { Address } from './address';
+import { Address } from '../../../shared/nexa/address';
 import { Instruction } from './instruction';
 import { SiteName } from './siteName';
 
@@ -20,6 +20,7 @@ export interface SiteProps {
   creationDate: Date;
   lastUpdatedDate: Date;
   isArchived?: boolean;
+  
 }
 //Todo Domain Events
 export class Site extends AggregateRoot<SiteProps> {
