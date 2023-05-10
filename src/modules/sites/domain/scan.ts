@@ -3,7 +3,6 @@ import { Result } from '../../../shared/core/Result';
 import { Guard } from '../../../shared/core/Guard';
 
 import { SiteId } from './siteId';
-import { Instruction } from './instruction';
 import { UserId } from '../../users/domain/userId';
 import { Entity } from '../../../shared/domain/Entity';
 import { ScanId } from './scanId';
@@ -11,13 +10,12 @@ import { ScanId } from './scanId';
 export interface ScanProps {
   siteId: SiteId;
   userId: UserId;
-  scanId: ScanId;
   identifier: string;
   timestamp: Date;
   checkpointId: string;
   location: string;
-  comment?: Instruction[];
-  assets?: Instruction[];
+  comment?: string;
+  assets?: [string];
 }
 
 export class Scan extends Entity<ScanProps> {

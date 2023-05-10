@@ -8,18 +8,17 @@ import { ReportId } from './ReportId';
 import { UserId } from '../../users/domain/userId';
 
 export interface IncidentReportProps {
-  incidentReportId: ReportId;
   siteId: SiteId;
   userId: UserId;
   timeOfIncident: Date;
   incidentType: string;
   incidentDescription: string;
-  photos?: string[];
-  videos?: string[];
+  photos?: [string];
+  videos?: [string];
 }
 
 export class IncidentReport extends Entity<IncidentReportProps> {
-  get incidentReportId(): ReportId {
+  get incidentId(): ReportId {
     return ReportId.create(this._id).getValue();
   }
 

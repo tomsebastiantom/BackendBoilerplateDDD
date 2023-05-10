@@ -4,6 +4,7 @@
 # TypeScript build output
 /build
 
+/postgres-data
 # IDE/Editor files
 .vscode
 .idea

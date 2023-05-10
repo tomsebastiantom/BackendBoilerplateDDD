@@ -10,7 +10,7 @@ interface InstructionProps {
   instructionType: InstructionType;
   instructionDescription: string;
   instructionCreationDate: Date;
-  visibility: Visibility;
+  // visibility: Visibility;
 }
 
 export class Instruction extends ValueObject<InstructionProps> {
@@ -23,9 +23,9 @@ export class Instruction extends ValueObject<InstructionProps> {
   get instructionCreationDate(): Date {
     return this.props.instructionCreationDate;
   }
-  get visibility(): Visibility {
-    return this.props.visibility;
-  }
+  // get visibility(): Visibility {
+  //   return this.props.visibility;
+  // }
 
   public constructor(props: InstructionProps) {
     super(props);

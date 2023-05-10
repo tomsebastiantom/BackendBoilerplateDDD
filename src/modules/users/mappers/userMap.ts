@@ -47,7 +47,7 @@ export class UserMap implements Mapper<User> {
     }
 
     return {
-      base_user_id: user.userId.id.toString(),
+      user_id: user.userId.id.toString(),
       user_email: user.email.value,
       is_email_verified: user.isEmailVerified,
       username: user.username.value,
@@ -57,3 +57,13 @@ export class UserMap implements Mapper<User> {
     }
   }
 }
+
+email: UserEmail;
+username: UserName;
+password: UserPassword;
+isEmailVerified?: boolean;
+isAdminUser?: boolean;
+accessToken?: JWTToken;
+refreshToken?: RefreshToken;
+isDeleted?: boolean;
+lastLogin?: Date;

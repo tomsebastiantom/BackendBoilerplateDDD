@@ -4,7 +4,7 @@ import { Result } from "../../../shared/core/Result";
 import { Entity } from "../../../shared/domain/Entity";
 
 
-export class OrganizationId extends Entity<any> {
+export class TenantId extends Entity<any> {
 
   get id (): UniqueEntityID {
     return this._id;
@@ -14,7 +14,7 @@ export class OrganizationId extends Entity<any> {
     super(null, id)
   }
 
-  public static create (id?: UniqueEntityID): Result<OrganizationId> {
-    return Result.ok<OrganizationId>(new OrganizationId(id));
+  public static create (id?: UniqueEntityID): Result<TenantId> {
+    return Result.ok<TenantId>(new TenantId(id));
   }
 }

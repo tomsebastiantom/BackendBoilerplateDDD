@@ -5,6 +5,7 @@ import { Guard } from '../../../shared/core/Guard';
 
 import { SiteId } from './siteId';
 import { CheckpointId } from './checkpointId';
+import { Location } from './location';
 
 interface CheckpointProps {
   checkpointName: string;
@@ -12,8 +13,7 @@ interface CheckpointProps {
   isActive?: boolean;
   creationDate: Date;
   lastUpdatedDate: Date;
-  latitude?: number;
-  longitude?: number;
+  location: Location;
   siteId: SiteId;
   identifier?: string;
 }
@@ -40,12 +40,6 @@ export class Checkpoint extends Entity<CheckpointProps> {
   }
   set lastUpdatedDate(date: Date) {
     this.props.lastUpdatedDate = date;
-  }
-  set latitude(latitude: number) {
-    this.props.latitude = latitude;
-  }
-  set longitude(longitude: number) {
-    this.props.longitude = longitude;
   }
 
   set isActive(isActive: boolean) {

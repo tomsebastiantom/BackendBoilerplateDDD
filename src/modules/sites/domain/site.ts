@@ -22,6 +22,10 @@ export interface SiteProps {
   isArchived?: boolean;
   
 }
+
+
+
+
 //Todo Domain Events
 export class Site extends AggregateRoot<SiteProps> {
   get siteId(): SiteId {

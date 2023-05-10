@@ -8,13 +8,12 @@ import { ReportId } from './ReportId';
 import { UserId } from '../../users/domain/userId';
 
 export interface GuardReportProps {
-  guardReportId: ReportId;
   siteId?: SiteId;
   userId: UserId;
   startDate: Date;
   endDate: Date;
-  sentDate: Date;
-  recipient: string;
+  sentDate?: Date;
+  recipient?: string;
 }
 
 export class GuardReport extends Entity<GuardReportProps> {

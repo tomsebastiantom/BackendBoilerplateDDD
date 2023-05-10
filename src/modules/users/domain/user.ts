@@ -11,15 +11,16 @@ import { Guard } from '../../../shared/core/Guard';
 import { AggregateRoot } from '../../../shared/domain/AggregateRoot';
 import { UserId } from './userId';
 // import { Organization } from './organization';
-import { OrganizationId } from './organizationId';
+import { TenantId } from './tenantId';
 // import { UserRole } from './userRoles';
 import { Address } from '../../../shared/nexa/address';
+import { PhoneNumber } from './phoneNumber';
 
 interface UserProps {
   email: UserEmail;
   name: string;
-  phone?: string;
-  organizationId: OrganizationId;
+  phone?: PhoneNumber;
+  tenantId?: TenantId;
   username: UserName;
   password: UserPassword;
   isEmailVerified?: boolean;
@@ -37,25 +38,21 @@ export class User extends AggregateRoot<UserProps> {
   get userId(): UserId {
     return UserId.create(this._id).getValue();
   }
- set name(name: string) {
-
- }
+  set name(name: string) {}
   get name(): string {
     return this.props.name;
   }
-  set phone(phone: string) {
-
-  }
+  set phone(phone: string) {}
   get phone(): string {
     return this.props.phone;
   }
-  get organizationId(): OrganizationId {
-    return this.props.organizationId;
+  get tenantId(): TenantId {
+    return this.props.tenantId;
   }
-  set organizationId(organizationId: OrganizationId) {
-    this.props.organizationId = organizationId;
+  set organizationId(tenantId: TenantId) {
+    this.props.tenantId=tenantId;
   }
-  
+
   get email(): UserEmail {
     return this.props.email;
   }
