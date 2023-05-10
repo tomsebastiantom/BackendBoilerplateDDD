@@ -29,13 +29,7 @@ export class Task extends Entity<TaskProps> {
     super(props, id);
   }
 
-  //   public addContact(contact: Contact): void {
-  //     this.props.contacts.push(contact);
-  //     // this.addDomainEvent(new CheckpointCreated(contact));
-  //   }
-  //   public addInstruction(instruction: Instruction): void {
-  //     this.props.instructions.push(instruction);
-  //   }
+
 
   public static create(props: TaskProps, id?: UniqueEntityID): Result<Task> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([

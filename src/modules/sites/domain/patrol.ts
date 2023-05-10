@@ -10,15 +10,12 @@ import { PatrolType } from './patrolType';
 import { UserId } from '../../users/domain/userId';
 
 export interface PatrolProps {
-  patrolId: PatrolId;
   siteId?: SiteId;
   type: PatrolType;
   userId: UserId;
   siteIds?: [SiteId];
-  instructions?: Instruction[];
-  creationDate: Date;
-  lastUpdatedDate: Date;
-}
+  instructions?: [Instruction];
+ }
 
 export class Patrol extends Entity<PatrolProps> {
   get patrolId(): PatrolId {
@@ -36,19 +33,11 @@ export class Patrol extends Entity<PatrolProps> {
   get siteIds(): [SiteId] {
     return this.props.siteIds;
   }
-  get instructions(): Instruction[] {
+  get instructions(): [Instruction] {
     return this.props.instructions;
   }
-  get creationDate(): Date {
-    return this.props.creationDate;
-  }
-  get lastUpdatedDate(): Date {
-    return this.props.lastUpdatedDate;
-  }
-  set lastUpdatedDate(lastUpdatedDate: Date) {
-    this.props.lastUpdatedDate = lastUpdatedDate;
-  }
-  set instructions(instructions: Instruction[]) {
+ 
+  set instructions(instructions: [Instruction]) {
     this.props.instructions = instructions;
   }
   set siteIds(siteIds: [SiteId]) {
@@ -67,14 +56,7 @@ export class Patrol extends Entity<PatrolProps> {
     super(props, id);
   }
 
-  //   public addContact(contact: Contact): void {
-  //     this.props.contacts.push(contact);
-  //     // this.addDomainEvent(new CheckpointCreated(contact));
-  //   }
-  //   public addInstruction(instruction: Instruction): void {
-  //     this.props.instructions.push(instruction);
-  //   }
-
+  
   public static create(
     props: PatrolProps,
     id?: UniqueEntityID

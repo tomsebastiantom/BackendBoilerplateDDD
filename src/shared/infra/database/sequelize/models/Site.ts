@@ -49,9 +49,17 @@ export default (sequelize, DataTypes) => {
   Site.associate = (models) => {
     Site.hasMany(models.User, { foreignKey: 'SiteId', as: 'users' });
     Site.hasMany(models.Scan, { foreignKey: 'siteId', as: 'scans' });
-    Site.hasMany(models.Checkpoint, { foreignKey: 'siteId', as: 'checkpoints' });
-    Site.hasMany(models.IncidentReport, { foreignKey: 'siteId', as: 'incidentReports' });
+    Site.hasMany(models.Checkpoint, {
+      foreignKey: 'siteId',
+      as: 'checkpoints'
+    });
+    Site.hasMany(models.IncidentReport, {
+      foreignKey: 'siteId',
+      as: 'incidentReports'
+    });
     Site.hasMany(models.Scan, { foreignKey: 'siteId', as: 'scans' });
+
+    Site.hasMany(models.Patrol, { foreignKey: 'siteId', as: 'patrols' });
   };
 
   return Site;
