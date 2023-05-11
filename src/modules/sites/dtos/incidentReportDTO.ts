@@ -1,18 +1,12 @@
-import { Address } from '../../../shared/nexa/address';
 import { SiteId } from '../domain/siteId';
-import { SiteName } from '../domain/siteName';
-import { Contact } from '../domain/contact';
-import { Instruction } from '../domain/instruction';
+import { UserId } from '../../users/domain/userId';
 
-export interface SiteDTO {
+export interface IncidentReportDTO {
   siteId: SiteId;
-  siteName: SiteName;
-  address: Address;
-  companyName: string;
-  contacts?: [Contact];
-  isActive: boolean;
-  instructions?: [Instruction];
-  creationDate: Date;
-  lastUpdatedDate: Date;
-  isArchived?: boolean;
+  userId: UserId;
+  timeOfIncident: Number;
+  incidentType: string;
+  incidentDescription: string;
+  photos?: [string];
+  videos?: [string];
 }

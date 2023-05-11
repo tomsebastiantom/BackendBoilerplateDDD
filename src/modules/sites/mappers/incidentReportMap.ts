@@ -1,48 +1,55 @@
 import { Mapper } from '../../../shared/infra/Mapper';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
+import { IncidentReport } from '../domain/incidentReport';
+import { IncidentReportDTO } from '../dtos/incidentReportDTO';
+import { UserId } from '../../users/domain/userId';
+import { SiteId } from '../domain/siteId';
 
-import { Checkpoint } from '../domain/checkpoint';
-import { CheckpointDTO } from '../dtos/checkpointDTO';
-
-export class CheckpointMap implements Mapper<Checkpoint> {
-  public static toDomain(raw: any): Checkpoint {
-    const checkpointOrError = Checkpoint.create(
+export class IncidentReportMap implements Mapper<IncidentReport> {
+  public static toDomain(raw: any): IncidentReport {
+    const incidentReportOrError = IncidentReport.create(
       {
-        checkpointName: raw.checkpointName,
-        description: raw.description,
-        isActive: raw.isActive,
-        creationDate: raw.creationDate,
-        lastUpdatedDate: raw.lastUpdatedDate,
-        siteId: raw.siteId
+        siteId: SiteId.create(raw.siteId).getValue(),
+        userId: UserId.create(raw.userId).getValue(),
+        timeOfIncident: raw.timeOfIncident,
+        incidentType: raw.incidentType,
+        incidentDescription: raw.incidentDescription,
+        photos: raw.photos,
+        videos: raw.videos
       },
-      new UniqueEntityID(raw.checkpointId)
+      new UniqueEntityID(raw.id)
     );
-    checkpointOrError.isFailure
-      ? console.log(checkpointOrError.getErrorValue())
+    incidentReportOrError.isFailure
+      ? console.log(incidentReportOrError.getErrorValue())
       : '';
-    return checkpointOrError.isSuccess ? checkpointOrError.getValue() : null;
+
+    return incidentReportOrError.isSuccess
+      ? incidentReportOrError.getValue()
+      : null;
   }
-  public static toPersistence(checkpoint: Checkpoint): any {
+
+  public static toPersistence(incidentReport: IncidentReport): any {
     return {
-      checkpointId: checkpoint.checkpointId.id.toString(),
-      siteId: checkpoint.siteId.toString(),
-      checkpointName: checkpoint.checkpointName,
-      description: checkpoint.description,
-      isActive: checkpoint.isActive,
-      creationDate: checkpoint.creationDate,
-      lastUpdatedDate: checkpoint.lastUpdatedDate
+      id: incidentReport.incidentId.id.toString(),
+      siteId: incidentReport.siteId.toString(),
+      userId: incidentReport.userId.toString(),
+      timeOfIncident: incidentReport.timeOfIncident,
+      incidentType: incidentReport.incidentType,
+      incidentDescription: incidentReport.incidentDescription,
+      photos: incidentReport.photos,
+      videos: incidentReport.videos
     };
   }
 
-  public static toDTO(checkpoint: Checkpoint): CheckpointDTO {
+  public static toDTO(incidentReport: IncidentReport): IncidentReportDTO {
     return {
-      checkpointId: checkpoint.checkpointId,
-      siteId: checkpoint.siteId,
-      checkpointName: checkpoint.checkpointName,
-      description: checkpoint.description,
-      isActive: checkpoint.isActive,
-      lastUpdatedDate: checkpoint.lastUpdatedDate,
-      creationDate: checkpoint.creationDate
+      siteId: incidentReport.siteId,
+      userId: incidentReport.userId,
+      timeOfIncident: incidentReport.timeOfIncident,
+      incidentType: incidentReport.incidentType,
+      incidentDescription: incidentReport.incidentDescription,
+      photos: incidentReport.photos,
+      videos: incidentReport.videos
     };
   }
 }

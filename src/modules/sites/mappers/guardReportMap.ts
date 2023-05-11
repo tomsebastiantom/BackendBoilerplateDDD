@@ -41,34 +41,25 @@ export class GuardReportMap implements Mapper<GuardReport> {
     return rawguardReport;
   }
 
-  public static toDTO(GuardReport: GuardReport): GuardReportDTO {
-    return {
-      siteId: GuardReport.siteId,
-      GuardReportName: GuardReport.GuardReportName,
-      description: GuardReport.description,
-      isActive: GuardReport.isActive,
-      lastUpdatedDate: GuardReport.lastUpdatedDate,
-      creationDate: GuardReport.creationDate
+  public static toDTO(guardReport: GuardReport): GuardReportDTO {
+    let dto: GuardReportDTO = {
+      siteId: guardReport.siteId,
+      userId: guardReport.userId,
+      startTimestamp: guardReport.startTimestamp,
+      endTimestamp: guardReport.endTimestamp
     };
+    if (guardReport.recipient) {
+      dto.recipient = guardReport.recipient;
+    }
+    if (guardReport.siteId) {
+      dto.siteId = guardReport.siteId;
+    }
+    if (guardReport.sentTimestamp) {
+      dto.sendTimestamp = guardReport.sentTimestamp;
+    }
+
+    return dto;
   }
 }
 
-// export interface GuardReportDTO {
-//   siteId: SiteId;
-//   userId:UserId;
-//   startDate:Date;
-//   endDate:Date;
-//   sendDate?:Date;
-//   lastUpdatedDate: Date;
-//   recipient?: string;
-// }
 
-// id:
-//   siteId:
-
-//   userId:
-
-//   startDate:
-//   endDate:
-//   sentDate:
-//   recipient:

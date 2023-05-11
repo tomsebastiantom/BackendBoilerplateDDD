@@ -10,7 +10,7 @@ import { UserId } from '../../users/domain/userId';
 export interface IncidentReportProps {
   siteId: SiteId;
   userId: UserId;
-  timestamp: Number;
+  timeOfIncident: Number;
   incidentType: string;
   incidentDescription: string;
   photos?: [string];
@@ -20,6 +20,33 @@ export interface IncidentReportProps {
 export class IncidentReport extends Entity<IncidentReportProps> {
   get incidentId(): ReportId {
     return ReportId.create(this._id).getValue();
+  }
+  get siteId(): SiteId {
+    return this.props.siteId;
+  }
+
+  get userId(): UserId {
+    return this.props.userId;
+  }
+
+  get timeOfIncident(): Number {
+    return this.props.timeOfIncident;
+  }
+
+  get incidentType(): string {
+    return this.props.incidentType;
+  }
+
+  get incidentDescription(): string {
+    return this.props.incidentDescription;
+  }
+
+  get photos(): [string] | undefined {
+    return this.props.photos;
+  }
+
+  get videos(): [string] | undefined {
+    return this.props.videos;
   }
 
   private constructor(props: IncidentReportProps, id?: UniqueEntityID) {
@@ -45,9 +72,9 @@ export class IncidentReport extends Entity<IncidentReportProps> {
     if (nullGuard.isFailure) {
       return Result.fail<IncidentReport>(nullGuard.getErrorValue());
     } else {
-      const guardReport = new IncidentReport({ ...props }, id);
+      const incidentReport = new IncidentReport({ ...props }, id);
 
-      return Result.ok<IncidentReport>(guardReport);
+      return Result.ok<IncidentReport>(incidentReport);
     }
   }
 }

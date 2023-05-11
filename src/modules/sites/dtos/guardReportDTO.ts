@@ -5,9 +5,9 @@ import { UserId } from '../../users/domain/userId';
 export interface GuardReportDTO {
   siteId?: SiteId;
   userId:UserId;  
-  startTimestamp:Date; 
-  endTimestamp:Date;
-  sendTimestamp?:Date;
+  startTimestamp:Number; 
+  endTimestamp:Number;
+  sendTimestamp?:Number;
   recipient?: string;
 }
 

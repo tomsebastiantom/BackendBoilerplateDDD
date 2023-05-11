@@ -6,13 +6,14 @@ import { SiteId } from './siteId';
 import { UserId } from '../../users/domain/userId';
 import { Entity } from '../../../shared/domain/Entity';
 import { ScanId } from './scanId';
+import { CheckpointId } from './checkpointId';
 
 export interface ScanProps {
   siteId: SiteId;
   userId: UserId;
   identifier: string;
   timestamp: Number;
-  checkpointId: string;
+  checkpointId: CheckpointId;
   location: string;
   comment?: string;
   assets?: [string];
