@@ -18,7 +18,7 @@ export default (sequelize, DataTypes) => {
     },
     {
       timestamps: true,
-      underscored: true,
+      underscored: false,
       tableName: 'tenants',
       indexes: [{ unique: true, fields: ['id'] }]
     }

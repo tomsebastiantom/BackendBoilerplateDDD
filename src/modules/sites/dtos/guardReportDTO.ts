@@ -1,18 +1,16 @@
-import { Address } from '../domain/address';
-import { SiteId } from '../domain/siteId';
-import { SiteName } from '../domain/siteName';
-import { Contact } from '../domain/contact';
-import { Instruction } from '../domain/instruction';
 
-export interface SiteDTO {
-  siteId: SiteId;
-  siteName: SiteName;
-  address: Address;
-  companyName: string;
-  contacts?: Contact[];
-  isActive: boolean;
-  instructions?: Instruction[];
-  creationDate: Date;
-  lastUpdatedDate: Date;
-  isArchived?: boolean;
+import { SiteId } from '../domain/siteId';
+import { UserId } from '../../users/domain/userId';
+
+export interface GuardReportDTO {
+  siteId?: SiteId;
+  userId:UserId;  
+  startTimestamp:Date; 
+  endTimestamp:Date;
+  sendTimestamp?:Date;
+  recipient?: string;
 }
+
+
+
+//recipent is email

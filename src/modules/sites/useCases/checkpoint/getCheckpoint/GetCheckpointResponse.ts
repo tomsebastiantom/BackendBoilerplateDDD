@@ -1,10 +1,10 @@
 
 import { Either,Result } from "../../../../../shared/core/Result";
-import { UpdateCheckpointErrors } from "./UpdateCheckpointErrors";
+import { GetCheckpointErrors } from "./GetCheckpointErrors";
 import { AppError } from "../../../../../shared/core/AppError";
 
-export type UpdateCheckpointResponse = Either<
-  UpdateCheckpointErrors.CheckpointIdNotFoundError |
+export type GetCheckpointResponse = Either<
+  GetCheckpointErrors.CheckpointIdNotFoundError |
   AppError.UnexpectedError |
   Result<any>,
   Result<void>

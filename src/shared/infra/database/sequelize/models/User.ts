@@ -69,7 +69,7 @@ export default (sequelize, DataTypes) => {
     },
     {
       timestamps: true,
-      underscored: true,
+      underscored: false,
       tableName: 'users',
       indexes: [{ unique: true, fields: ['email'] }]
     }

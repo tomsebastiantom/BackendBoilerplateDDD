@@ -1,12 +1,12 @@
-import { UpdateCheckpointUseCase } from './UpdateCheckpointUseCase';
-import { UpdateCheckpointController } from './UpdateCheckpointController';
+import { GetCheckpointUseCase } from './GetCheckpointUseCase';
+import { GetCheckpointController } from './GetCheckpointController';
 
 import { checkpointRepo } from '../../../repos';
 
-const updateCheckpointUseCase = new UpdateCheckpointUseCase(checkpointRepo);
+const getCheckpointUseCase = new GetCheckpointUseCase(checkpointRepo);
 
-const updateCheckpointController = new UpdateCheckpointController(
-  updateCheckpointUseCase
+const getCheckpointController = new GetCheckpointController(
+  getCheckpointUseCase
 );
 
-export { updateCheckpointUseCase, updateCheckpointController };
+export { getCheckpointUseCase, getCheckpointController };

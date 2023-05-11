@@ -33,12 +33,7 @@ export class UpdateCheckpointUseCase
     if (request.description) {
       UpdatedCheckpoint.description = request.description;
     }
-    if (request.latitude) {
-      UpdatedCheckpoint.latitude = request.latitude;
-    }
-    if (request.longitude) {
-        UpdatedCheckpoint.longitude = request.longitude;
-    }
+   
     if (request.isActive) {
         UpdatedCheckpoint.isActive = request.isActive;
     }

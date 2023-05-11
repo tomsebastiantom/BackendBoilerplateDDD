@@ -20,14 +20,6 @@ export default (sequelize, DataTypes) => {
         allowNull: true,
         defaultValue: true
       },
-      creationDate: {
-        type: DataTypes.DATE,
-        allowNull: false
-      },
-      lastUpdatedDate: {
-        type: DataTypes.DATE,
-        allowNull: false
-      },
       location: {
         type: DataTypes.JSON,
         allowNull: false
@@ -47,7 +39,7 @@ export default (sequelize, DataTypes) => {
     },
     {
       timestamps: true,
-      underscored: true,
+      underscored: false,
       tableName: 'checkpoints',
       indexes: [{ unique: true, fields: ['id'] }]
     }

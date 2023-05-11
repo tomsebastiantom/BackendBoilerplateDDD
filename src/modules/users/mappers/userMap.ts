@@ -25,6 +25,7 @@ export class UserMap implements Mapper<User> {
     const userOrError = User.create({
       username: userNameOrError.getValue(),
       isAdminUser: raw.is_admin_user,
+      name:raw.name,
       isDeleted: raw.is_deleted,
       isEmailVerified: raw.is_email_verified,
       password: userPasswordOrError.getValue(),
@@ -58,12 +59,12 @@ export class UserMap implements Mapper<User> {
   }
 }
 
-email: UserEmail;
-username: UserName;
-password: UserPassword;
-isEmailVerified?: boolean;
-isAdminUser?: boolean;
-accessToken?: JWTToken;
-refreshToken?: RefreshToken;
-isDeleted?: boolean;
-lastLogin?: Date;
+// email: UserEmail;
+// username: UserName;
+// password: UserPassword;
+// isEmailVerified?: boolean;
+// isAdminUser?: boolean;
+// accessToken?: JWTToken;
+// refreshToken?: RefreshToken;
+// isDeleted?: boolean;
+// lastLogin?: Date;

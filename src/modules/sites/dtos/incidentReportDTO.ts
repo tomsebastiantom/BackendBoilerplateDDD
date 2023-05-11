@@ -1,4 +1,4 @@
-import { Address } from '../domain/address';
+import { Address } from '../../../shared/nexa/address';
 import { SiteId } from '../domain/siteId';
 import { SiteName } from '../domain/siteName';
 import { Contact } from '../domain/contact';
@@ -9,9 +9,9 @@ export interface SiteDTO {
   siteName: SiteName;
   address: Address;
   companyName: string;
-  contacts?: Contact[];
+  contacts?: [Contact];
   isActive: boolean;
-  instructions?: Instruction[];
+  instructions?: [Instruction];
   creationDate: Date;
   lastUpdatedDate: Date;
   isArchived?: boolean;

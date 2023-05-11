@@ -1,9 +1,9 @@
 import { Either, Result } from '../../../../../shared/core/Result';
 import { AppError } from '../../../../../shared/core/AppError';
-import { CreateSiteErrors } from './CreateIncidentReportErrors';
+import { CreateGuardReportErrors } from './CreateGuardReportErrors';
 
-export type CreateSiteResponse = Either<
-  | CreateSiteErrors.AddressNotValidError
+export type CreateGuardReportResponse = Either<
+  | CreateGuardReportErrors.SiteIdNotValidError
   | AppError.UnexpectedError
   | Result<any>,
   Result<void>

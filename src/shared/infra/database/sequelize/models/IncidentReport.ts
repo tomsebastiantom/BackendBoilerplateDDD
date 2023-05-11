@@ -46,7 +46,7 @@ export default (sequelize, DataTypes) => {
       },
       {
         timestamps: true,
-        underscored: true,
+        underscored: false,
         tableName: 'incidentreports',
         indexes: [{ unique: true, fields: ['id'] }]
       }

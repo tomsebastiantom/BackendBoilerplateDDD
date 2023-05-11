@@ -2,26 +2,24 @@ import { Either, Result, left, right } from '../../../../../shared/core/Result';
 import { AppError } from '../../../../../shared/core/AppError';
 import { UseCase } from '../../../../../shared/core/UseCase';
 
-import { ISiteRepo } from '../../../repos/siteRepo';
-import { CreateSiteDTO } from './CreateIncidentReportDTO';
-import { CreateSiteErrors } from './CreateIncidentReportErrors';
-import { CreateSiteResponse } from './CreateIncidentReportResponse';
-import { Site } from '../../../domain/site';
+import { ICheckpointRepo } from '../../../repos/checkpointRepo';
+
+import { GuardReport } from '../../../domain/GuardReport';
 import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
 import { Address } from '../../../domain/address';
 import { Contact } from '../../../domain/contact';
 import { Instruction } from '../../../domain/instruction';
 
-export class CreateSiteUseCase
-  implements UseCase<CreateSiteDTO, Promise<CreateSiteResponse>>
+export class CreateGuardReportUseCase
+  implements UseCase<CreateGuardReportDTO, Promise<CreateGuardReportResponse>>
 {
-  private siteRepo: ISiteRepo;
+  private GuardReportRepo: IGuardReportRepo;
 
-  constructor(siteRepo: ISiteRepo) {
-    this.siteRepo = siteRepo;
+  constructor(GuardReportRepo: IGuardReportRepo) {
+    this.GuardReportRepo = GuardReportRepo;
   }
 
-  public async execute(request: CreateSiteDTO): Promise<CreateSiteResponse> {
+  public async execute(request: CreateGuardReportDTO): Promise<CreateGuardReportResponse> {
     //Todo Validation and Error Handling
     const errors = [];
     const addressOrError = Address.create(request.address);
@@ -31,10 +29,10 @@ export class CreateSiteUseCase
     // if (contactsOrError.isFailure) errors.push(contactsOrError.error)
     // if (instructionsOrError.isFailure) errors.push(instructionsOrError.error)
     if (addressOrError.isFailure)
-      return left(new CreateSiteErrors.AddressNotValidError(request.address));
+      return left(new CreateGuardReportErrors.AddressNotValidError(request.address));
     else {
-      const createdSite = Site.create({
-        siteName: request.siteName,
+      const createdGuardReport = GuardReport.create({
+        GuardReportName: request.GuardReportName,
         isActive: true,
         companyName: request.companyName,
         creationDate: new Date(),
@@ -43,15 +41,15 @@ export class CreateSiteUseCase
       }).getValue();
 
       if (request.instructions) {
-        createdSite.instructions = request.instructions;
+        createdGuardReport.instructions = request.instructions;
       }
       if (request.contacts) {
-        createdSite.contacts = request.contacts;
+        createdGuardReport.contacts = request.contacts;
       }
-      createdSite.creationDate = new Date();
-      createdSite.lastUpdatedDate = new Date();
+      createdGuardReport.creationDate = new Date();
+      createdGuardReport.lastUpdatedDate = new Date();
       try {
-        await this.siteRepo.save(createdSite);
+        await this.GuardReportRepo.save(createdGuardReport);
         return right(Result.ok<void>());
       } catch (err) {
         return left(new AppError.UnexpectedError(err));

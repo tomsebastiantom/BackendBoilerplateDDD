@@ -40,7 +40,7 @@ export default (sequelize, DataTypes) => {
     },
     {
       timestamps: true,
-      underscored: true,
+      underscored: false,
       tableName: 'sites',
       indexes: [{ unique: true, fields: ['id'] }]
     }

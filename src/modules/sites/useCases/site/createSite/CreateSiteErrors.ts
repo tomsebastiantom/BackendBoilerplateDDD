@@ -1,7 +1,7 @@
 import { UseCaseError } from '../../../../../shared/core/UseCaseError';
 import { Result } from '../../../../../shared/core/Result';
 
-import { Address } from '../../../domain/address';
+import { Address } from '../../../../../shared/nexa/address';
 
 export namespace CreateSiteErrors {
   export class AddressNotValidError extends Result<UseCaseError> {

@@ -1,48 +1,74 @@
 import { Mapper } from '../../../shared/infra/Mapper';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 
-import { Checkpoint } from '../domain/checkpoint';
-import { CheckpointDTO } from '../dtos/checkpointDTO';
+import { GuardReport } from '../domain/guardReport';
+import { GuardReportDTO } from '../dtos/guardReportDTO';
 
-export class CheckpointMap implements Mapper<Checkpoint> {
-  public static toDomain(raw: any): Checkpoint {
-    const checkpointOrError = Checkpoint.create(
+export class GuardReportMap implements Mapper<GuardReport> {
+  public static toDomain(raw: any): GuardReport {
+    const GuardReportOrError = GuardReport.create(
       {
-        checkpointName: raw.checkpointName,
-        description: raw.description,
-        isActive: raw.isActive,
-        creationDate: raw.creationDate,
-        lastUpdatedDate: raw.lastUpdatedDate,
-        siteId: raw.siteId
+        siteId: raw.siteId,
+        userId: raw.userId,
+        startTimestamp: raw.startTimestamp,
+        endTimestamp: raw.endTimestamp,
+        sentTimestamp: raw.sentTimestamp,
+        recipient: raw.recipent
       },
-      new UniqueEntityID(raw.checkpointId)
+      new UniqueEntityID(raw.reportId)
     );
-    checkpointOrError.isFailure
-      ? console.log(checkpointOrError.getErrorValue())
+    GuardReportOrError.isFailure
+      ? console.log(GuardReportOrError.getErrorValue())
       : '';
-    return checkpointOrError.isSuccess ? checkpointOrError.getValue() : null;
+    return GuardReportOrError.isSuccess ? GuardReportOrError.getValue() : null;
   }
-  public static toPersistence(checkpoint: Checkpoint): any {
-    return {
-      checkpointId: checkpoint.checkpointId.id.toString(),
-      siteId: checkpoint.siteId.toString(),
-      checkpointName: checkpoint.checkpointName,
-      description: checkpoint.description,
-      isActive: checkpoint.isActive,
-      creationDate: checkpoint.creationDate,
-      lastUpdatedDate: checkpoint.lastUpdatedDate
+  public static toPersistence(guardReport: GuardReport): any {
+    let rawguardReport: any = {
+      id: guardReport.guardReportId.id.toString(),
+      userId: guardReport.userId.id.toString(),
+      startTimestamp: guardReport.startTimestamp,
+      endTimestamp: guardReport.endTimestamp
     };
+    if (guardReport.recipient) {
+      rawguardReport.recipient = guardReport.recipient;
+    }
+    if (guardReport.siteId) {
+      rawguardReport.siteId = guardReport.siteId;
+    }
+    if (guardReport.sentTimestamp) {
+      rawguardReport.sentTimestamp = guardReport.sentTimestamp;
+    }
+    return rawguardReport;
   }
 
-  public static toDTO(checkpoint: Checkpoint): CheckpointDTO {
+  public static toDTO(GuardReport: GuardReport): GuardReportDTO {
     return {
-      checkpointId: checkpoint.checkpointId,
-      siteId: checkpoint.siteId,
-      checkpointName: checkpoint.checkpointName,
-      description: checkpoint.description,
-      isActive: checkpoint.isActive,
-      lastUpdatedDate: checkpoint.lastUpdatedDate,
-      creationDate: checkpoint.creationDate
+      siteId: GuardReport.siteId,
+      GuardReportName: GuardReport.GuardReportName,
+      description: GuardReport.description,
+      isActive: GuardReport.isActive,
+      lastUpdatedDate: GuardReport.lastUpdatedDate,
+      creationDate: GuardReport.creationDate
     };
   }
 }
+
+// export interface GuardReportDTO {
+//   siteId: SiteId;
+//   userId:UserId;
+//   startDate:Date;
+//   endDate:Date;
+//   sendDate?:Date;
+//   lastUpdatedDate: Date;
+//   recipient?: string;
+// }
+
+// id:
+//   siteId:
+
+//   userId:
+
+//   startDate:
+//   endDate:
+//   sentDate:
+//   recipient:

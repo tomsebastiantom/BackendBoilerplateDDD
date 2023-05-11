@@ -14,17 +14,13 @@ export interface SiteProps {
   siteName: SiteName;
   address: Address;
   companyName: string;
-  contacts?: Contact[];
+  contacts?: [Contact];
   isActive: boolean;
-  instructions?: Instruction[];
-  creationDate: Date;
-  lastUpdatedDate: Date;
+  instructions?: [Instruction];
+  creationTimestamp: Number;
+  lastUpdatedTimestamp: Number;
   isArchived?: boolean;
-  
 }
-
-
-
 
 //Todo Domain Events
 export class Site extends AggregateRoot<SiteProps> {
@@ -50,25 +46,27 @@ export class Site extends AggregateRoot<SiteProps> {
   get isActive(): boolean {
     return this.props.isActive;
   }
-  set creationDate(creationDate: Date) {
-    this.props.creationDate = creationDate;
-  }
+
   set isActive(isActive: boolean) {
     this.props.isActive = isActive;
   }
-  get creationDate(): Date {
-    return this.props.creationDate;
-  }
-  get lastUpdatedDate(): Date {
-    return this.props.lastUpdatedDate;
-  }
-  get instructions(): Instruction[] {
+
+  get instructions(): [Instruction] {
     return this.props.instructions;
   }
-  set lastUpdatedDate(lastUpdatedDate: Date) {
-    this.props.lastUpdatedDate = lastUpdatedDate;
+  set creationTimestamp(creationTimestamp: Number) {
+    this.props.creationTimestamp = creationTimestamp;
   }
-  get contacts(): Contact[] {
+  get creationTimestamp(): Number {
+    return this.props.creationTimestamp;
+  }
+  set lastUpdatedTimestamp(lastUpdatedTimestamp: Number) {
+    this.props.lastUpdatedTimestamp = lastUpdatedTimestamp;
+  }
+  get lastUpdatedTimestamp(): Number {
+    return this.props.lastUpdatedTimestamp;
+  }
+  get contacts(): [Contact] {
     return this.props.contacts;
   }
   public addContact(contact: Contact): void {
@@ -78,10 +76,10 @@ export class Site extends AggregateRoot<SiteProps> {
   public addInstruction(instruction: Instruction): void {
     this.props.instructions.push(instruction);
   }
-  set instructions(instructions: Instruction[]) {
+  set instructions(instructions: [Instruction]) {
     this.props.instructions = instructions;
   }
-  set contacts(contacts: Contact[]) {
+  set contacts(contacts: [Contact]) {
     this.props.contacts = contacts;
   }
   private constructor(props: SiteProps, id?: UniqueEntityID) {

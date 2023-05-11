@@ -7,20 +7,20 @@ import { updateCheckpointController } from '../../../useCases/checkpoint/updateC
 
 const checkpointRouter = express.Router();
 
-checkpointRouter.get('/me',
+checkpointRouter.get('/activate',
   (req, res) => activateCheckpointController.execute(req, res)
 )
 
-checkpointRouter.get('/:username',
+checkpointRouter.get('/create',
   (req, res) => createCheckpointController.execute(req, res)
 )
-checkpointRouter.get('/:username',
+checkpointRouter.get('/delete',
   (req, res) => deleteCheckpointController.execute(req, res)
 )
-checkpointRouter.get('/:username',
+checkpointRouter.get('/deactivate',
   (req, res) => deactivateCheckpointController.execute(req, res)
 )
-checkpointRouter.get('/:username',
+checkpointRouter.get('/update',
   (req, res) => updateCheckpointController.execute(req, res)
 )
 

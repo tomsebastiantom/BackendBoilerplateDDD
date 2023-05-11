@@ -1,13 +1,13 @@
 import { UseCaseError } from '../../../../../shared/core/UseCaseError';
 import { Result } from '../../../../../shared/core/Result';
 
-import { Address } from '../../../domain/address';
+import { SiteId } from '../../../domain/siteId';
 
-export namespace CreateSiteErrors {
-  export class AddressNotValidError extends Result<UseCaseError> {
-    constructor(address: Address) {
+export namespace CreateGuardReportErrors {
+  export class SiteIdNotValidError extends Result<UseCaseError> {
+    constructor(siteId:SiteId) {
       super(false, {
-        message: ` ${address} is not a valid address`
+        message: ` ${siteId} is not a valid `
       } as UseCaseError);
     }
   }

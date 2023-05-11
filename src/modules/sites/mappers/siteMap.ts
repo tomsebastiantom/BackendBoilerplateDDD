@@ -13,8 +13,8 @@ export class SiteMap implements Mapper<Site> {
         siteName: raw.siteName,
         instructions: raw.description,
         isActive: raw.isActive,
-        creationDate: raw.creationDate,
-        lastUpdatedDate: raw.lastUpdatedDate,
+        creationTimestamp: raw.creationTimestamp,
+        lastUpdatedTimestamp: raw.lastUpdatedTimestamp,
         address: raw.address,
         companyName: raw.companyName,
         contacts: raw.contacts
@@ -29,8 +29,8 @@ export class SiteMap implements Mapper<Site> {
       siteId: site.siteId.id.toString(),
       siteName: site.siteName,
       instructions: site.instructions,
-      creationDate: site.creationDate,
-      lastUpdatedDate: site.lastUpdatedDate,
+      creationTimestamp: site.creationTimestamp,
+      lastUpdatedTimestamp: site.lastUpdatedTimestamp,
       address: site.address,
       companyName: site.companyName,
       contacts: site.contacts
@@ -43,8 +43,8 @@ export class SiteMap implements Mapper<Site> {
       siteName: site.siteName,
       instructions: site.instructions,
       isActive: site.isActive,
-      lastUpdatedDate: site.lastUpdatedDate,
-      creationDate: site.creationDate,
+      lastUpdatedTimestamp: site.lastUpdatedTimestamp,
+      creationTimestamp: site.creationTimestamp,
       address: site.address,
       companyName: site.companyName,
       contacts: site.contacts

@@ -2,26 +2,26 @@ import { Either, Result, left, right } from '../../../../../shared/core/Result';
 import { AppError } from '../../../../../shared/core/AppError';
 import { UseCase } from '../../../../../shared/core/UseCase';
 
-import { ISiteRepo } from '../../../repos/siteRepo';
-import { CreateSiteDTO } from './CreateSiteDTO';
-import { CreateSiteErrors } from './CreateSiteErrors';
-import { CreateSiteResponse } from './CreateSiteResponse';
-import { Site } from '../../../domain/site';
+import { IScanRepo } from '../../../repos/ScanRepo';
+import { CreateScanDTO } from './CreateScanDTO';
+import { CreateScanErrors } from './CreateScanErrors';
+import { CreateScanResponse } from './CreateScanResponse';
+import { Scan } from '../../../domain/Scan';
 import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
 import { Address } from '../../../domain/address';
 import { Contact } from '../../../domain/contact';
 import { Instruction } from '../../../domain/instruction';
 
-export class CreateSiteUseCase
-  implements UseCase<CreateSiteDTO, Promise<CreateSiteResponse>>
+export class CreateScanUseCase
+  implements UseCase<CreateScanDTO, Promise<CreateScanResponse>>
 {
-  private siteRepo: ISiteRepo;
+  private ScanRepo: IScanRepo;
 
-  constructor(siteRepo: ISiteRepo) {
-    this.siteRepo = siteRepo;
+  constructor(ScanRepo: IScanRepo) {
+    this.ScanRepo = ScanRepo;
   }
 
-  public async execute(request: CreateSiteDTO): Promise<CreateSiteResponse> {
+  public async execute(request: CreateScanDTO): Promise<CreateScanResponse> {
     //Todo Validation and Error Handling
     const errors = [];
     const addressOrError = Address.create(request.address);
@@ -31,10 +31,10 @@ export class CreateSiteUseCase
     // if (contactsOrError.isFailure) errors.push(contactsOrError.error)
     // if (instructionsOrError.isFailure) errors.push(instructionsOrError.error)
     if (addressOrError.isFailure)
-      return left(new CreateSiteErrors.AddressNotValidError(request.address));
+      return left(new CreateScanErrors.AddressNotValidError(request.address));
     else {
-      const createdSite = Site.create({
-        siteName: request.siteName,
+      const createdScan = Scan.create({
+        ScanName: request.ScanName,
         isActive: true,
         companyName: request.companyName,
         creationDate: new Date(),
@@ -43,15 +43,15 @@ export class CreateSiteUseCase
       }).getValue();
 
       if (request.instructions) {
-        createdSite.instructions = request.instructions;
+        createdScan.instructions = request.instructions;
       }
       if (request.contacts) {
-        createdSite.contacts = request.contacts;
+        createdScan.contacts = request.contacts;
       }
-      createdSite.creationDate = new Date();
-      createdSite.lastUpdatedDate = new Date();
+      createdScan.creationDate = new Date();
+      createdScan.lastUpdatedDate = new Date();
       try {
-        await this.siteRepo.save(createdSite);
+        await this.ScanRepo.save(createdScan);
         return right(Result.ok<void>());
       } catch (err) {
         return left(new AppError.UnexpectedError(err));

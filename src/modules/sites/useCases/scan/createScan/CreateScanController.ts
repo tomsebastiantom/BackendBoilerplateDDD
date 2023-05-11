@@ -2,14 +2,14 @@ import { BaseController } from '../../../../../shared/infra/http/models/BaseCont
 import { DecodedExpressRequest } from '../../../../users/infra/http/models/decodedRequest';
 import * as express from 'express';
 
-import { CreateSiteDTO } from './CreateSiteDTO';
-import { CreateSiteErrors } from './CreateSiteErrors';
-import { CreateSiteUseCase } from './CreateSiteUseCase';
+import { CreateScanDTO } from './CreateScanDTO';
+import { CreateScanErrors } from './CreateScanErrors';
+import { CreateScanUseCase } from './CreateScanUseCase';
 
-export class CreateSiteController extends BaseController {
-  private useCase: CreateSiteUseCase;
+export class CreateScanController extends BaseController {
+  private useCase: CreateScanUseCase;
 
-  constructor(useCase: CreateSiteUseCase) {
+  constructor(useCase: CreateScanUseCase) {
     super();
     this.useCase = useCase;
   }
@@ -18,7 +18,7 @@ export class CreateSiteController extends BaseController {
     req: DecodedExpressRequest,
     res: express.Response
   ): Promise<any> {
-    const dto: CreateSiteDTO = req.body as CreateSiteDTO;
+    const dto: CreateScanDTO = req.body as CreateScanDTO;
     try {
       const result = await this.useCase.execute(dto);
 
@@ -26,7 +26,7 @@ export class CreateSiteController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case CreateSiteErrors.AddressNotValidError:
+          case CreateScanErrors.AddressNotValidError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

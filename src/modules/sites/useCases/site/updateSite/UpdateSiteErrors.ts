@@ -2,7 +2,7 @@ import { UseCaseError } from '../../../../../shared/core/UseCaseError';
 import { Result } from '../../../../../shared/core/Result';
 
 import { SiteId } from '../../../domain/siteId';
-import { Address } from '../../../domain/address';
+import { Address } from '../../../../../shared/nexa/address';
 
 export namespace UpdateSiteErrors {
   export class SiteIdNotFoundError extends Result<UseCaseError> {

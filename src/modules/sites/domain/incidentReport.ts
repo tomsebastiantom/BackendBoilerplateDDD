@@ -10,7 +10,7 @@ import { UserId } from '../../users/domain/userId';
 export interface IncidentReportProps {
   siteId: SiteId;
   userId: UserId;
-  timeOfIncident: Date;
+  timestamp: Number;
   incidentType: string;
   incidentDescription: string;
   photos?: [string];

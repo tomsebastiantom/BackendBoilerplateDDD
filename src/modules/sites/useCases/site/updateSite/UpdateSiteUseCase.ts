@@ -8,7 +8,7 @@ import { UpdateSiteErrors } from './UpdateSiteErrors';
 import { UpdateSiteResponse } from './UpdateSiteResponse';
 import { Site } from '../../../domain/site';
 import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
-import { Address } from '../../../domain/address';
+import { Address } from '../../../../../shared/nexa/address';
 import { Contact } from '../../../domain/contact';
 import { Instruction } from '../../../domain/instruction';
 

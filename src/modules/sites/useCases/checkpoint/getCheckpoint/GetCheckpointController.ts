@@ -2,14 +2,14 @@ import { BaseController } from '../../../../../shared/infra/http/models/BaseCont
 import { DecodedExpressRequest } from '../../../../users/infra/http/models/decodedRequest';
 import * as express from 'express';
 
-import { UpdateCheckpointDTO } from './UpdateCheckpointDTO';
-import { UpdateCheckpointErrors } from './UpdateCheckpointErrors';
-import { UpdateCheckpointUseCase } from './UpdateCheckpointUseCase';
+import { GetCheckpointDTO } from './GetCheckpointDTO';
+import { GetCheckpointErrors } from './GetCheckpointErrors';
+import { GetCheckpointUseCase } from './GetCheckpointUseCase';
 
-export class UpdateCheckpointController extends BaseController {
-  private useCase: UpdateCheckpointUseCase;
+export class GetCheckpointController extends BaseController {
+  private useCase: GetCheckpointUseCase;
 
-  constructor(useCase: UpdateCheckpointUseCase) {
+  constructor(useCase: GetCheckpointUseCase) {
     super();
     this.useCase = useCase;
   }
@@ -18,7 +18,7 @@ export class UpdateCheckpointController extends BaseController {
     req: DecodedExpressRequest,
     res: express.Response
   ): Promise<any> {
-    const dto: UpdateCheckpointDTO = req.body as UpdateCheckpointDTO;
+    const dto: GetCheckpointDTO = req.body as GetCheckpointDTO;
     try {
       const result = await this.useCase.execute(dto);
 
@@ -26,7 +26,7 @@ export class UpdateCheckpointController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case UpdateCheckpointErrors.CheckpointIdNotFoundError:
+          case GetCheckpointErrors.CheckpointIdNotFoundError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

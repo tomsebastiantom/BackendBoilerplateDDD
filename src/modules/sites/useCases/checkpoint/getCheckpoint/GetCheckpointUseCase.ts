@@ -3,13 +3,13 @@ import { AppError } from '../../../../../shared/core/AppError';
 import { UseCase } from '../../../../../shared/core/UseCase';
 
 import { ICheckpointRepo } from '../../../repos/checkpointRepo';
-import { UpdateCheckpointDTO } from './UpdateCheckpointDTO';
-import { UpdateCheckpointResponse } from './UpdateCheckpointResponse';
+import { GetCheckpointDTO } from './GetCheckpointDTO';
+import { GetCheckpointResponse } from './GetCheckpointResponse';
 import { Checkpoint } from '../../../domain/checkpoint';
 import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
 
-export class UpdateCheckpointUseCase
-  implements UseCase<UpdateCheckpointDTO, Promise<UpdateCheckpointResponse>>
+export class GetCheckpointUseCase
+  implements UseCase<GetCheckpointDTO, Promise<GetCheckpointResponse>>
 {
   private checkPointRepo: ICheckpointRepo;
 
@@ -18,33 +18,12 @@ export class UpdateCheckpointUseCase
   }
 
   public async execute(
-    request: UpdateCheckpointDTO
-  ): Promise<UpdateCheckpointResponse> {
-    const UpdatedCheckpoint = Checkpoint.create(
-      {
-        siteId: request.siteId,
-        checkpointName: request.checkpointName,
-        creationDate: request.creationDate,
-        lastUpdatedDate: new Date()
-      },
-      new UniqueEntityID(request.checkpointId.toString())
-    ).getValue();
-
-    if (request.description) {
-      UpdatedCheckpoint.description = request.description;
-    }
-    if (request.latitude) {
-      UpdatedCheckpoint.latitude = request.latitude;
-    }
-    if (request.longitude) {
-        UpdatedCheckpoint.longitude = request.longitude;
-    }
-    if (request.isActive) {
-        UpdatedCheckpoint.isActive = request.isActive;
-    }
+    request: GetCheckpointDTO
+  ): Promise<GetCheckpointResponse> {
+   
 
     try {
-      await this.checkPointRepo.save(UpdatedCheckpoint);
+      await this.checkPointRepo.getByCheckpointId(request.checkpointId)
       return right(Result.ok<void>());
     } catch (err) {
       return left(new AppError.UnexpectedError(err));

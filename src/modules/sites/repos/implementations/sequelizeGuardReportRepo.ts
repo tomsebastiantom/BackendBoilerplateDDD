@@ -1,61 +1,52 @@
-import { ICheckpointRepo } from '../checkpointRepo';
-import { Checkpoint } from '../../domain/checkpoint';
+import { GuardReport } from '../../domain/guardReport';
 import { SiteId } from '../../domain/siteId';
-import { CheckpointId } from '../../domain/checkpointId';
-import { CheckpointMap } from '../../mappers/checkpointMap';
+import { ReportId } from '../../domain/ReportId';
+import { GuardReportMap } from '../../mappers/guardReportMap';
+import { IGuardReportRepo } from '../guardReportRepo';
 
-export class SequelizeCheckpointRepo implements ICheckpointRepo {
+export class SequelizeGuardReportRepo implements IGuardReportRepo {
   private models: any;
   constructor(models: any) {
     this.models = models;
   }
 
-  async save(checkpoint: Checkpoint[] | Checkpoint): Promise<void> {
-    const CheckpointModel = this.models.Checkpoint;
-    if (checkpoint instanceof Array) {
-      const rawCheckpoints = checkpoint.map((checkpoint) =>
-        CheckpointMap.toPersistence(checkpoint)
-      );
-      await CheckpointModel.bulkCreate(rawCheckpoints);
-      return;
-    } else {
-      const rawCheckpoint = CheckpointMap.toPersistence(checkpoint);
-      await CheckpointModel.create(rawCheckpoint);
-      return;
-    }
+   async save(guardReport: GuardReport): Promise<void> {
+    const GuardReportModel = this.models.GuardReport;
+
+    const rawguardReport = GuardReportMap.toPersistence(guardReport);
+    await GuardReportModel.create(rawguardReport);
   }
-  async delete(checkpointId: CheckpointId): Promise<void> {
-    const CheckpointModel = this.models.Checkpoint;
-    await CheckpointModel.destroy({ where: { checkpointId: checkpointId.id } });
+  async delete(guardReportId: ReportId): Promise<void> {
+    const GuardReportModel = this.models.GuardReport;
+    await GuardReportModel.destroy({ where: { reportid: guardReportId.id } });
   }
 
-  async getAll(siteId: SiteId): Promise<Checkpoint[]> {
-    const CheckpointModel = this.models.Checkpoint;
-    const rawCheckpoints = await CheckpointModel.findAll({
+  async getAllBySiteId(siteId: SiteId): Promise<[GuardReport]> {
+    const GuardReportModel = this.models.GuardReport;
+    const rawGuardReports = await GuardReportModel.findAll({
       where: { siteId: siteId.id }
     });
-    const checkpoints = rawCheckpoints.map((rawCheckpoint) =>
-      CheckpointMap.toDomain(rawCheckpoint)
+    const GuardReports = rawGuardReports.map((rawGuardReport) =>
+      GuardReportMap.toDomain(rawGuardReport)
     );
-    return checkpoints;
+    return GuardReports;
   }
   async update(
-    checkpointId: CheckpointId,
-    checkpoint: Checkpoint
+    guardReportId: ReportId,
+    guardReport: GuardReport
   ): Promise<void> {
-    const CheckpointModel = this.models.Checkpoint;
-    const rawCheckpoint = CheckpointMap.toPersistence(checkpoint);
-    await CheckpointModel.update(rawCheckpoint, {
-      where: { checkpointId: checkpointId.id }
+    const GuardReportModel = this.models.GuardReport;
+    const rawGuardReport = GuardReportMap.toPersistence(guardReport);
+    await GuardReportModel.update(rawGuardReport, {
+      where: { reportId: guardReportId.id }
     });
-    return;
   }
-  async getByCheckpointId(checkpointId: CheckpointId): Promise<Checkpoint> {
-    const CheckpointModel = this.models.Checkpoint;
-    const rawCheckpoint = await CheckpointModel.findOne({
-      where: { checkpointId: checkpointId.id }
+  async getByGuardReportId(guardReportId: ReportId): Promise<GuardReport> {
+    const GuardReportModel = this.models.GuardReport;
+    const rawGuardReport = await GuardReportModel.findOne({
+      where: { reportId: guardReportId.id }
     });
-    const checkpoint = CheckpointMap.toDomain(rawCheckpoint);
-    return checkpoint;
+    const GuardReport = GuardReportMap.toDomain(rawGuardReport);
+    return GuardReport;
   }
 }

@@ -23,15 +23,15 @@ export default (sequelize, DataTypes) => {
               key: 'id',
             },
           },
-          startDate: {
+          startTimestamp: {
             type: DataTypes.DATE,
             allowNull: false,
           },
-          endDate: {
+          endTimestamp: {
             type: DataTypes.DATE,
             allowNull: false,
           },
-          sentDate: {
+          sentTimestamp: {
             type: DataTypes.DATE,
             allowNull: true,
           },
@@ -42,7 +42,7 @@ export default (sequelize, DataTypes) => {
       },
       {
         timestamps: true,
-        underscored: true,
+        underscored: false,
         tableName: 'guardreports',
         indexes: [{ unique: true, fields: ['id'] }]
       }

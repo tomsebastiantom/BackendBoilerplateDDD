@@ -6,8 +6,8 @@ export interface CheckpointDTO {
     checkpointName: string;
     description?: string;
     isActive: boolean;
-    creationDate: Date;
-    lastUpdatedDate: Date;
+    creationTimestamp: Number;
+    lastUpdatedTimestamp: Number;
     checkpointId: CheckpointId;
     latitude?: number;
     longitude?: number;

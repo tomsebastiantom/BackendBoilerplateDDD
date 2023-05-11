@@ -11,9 +11,9 @@ interface CheckpointProps {
   checkpointName: string;
   description?: string;
   isActive?: boolean;
-  creationDate: Date;
-  lastUpdatedDate: Date;
-  location: Location;
+  creationTimestamp: Number;
+  lastUpdatedTimestamp: Number;
+  location?: Location;
   siteId: SiteId;
   identifier?: string;
 }
@@ -35,18 +35,18 @@ export class Checkpoint extends Entity<CheckpointProps> {
   get isActive(): boolean {
     return this.props.isActive;
   }
-  get lastUpdatedDate(): Date {
-    return this.props.lastUpdatedDate;
+  get lastUpdatedTimestamp(): Number {
+    return this.props.lastUpdatedTimestamp;
   }
-  set lastUpdatedDate(date: Date) {
-    this.props.lastUpdatedDate = date;
+  set lastUpdatedTimestamp(date: Number) {
+    this.props.lastUpdatedTimestamp = date;
   }
 
   set isActive(isActive: boolean) {
     this.props.isActive = isActive;
   }
-  get creationDate(): Date {
-    return this.props.creationDate;
+  get creationTimestamp(): Number {
+    return this.props.creationTimestamp;
   }
   get siteId(): SiteId {
     return this.props.siteId;

@@ -8,25 +8,25 @@ import { archiveSiteController } from '../../../useCases/site/archiveSite';
 
 const siteRouter = express.Router();
 
-siteRouter.get('/me',
+siteRouter.get('/mge',
   (req, res) => activateSiteController.execute(req, res)
 )
 
-siteRouter.get('/:username',
+siteRouter.get('/deactivate',
   (req, res) => deactivateSiteController.execute(req, res)
 )
 siteRouter.get('/me',
   (req, res) => deleteSiteController.execute(req, res)
 )
 
-siteRouter.get('/:username',
+siteRouter.get('/username',
   (req, res) => updateSiteController.execute(req, res)
 )
-siteRouter.get('/me',
+siteRouter.get('/mee',
   (req, res) => createSiteController.execute(req, res)
 )
 
-siteRouter.get('/:username',
+siteRouter.get('/ert',
   (req, res) => archiveSiteController.execute(req, res)
 )
 

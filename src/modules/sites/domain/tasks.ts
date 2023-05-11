@@ -12,12 +12,12 @@ export interface TaskProps {
   siteId?: SiteId;
   userId: UserId;
   creator: UserId;
-  startDate: Date;
-  endDate: Date;
+  startTimestamp: Number;
+  endTimestamp: Number;
   recurrent: boolean;
   isActive: boolean;
-  sentDate?: Date;
   recipient: string;
+  isExpired: boolean;
 }
 
 export class Task extends Entity<TaskProps> {
@@ -28,8 +28,6 @@ export class Task extends Entity<TaskProps> {
   private constructor(props: TaskProps, id?: UniqueEntityID) {
     super(props, id);
   }
-
-
 
   public static create(props: TaskProps, id?: UniqueEntityID): Result<Task> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([

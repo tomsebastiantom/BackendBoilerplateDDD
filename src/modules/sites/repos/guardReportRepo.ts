@@ -1,11 +1,12 @@
-import { Site } from "../domain/site";
-import { SiteId } from "../domain/siteId";
+import { GuardReport } from "../domain/guardReport"
+import { ReportId } from "../domain/ReportId"
+import { SiteId } from "../domain/siteId"
 
 
-export interface ISiteRepo {
-    save (site: Site): Promise<void>
-    delete (site: Site): Promise<void>
-    //Todo getAll (): Promise<Site[]>  User Required 
-    update (siteId: SiteId, site: Site): Promise<void>
-    getBySiteId (siteId: SiteId): Promise<Site>   
+export interface IGuardReportRepo {
+    save (guardReport: GuardReport): Promise<void>
+    delete (guardReportId:ReportId): Promise<void>
+    getAllBySiteId (siteId:SiteId): Promise<[GuardReport]> 
+    update (guardReportId: ReportId, guardReport: GuardReport): Promise<void>
+    getByGuardReportId (guardReportId: ReportId): Promise<GuardReport>   
 }

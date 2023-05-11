@@ -1,10 +1,10 @@
 
 import { Either,Result } from "../../../../../shared/core/Result";
 import { AppError } from "../../../../../shared/core/AppError";
-import { CreateSiteErrors } from "./CreateSiteErrors";
+import { CreateScanErrors } from "./CreateScanErrors";
 
-export type CreateSiteResponse = Either<
-  CreateSiteErrors.AddressNotValidError |
+export type CreateScanResponse = Either<
+  CreateScanErrors.AddressNotValidError |
   AppError.UnexpectedError |
   Result<any>,
   Result<void>
