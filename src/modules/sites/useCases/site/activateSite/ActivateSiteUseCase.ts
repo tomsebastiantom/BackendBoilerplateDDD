@@ -31,7 +31,7 @@ export class ActivateSiteUseCase
       if (site.isArchived) {
         site.isArchived = false;
       }
-      site.lastUpdatedDate = new Date();
+      // site.lastUpdatedDate = new Date();
 
       await this.siteRepo.save(site);
       return right(Result.ok<void>());

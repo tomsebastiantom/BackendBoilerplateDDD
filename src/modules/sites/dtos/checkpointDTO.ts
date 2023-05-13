@@ -1,15 +1,13 @@
-import { CheckpointId } from "../domain/checkpointId";
-import { SiteId } from '../domain/siteId';
+
 
 export interface CheckpointDTO {
-                                
     checkpointName: string;
     description?: string;
     isActive: boolean;
     creationTimestamp: Number;
     lastUpdatedTimestamp: Number;
-    checkpointId: CheckpointId;
+    checkpointId: String;
     latitude?: number;
     longitude?: number;
-    siteId: SiteId; 
+    siteId: String; 
 }

@@ -17,9 +17,9 @@ export interface SiteProps {
   contacts?: [Contact];
   isActive: boolean;
   instructions?: [Instruction];
-  creationTimestamp: Number;
-  lastUpdatedTimestamp: Number;
-  isArchived?: boolean;
+  creationTimestamp?: Number;
+  lastUpdatedTimestamp?: Number;
+   isArchived?: boolean;
 }
 
 //Todo Domain Events

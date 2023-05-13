@@ -33,7 +33,7 @@ export class GuardReportMap implements Mapper<GuardReport> {
       rawguardReport.recipient = guardReport.recipient;
     }
     if (guardReport.siteId) {
-      rawguardReport.siteId = guardReport.siteId;
+      rawguardReport.siteId = guardReport.siteId.id.toString();
     }
     if (guardReport.sentTimestamp) {
       rawguardReport.sentTimestamp = guardReport.sentTimestamp;
@@ -43,8 +43,8 @@ export class GuardReportMap implements Mapper<GuardReport> {
 
   public static toDTO(guardReport: GuardReport): GuardReportDTO {
     let dto: GuardReportDTO = {
-      siteId: guardReport.siteId,
-      userId: guardReport.userId,
+      siteId: guardReport.guardReportId.id.toString(),
+      userId: guardReport.userId.id.toString(),
       startTimestamp: guardReport.startTimestamp,
       endTimestamp: guardReport.endTimestamp
     };
@@ -52,14 +52,11 @@ export class GuardReportMap implements Mapper<GuardReport> {
       dto.recipient = guardReport.recipient;
     }
     if (guardReport.siteId) {
-      dto.siteId = guardReport.siteId;
+      dto.siteId = guardReport.guardReportId.id.toString();
     }
     if (guardReport.sentTimestamp) {
       dto.sendTimestamp = guardReport.sentTimestamp;
     }
-
     return dto;
   }
 }
-
-

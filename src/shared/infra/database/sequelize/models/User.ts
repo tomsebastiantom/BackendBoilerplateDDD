@@ -82,11 +82,11 @@ export default (sequelize, DataTypes) => {
       targetKey: 'id',
       as: 'tenant'
     });
-    User.hasMany(models.IncidentReport, {
-      foreignKey: 'userId',
-      as: 'incidentReports'
-    });
-    User.hasMany(models.Scan, { foreignKey: 'userId', as: 'scans' });
+    // User.hasMany(models.IncidentReport, {
+    //   foreignKey: 'userId',
+    //   as: 'incidentReports'
+    // });
+    // User.hasMany(models.Scan, { foreignKey: 'userId', as: 'scans' });
     User.hasMany(models.Patrol, { foreignKey: 'userId', as: 'patrols' });
   };
 

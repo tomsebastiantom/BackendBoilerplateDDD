@@ -1,6 +1,7 @@
-import { SequelizeUserRepo } from './implementations/sequelizeUserRepo';
-import models from '../../../shared/infra/database/sequelize/models';
 
-const userRepo = new SequelizeUserRepo(models);
+import { PrismaUserRepo } from './implementations/prismaUserRepo';
+import prisma from '../../../shared/infra/database/prisma';
+
+const userRepo  = new PrismaUserRepo(prisma);
 
 export { userRepo };

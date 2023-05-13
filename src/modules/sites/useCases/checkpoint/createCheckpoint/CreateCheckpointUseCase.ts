@@ -25,8 +25,8 @@ export class CreateCheckpointUseCase
       siteId: request.siteId,
       checkpointName: request.checkpointName,
       isActive: true,
-      creationDate: new Date(),
-      lastUpdatedDate: new Date()
+      creationTimestamp: request.creationTimestamp,
+      lastUpdatedTimestamp:request.lastUpdatedTimestamp,
     }).getValue();
 
     if (request.description) {

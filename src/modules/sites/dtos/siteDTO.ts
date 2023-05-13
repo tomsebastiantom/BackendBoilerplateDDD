@@ -5,8 +5,8 @@ import { Contact } from '../domain/contact';
 import { Instruction } from '../domain/instruction';
 
 export interface SiteDTO {
-  siteId: SiteId;
-  siteName: SiteName;
+  siteId: string;
+  siteName:string;
   address: Address;
   companyName: string;
   contacts?: [Contact];

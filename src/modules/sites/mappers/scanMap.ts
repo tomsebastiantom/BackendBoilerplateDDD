@@ -30,12 +30,12 @@ export class ScanMap implements Mapper<Scan> {
 
   public static toPersistence(scan: Scan): any {
     return {
-      id: scan.id.toString(),
-      siteId: scan.siteId.toString(),
-      userId: scan.userId.toString(),
+      id: scan.scanId.id.toString(),
+      siteId: scan.siteId.id.toString(),
+      userId: scan.userId.id.toString(),
       identifier: scan.identifier,
-      timestamp: scan.timestamp.toISOString(),
-      checkpointId: scan.checkpointId,
+      timestamp: scan.timestamp,
+      checkpointId: scan.checkpointId.id.toString(),
       location: scan.location,
       comment: scan.comment,
       assets: scan.assets,
@@ -47,8 +47,8 @@ export class ScanMap implements Mapper<Scan> {
       siteId: scan.siteId.id.toString(),
       userId: scan.userId.id.toString(),
       identifier: scan.identifier,
-      timestamp: scan.timestamp.getTime(),
-      checkpointId: scan.checkpointId,
+      timestamp: scan.timestamp,
+      checkpointId: scan.checkpointId.id.toString(),
       location: scan.location,
       comment: scan.comment,
       assets: scan.assets

@@ -1,11 +1,13 @@
-import { Site } from "../domain/site";
-import { SiteId } from "../domain/siteId";
+import { UserId } from '../../users/domain/userId';
+import { ReportId } from '../domain/ReportId';
+import { IncidentReport } from '../domain/incidentReport';
+import { SiteId } from '../domain/siteId';
 
-
-export interface ISiteRepo {
-    save (site: Site): Promise<void>
-    delete (site: Site): Promise<void>
-    //Todo getAll (): Promise<Site[]>  User Required 
-    update (siteId: SiteId, site: Site): Promise<void>
-    getBySiteId (siteId: SiteId): Promise<Site>   
+export interface IIncidentReportRepo {
+  save(incidentReport: IncidentReport): Promise<void>;
+  delete(incidentId: ReportId): Promise<void>;
+  update(incidentId: ReportId, incidentReport: IncidentReport): Promise<void>;
+  getAllByUserId(userId: UserId): Promise<[IncidentReport] | IncidentReport>;  
+  getAllBySiteId(siteId: SiteId): Promise<[IncidentReport] | IncidentReport>;
+  getByIncidentReportId(incidentId: ReportId): Promise<[IncidentReport]|IncidentReport>;
 }

@@ -1,10 +1,8 @@
 
-import { SiteId } from '../domain/siteId';
-import { UserId } from '../../users/domain/userId';
 
 export interface GuardReportDTO {
-  siteId?: SiteId;
-  userId:UserId;  
+  siteId?: String;
+  userId:String;  
   startTimestamp:Number; 
   endTimestamp:Number;
   sendTimestamp?:Number;

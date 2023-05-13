@@ -12,7 +12,8 @@ import { logoutController } from '../../../useCases/logout';
 const userRouter = express.Router();
 
 userRouter.post('/',
-  (req, res) => createUserController.execute(req, res)
+  (req, res) => {
+      createUserController.execute(req, res)}
 );
 
 userRouter.get('/me',

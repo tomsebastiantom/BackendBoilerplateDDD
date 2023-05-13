@@ -1,14 +1,12 @@
-import { UserId } from "../../users/domain/userId";
-import { CheckpointId } from "../domain/checkpointId";
-import { SiteId } from '../domain/siteId';
+
 
 export interface ScanDTO {
-    siteId: SiteId;
-    userId: UserId;
+    siteId: String;
+    userId: String;
     identifier: string;
-    timestamp: number;
-    checkpointId: CheckpointId;
+    timestamp: Number;
+    checkpointId: String;
     location: string;
     comment?: string;
-    assets?: string[];
+    assets?: [string];
   }

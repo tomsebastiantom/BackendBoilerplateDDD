@@ -10,7 +10,6 @@ v1Router.get('/', (req, res) => {
 
 v1Router.use('/users', userRouter);
 v1Router.use('/sites', siteRouter);
-// v1Router.use('/posts', postRouter);
-// v1Router.use('/comments', commentRouter);
+
 
 export { v1Router };

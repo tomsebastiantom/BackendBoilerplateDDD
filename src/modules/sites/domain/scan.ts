@@ -39,11 +39,20 @@ export class Scan extends Entity<ScanProps> {
   set timestamp(timestamp: Number) {
     this.props.timestamp = timestamp;
   }
-  get checkpointId(): string {
+  get checkpointId(): CheckpointId {
     return this.props.checkpointId;
   }
-  set checkpointId(checkpointId: string) {
+  set checkpointId(checkpointId: CheckpointId) {
     this.props.checkpointId = checkpointId;
+  }
+  get identifier(): string {
+    return this.props.identifier;
+  }
+  get comment(): string {
+    return this.props.comment;
+  }
+  get assets(): [string] {
+    return this.props.assets;
   }
   get location(): string {
     return this.props.location;

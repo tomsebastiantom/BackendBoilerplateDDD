@@ -1,8 +1,22 @@
-import { SequelizeCheckpointRepo } from './implementations/sequelizeCheckpointRepo';
-import { SequelizeSiteRepo } from './implementations/sequelizeSiteRepo';
-import models from '../../../shared/infra/database/sequelize/models';
 
-const checkpointRepo = new SequelizeCheckpointRepo(models);
-const siteRepo = new SequelizeSiteRepo(models);
+import { PrismaCheckpointRepo } from './implementations/prismaCheckpointRepo';
+import { PrismaSiteRepo } from './implementations/prismaSiteRepo';
+import { PrismaScanRepo } from './implementations/prismaScanRepo';
+import { PrismaGuardReportRepo } from './implementations/prismaGuardReportRepo';
+import { PrismaIncidentReportRepo } from './implementations/prismaIncidentReportRepo';
+import prisma from '../../../shared/infra/database/prisma';
 
-export { checkpointRepo, siteRepo };
+
+const checkpointRepo = new PrismaCheckpointRepo(prisma);
+const siteRepo = new PrismaSiteRepo(prisma);
+const scanRepo = new PrismaScanRepo(prisma);
+const guardReportRepo = new PrismaGuardReportRepo(prisma);
+const incidentReportRepo = new PrismaIncidentReportRepo(prisma);
+
+export {
+  checkpointRepo,
+  siteRepo,
+  scanRepo,
+  guardReportRepo,
+  incidentReportRepo
+};

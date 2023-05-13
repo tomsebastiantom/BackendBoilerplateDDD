@@ -37,7 +37,7 @@ export class DeactivateSiteUseCase
      
 
       site.isActive = false;
-      site.lastUpdatedDate = new Date();
+      // site.lastUpdatedDate = new Date();
 
       await this.siteRepo.save(site);
       return right(Result.ok<void>());

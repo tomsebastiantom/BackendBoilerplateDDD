@@ -1,6 +1,5 @@
 
 import type { RedisClientType } from 'redis'
-import { createClient } from 'redis'
 import * as jwt from 'jsonwebtoken'
 import * as uuid from "uuid"
 import randtoken from 'rand-token'
@@ -43,6 +42,7 @@ export class RedisAuthService extends AbstractRedisClient implements IAuthServic
   }
 
   public async saveAuthenticatedUser (user: User): Promise<void> {
+ 
     if (user.isLoggedIn()) {
       await this.addToken(user.username.value, user.refreshToken, user.accessToken);
     }
@@ -108,6 +108,9 @@ export class RedisAuthService extends AbstractRedisClient implements IAuthServic
    */
 
   public addToken (username: string, refreshToken: RefreshToken, token: JWTToken): Promise<any> {
+    console.log('Adding token to redis...',this.constructKey(username, refreshToken));
+    console.log('Token:',token);
+    console.log('Refresh token:',this.set(this.constructKey(username, refreshToken), token));
     return this.set(this.constructKey(username, refreshToken), token);
   }
 

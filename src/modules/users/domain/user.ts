@@ -88,6 +88,9 @@ export class User extends AggregateRoot<UserProps> {
   get refreshToken(): RefreshToken {
     return this.props.refreshToken;
   }
+  get isSuperAdmin(): boolean {
+    return this.props.isSuperAdmin;
+  }
 
   public isLoggedIn(): boolean {
     return !!this.props.accessToken && !!this.props.refreshToken;

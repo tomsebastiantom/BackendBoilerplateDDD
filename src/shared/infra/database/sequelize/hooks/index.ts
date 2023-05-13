@@ -8,8 +8,9 @@ const dispatchEventsCallback = (model: any, primaryKeyField: string) => {
 };
 
 (async function createHooksForAggregateRoots() {
-  const { User, Member, Post } = models;
-
+  // const { User } = models;
+// console.log("models",models)
+// console.log("User",User)
   // User.addHook('afterCreate', (m: any) =>
   //   dispatchEventsCallback(m, 'base_user_id')
   // );

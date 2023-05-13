@@ -31,8 +31,8 @@ export class IncidentReportMap implements Mapper<IncidentReport> {
   public static toPersistence(incidentReport: IncidentReport): any {
     return {
       id: incidentReport.incidentId.id.toString(),
-      siteId: incidentReport.siteId.toString(),
-      userId: incidentReport.userId.toString(),
+      siteId: incidentReport.siteId.id.toString(),
+      userId: incidentReport.userId.id.toString(),
       timeOfIncident: incidentReport.timeOfIncident,
       incidentType: incidentReport.incidentType,
       incidentDescription: incidentReport.incidentDescription,
@@ -43,8 +43,8 @@ export class IncidentReportMap implements Mapper<IncidentReport> {
 
   public static toDTO(incidentReport: IncidentReport): IncidentReportDTO {
     return {
-      siteId: incidentReport.siteId,
-      userId: incidentReport.userId,
+      siteId: incidentReport.siteId.toString(),
+      userId: incidentReport.userId.toString(),
       timeOfIncident: incidentReport.timeOfIncident,
       incidentType: incidentReport.incidentType,
       incidentDescription: incidentReport.incidentDescription,

@@ -37,8 +37,6 @@ export class UpdateSiteUseCase
         siteName: request.siteName,
         isActive: true,
         companyName: request.companyName,
-        creationDate: new Date(),
-        lastUpdatedDate: new Date(),
         address: addressOrError.getValue()
       },new UniqueEntityID(request.siteId.toString())).getValue();
 // Todo array of instruction make anything not required since only changed value needs to be send
@@ -48,8 +46,7 @@ export class UpdateSiteUseCase
       if (request.contacts) {
         updatedSite.contacts = request.contacts;
       }
-      updatedSite.creationDate = new Date();
-      updatedSite.lastUpdatedDate = new Date();
+   
       try {
         await this.siteRepo.save(updatedSite);
         return right(Result.ok<void>());

@@ -25,7 +25,7 @@ export class CheckpointMap implements Mapper<Checkpoint> {
   public static toPersistence(checkpoint: Checkpoint): any {
     return {
       checkpointId: checkpoint.checkpointId.id.toString(),
-      siteId: checkpoint.siteId.toString(),
+      siteId: checkpoint.siteId.id.toString(),
       checkpointName: checkpoint.checkpointName,
       description: checkpoint.description,
       isActive: checkpoint.isActive,
@@ -36,8 +36,8 @@ export class CheckpointMap implements Mapper<Checkpoint> {
 
   public static toDTO(checkpoint: Checkpoint): CheckpointDTO {
     return {
-      checkpointId: checkpoint.checkpointId,
-      siteId: checkpoint.siteId,
+      checkpointId: checkpoint.checkpointId.id.toString(),
+      siteId: checkpoint.siteId.id.toString(),
       checkpointName: checkpoint.checkpointName,
       description: checkpoint.description,
       isActive: checkpoint.isActive,

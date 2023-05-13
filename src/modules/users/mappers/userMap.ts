@@ -19,18 +19,20 @@ export class UserMap implements Mapper<User> {
 
   public static toDomain (raw: any): User {
     const userNameOrError = UserName.create({ name: raw.username });
-    const userPasswordOrError = UserPassword.create({ value: raw.user_password, hashed: true });
-    const userEmailOrError = UserEmail.create(raw.user_email);
-
+    const userPasswordOrError = UserPassword.create({ value: raw.password, hashed: true });
+    const userEmailOrError = UserEmail.create(raw.email);
+console.log('raw', raw);
+console.log('userEmailOrError', userEmailOrError);
+console.log('userPasswordOrError', userPasswordOrError);
+console.log('userNameOrError', userNameOrError);
     const userOrError = User.create({
       username: userNameOrError.getValue(),
-      isAdminUser: raw.is_admin_user,
+      isAdminUser: raw.isAdminUser,
       name:raw.name,
-      isDeleted: raw.is_deleted,
-      isEmailVerified: raw.is_email_verified,
+      isEmailVerified: raw.isEmailVerified,
       password: userPasswordOrError.getValue(),
       email: userEmailOrError.getValue(),
-    }, new UniqueEntityID(raw.base_user_id));
+    }, new UniqueEntityID(raw.id));
 
     userOrError.isFailure ? console.log(userOrError.getErrorValue()) : '';
 
@@ -48,13 +50,16 @@ export class UserMap implements Mapper<User> {
     }
 
     return {
-      user_id: user.userId.id.toString(),
-      user_email: user.email.value,
-      is_email_verified: user.isEmailVerified,
+      id: user.userId.id.toString(),
+      email: user.email.value,
+      name: user.name,
+      isEmailVerified: user.isEmailVerified,
       username: user.username.value,
-      user_password: password,
-      is_admin_user: user.isAdminUser,
-      is_deleted: user.isDeleted
+      password: password,
+      isAdminUser: user.isAdminUser,
+      isSuperAdmin : user.isSuperAdmin,
+      isDeleted: user.isDeleted,
+      lastLogin: user.lastLogin,
     }
   }
 }

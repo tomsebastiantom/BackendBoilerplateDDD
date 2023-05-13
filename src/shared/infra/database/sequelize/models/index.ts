@@ -25,11 +25,11 @@ function toCamelCase(str) {
 let models: any = {};
 let modelsLoaded = false;
 
-const createModels = () => {
+const createModels = async () => {
   if (modelsLoaded) return models;
 
   // Get all models
-  const modelsList = fs
+  const modelsPromises = fs
     .readdirSync(path.resolve(__dirname, './'))
     .filter(
       (t) =>
@@ -37,7 +37,13 @@ const createModels = () => {
         !~t.indexOf('index') &&
         !~t.indexOf('.map')
     )
-    .map((model) => sequelize.import(__dirname + '/' + model));
+    .map((model) => {
+      return import(path.join(__dirname, model)).then((modelModule) =>
+        modelModule.default(sequelize, Sequelize.DataTypes)
+      );
+    });
+
+  const modelsList = await Promise.all(modelsPromises);
 
   // Camel case the models
   for (let i = 0; i < modelsList.length; i++) {
@@ -60,6 +66,7 @@ const createModels = () => {
   return models;
 };
 
-export default createModels();
+const loadedModels = createModels();
 
+export default loadedModels;
 export { createModels };

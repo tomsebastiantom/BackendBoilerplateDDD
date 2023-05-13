@@ -13,8 +13,6 @@ export class SiteMap implements Mapper<Site> {
         siteName: raw.siteName,
         instructions: raw.description,
         isActive: raw.isActive,
-        creationTimestamp: raw.creationTimestamp,
-        lastUpdatedTimestamp: raw.lastUpdatedTimestamp,
         address: raw.address,
         companyName: raw.companyName,
         contacts: raw.contacts
@@ -29,8 +27,7 @@ export class SiteMap implements Mapper<Site> {
       siteId: site.siteId.id.toString(),
       siteName: site.siteName,
       instructions: site.instructions,
-      creationTimestamp: site.creationTimestamp,
-      lastUpdatedTimestamp: site.lastUpdatedTimestamp,
+     
       address: site.address,
       companyName: site.companyName,
       contacts: site.contacts
@@ -39,15 +36,15 @@ export class SiteMap implements Mapper<Site> {
 
   public static toDTO(site: Site): SiteDTO {
     return {
-      siteId: site.siteId,
+      siteId: site.siteId.id.toString(),
       siteName: site.siteName,
       instructions: site.instructions,
       isActive: site.isActive,
-      lastUpdatedTimestamp: site.lastUpdatedTimestamp,
       creationTimestamp: site.creationTimestamp,
-      address: site.address,
+      lastUpdatedTimestamp: site.lastUpdatedTimestamp,
+       address: site.address,
       companyName: site.companyName,
-      contacts: site.contacts
+      contacts: site.contacts,
     };
   }
 }

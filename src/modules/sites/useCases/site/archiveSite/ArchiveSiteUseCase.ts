@@ -26,7 +26,7 @@ export class ArchiveSiteUseCase
       }
 
       site.isActive = false;
-      site.lastUpdatedDate = new Date();
+      // site.lastUpdatedDate = new Date();
       site.isArchived = true;
 
       await this.siteRepo.save(site);

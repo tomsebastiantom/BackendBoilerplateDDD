@@ -8,7 +8,7 @@ import { CreateSiteErrors } from './CreateSiteErrors';
 import { CreateSiteResponse } from './CreateSiteResponse';
 import { Site } from '../../../domain/site';
 import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
-import { Address } from '../../../domain/address';
+import { Address } from '../../../../../shared/nexa/address';
 import { Contact } from '../../../domain/contact';
 import { Instruction } from '../../../domain/instruction';
 
@@ -37,8 +37,6 @@ export class CreateSiteUseCase
         siteName: request.siteName,
         isActive: true,
         companyName: request.companyName,
-        creationDate: new Date(),
-        lastUpdatedDate: new Date(),
         address: addressOrError.getValue()
       }).getValue();
 
@@ -48,8 +46,7 @@ export class CreateSiteUseCase
       if (request.contacts) {
         createdSite.contacts = request.contacts;
       }
-      createdSite.creationDate = new Date();
-      createdSite.lastUpdatedDate = new Date();
+  
       try {
         await this.siteRepo.save(createdSite);
         return right(Result.ok<void>());
