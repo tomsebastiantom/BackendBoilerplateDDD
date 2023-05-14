@@ -1,29 +1,28 @@
-import express from 'express'
-import { activateCheckpointController } from '../../../useCases/checkpoint/activateCheckpoint';
+import express from 'express';
+
 import { createCheckpointController } from '../../../useCases/checkpoint/createCheckpoint';
 import { deleteCheckpointController } from '../../../useCases/checkpoint/deleteCheckpoint';
-import { deactivateCheckpointController } from '../../../useCases/checkpoint/deactivateCheckpoint';
+import { getCheckpointController } from '../../../useCases/checkpoint/getCheckpoint';
 import { updateCheckpointController } from '../../../useCases/checkpoint/updateCheckpoint';
+import { getCheckpointBySiteIdController } from '../../../useCases/checkpoint/getCheckpointBySiteId';
 
 const checkpointRouter = express.Router();
 
-checkpointRouter.get('/activate',
-  (req, res) => activateCheckpointController.execute(req, res)
-)
+checkpointRouter.post('/', (req, res) =>
+  createCheckpointController.execute(req, res)
+);
+checkpointRouter.get('/:checkpointId', (req, res) =>
+  getCheckpointController.execute(req, res)
+);
+checkpointRouter.delete('/:checkpointId', (req, res) =>
+  deleteCheckpointController.execute(req, res)
+);
 
-checkpointRouter.get('/create',
-  (req, res) => createCheckpointController.execute(req, res)
-)
-checkpointRouter.get('/delete',
-  (req, res) => deleteCheckpointController.execute(req, res)
-)
-checkpointRouter.get('/deactivate',
-  (req, res) => deactivateCheckpointController.execute(req, res)
-)
-checkpointRouter.get('/update',
-  (req, res) => updateCheckpointController.execute(req, res)
-)
+checkpointRouter.put('/:checkpointId', (req, res) =>
+  updateCheckpointController.execute(req, res)
+);
+checkpointRouter.get('/:siteId', (req, res) =>
+  getCheckpointBySiteIdController.execute(req, res)
+);
 
-export {
-  checkpointRouter
-}
+export { checkpointRouter };

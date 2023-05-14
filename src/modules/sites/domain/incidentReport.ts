@@ -13,8 +13,8 @@ export interface IncidentReportProps {
   timeOfIncident: Number;
   incidentType: string;
   incidentDescription: string;
-  photos?: [string];
-  videos?: [string];
+  photos?: string[];
+  videos?: string[];
 }
 
 export class IncidentReport extends Entity<IncidentReportProps> {
@@ -41,11 +41,11 @@ export class IncidentReport extends Entity<IncidentReportProps> {
     return this.props.incidentDescription;
   }
 
-  get photos(): [string] | undefined {
+  get photos(): string[]{
     return this.props.photos;
   }
 
-  get videos(): [string] | undefined {
+  get videos(): string[] {
     return this.props.videos;
   }
 

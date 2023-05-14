@@ -1,7 +1,7 @@
 export class Result<T> {
   public isSuccess: boolean;
   public isFailure: boolean;
-  private error: T | string ;
+  private error: T | string;
   private _value: T;
 
   public constructor(isSuccess: boolean, error?: T | string | null, value?: T) {

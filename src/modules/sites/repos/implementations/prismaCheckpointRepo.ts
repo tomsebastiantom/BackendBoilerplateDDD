@@ -1,7 +1,5 @@
 import { ICheckpointRepo } from '../checkpointRepo';
 import { Checkpoint } from '../../domain/checkpoint';
-import { SiteId } from '../../domain/siteId';
-import { CheckpointId } from '../../domain/checkpointId';
 import { CheckpointMap } from '../../mappers/checkpointMap';
 
 export class PrismaCheckpointRepo implements ICheckpointRepo {
@@ -16,7 +14,7 @@ export class PrismaCheckpointRepo implements ICheckpointRepo {
       const rawCheckpoints = checkpoint.map((checkpoint) =>
         CheckpointMap.toPersistence(checkpoint)
       );
-      await CheckpointModel.bulkCreate(rawCheckpoints);
+      await CheckpointModel.createMany(rawCheckpoints);
       return;
     } else {
       const rawCheckpoint = CheckpointMap.toPersistence(checkpoint);
@@ -24,37 +22,46 @@ export class PrismaCheckpointRepo implements ICheckpointRepo {
       return;
     }
   }
-  async delete(checkpointId: CheckpointId): Promise<void> {
+  async delete(checkpointId: string): Promise<void> {
     const CheckpointModel = this.models.checkpoints;
-    await CheckpointModel.destroy({ where: { id: checkpointId.id } });
+    await CheckpointModel.destroy({ where: { id: checkpointId } });
   }
 
-  async getAll(siteId: SiteId): Promise<Checkpoint[]> {
+  async getBySiteId(siteId: string): Promise<Checkpoint[]|Checkpoint> {
     const CheckpointModel = this.models.checkpoints;
-    const rawCheckpoints = await CheckpointModel.findAll({
-      where: { siteId: siteId.id }
+    const rawCheckpoints = await CheckpointModel.findMany({
+      where: { siteId: siteId }
     });
-    const checkpoints = rawCheckpoints.map((rawCheckpoint) =>
-      CheckpointMap.toDomain(rawCheckpoint)
-    );
-    return checkpoints;
+ 
+    if (Array.isArray(rawCheckpoints)) {  
+      const checkpoints = rawCheckpoints.map((rawCheckpoint) =>
+        CheckpointMap.toDomain(rawCheckpoint)
+      );
+      return checkpoints;
+    } else {  
+      const checkpoint = CheckpointMap.toDomain(rawCheckpoints);
+      return checkpoint;
+    }
+  
   }
   async update(
-    checkpointId: CheckpointId,
+    checkpointId: string,
     checkpoint: Checkpoint
   ): Promise<void> {
     const CheckpointModel = this.models.Checkpoint;
     const rawCheckpoint = CheckpointMap.toPersistence(checkpoint);
-    await CheckpointModel.update(rawCheckpoint, {
-      where: { id: checkpointId.id }
+    await CheckpointModel.update({
+      data: { ...rawCheckpoint },
+      where: { id: checkpointId }
     });
     return;
   }
-  async getByCheckpointId(checkpointId: CheckpointId): Promise<Checkpoint> {
+  async getByCheckpointId(checkpointId: string): Promise<Checkpoint> {
     const CheckpointModel = this.models.checkpoints;
     const rawCheckpoint = await CheckpointModel.findUnique({
-      where: { id: checkpointId.id }
+      where: { id: checkpointId }
     });
+   
     const checkpoint = CheckpointMap.toDomain(rawCheckpoint);
     return checkpoint;
   }

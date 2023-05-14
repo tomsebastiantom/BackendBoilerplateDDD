@@ -3,6 +3,6 @@ import { SiteId } from '../../../domain/siteId';
 
 export interface GetCheckpointDTO {
 
-    checkpointId: CheckpointId;
+    checkpointId: string;
    
 }

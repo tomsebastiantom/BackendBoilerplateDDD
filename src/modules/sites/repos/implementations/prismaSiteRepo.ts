@@ -18,25 +18,30 @@ export class PrismaSiteRepo implements ISiteRepo {
   }
   async delete(site: Site): Promise<void> {
     const SiteModel = this.models.Site;
-    await SiteModel.destroy({ where: { siteId: site.siteId.id } });
+    await SiteModel.delete({ where: { siteId: site.siteId.id } });
     return;
   }
 
   async update(siteId: SiteId, site: Site): Promise<void> {
     const SiteModel = this.models.Site;
     const rawSite = SiteMap.toPersistence(site);
-    await SiteModel.update(rawSite, { where: { siteId: siteId.id } });
+    await SiteModel.update(
+      { data: { ...rawSite } },
+      { where: { siteId: siteId.id } }
+    );
     return;
   }
   async getBySiteId(siteId: SiteId): Promise<Site> {
     const SiteModel = this.models.Site;
-    const rawSite = await SiteModel.findOne({ where: { siteId: siteId.id } });
+    const rawSite = await SiteModel.findUnique({
+      where: { siteId: siteId.id }
+    });
     const site = SiteMap.toDomain(rawSite);
     return site;
   }
   async getAll(tenantId: TenantId): Promise<Site[]> {
     const SiteModel = this.models.Site;
-    const rawSites = await SiteModel.findAll({
+    const rawSites = await SiteModel.findMany({
       where: { tenantId: tenantId.id }
     });
     const sites = rawSites.map((rawSite) => SiteMap.toDomain(rawSite));

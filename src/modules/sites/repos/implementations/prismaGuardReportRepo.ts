@@ -1,9 +1,8 @@
 import { GuardReport } from '../../domain/guardReport';
-import { SiteId } from '../../domain/siteId';
+
 import { ReportId } from '../../domain/ReportId';
 import { GuardReportMap } from '../../mappers/guardReportMap';
 import { IGuardReportRepo } from '../guardReportRepo';
-import { UserId } from '../../../users/domain/userId';
 
 export class PrismaGuardReportRepo implements IGuardReportRepo {
   private models: any;
@@ -16,45 +15,61 @@ export class PrismaGuardReportRepo implements IGuardReportRepo {
     const rawguardReport = GuardReportMap.toPersistence(guardReport);
     await GuardReportModel.create({ data: { ...rawguardReport } });
   }
-  async delete(guardReportId: ReportId): Promise<void> {
+  async delete(guardReportId: string): Promise<void> {
     const GuardReportModel = this.models.guardReports;
-    await GuardReportModel.destroy({ where: { id: guardReportId.id } });
+    await GuardReportModel.destroy({ where: { id: guardReportId } });
   }
 
-  async getAllBySiteId(siteId: SiteId): Promise<[GuardReport]> {
+  async getBySiteId(siteId: string): Promise<GuardReport | GuardReport[]> {
     const GuardReportModel = this.models.guardReports;
-    const rawGuardReports = await GuardReportModel.findAll({
-      where: { siteId: siteId.id }
+    const rawGuardReport = await GuardReportModel.findMany({
+      where: { siteId: siteId }
     });
-    const GuardReports = rawGuardReports.map((rawGuardReport) =>
-      GuardReportMap.toDomain(rawGuardReport)
-    );
-    return GuardReports;
+    if (Array.isArray(rawGuardReport)) {
+      const guardReport = rawGuardReport.map((rawGuardReport) =>
+        GuardReportMap.toDomain(rawGuardReport)
+      );
+      return guardReport;
+    } else {
+      const guardReport = GuardReportMap.toDomain(rawGuardReport);
+      return guardReport;
+    }
   }
   async update(
-    guardReportId: ReportId,
+    guardReportId: string,
     guardReport: GuardReport
   ): Promise<void> {
     const GuardReportModel = this.models.guardReports;
     const rawGuardReport = GuardReportMap.toPersistence(guardReport);
-    await GuardReportModel.update(rawGuardReport, {
-      where: { id: guardReportId.id }
-    });
+    await GuardReportModel.update(
+      { data: { ...rawGuardReport } },
+      {
+        where: { id: guardReportId }
+      }
+    );
   }
-  async getByGuardReportId(guardReportId: ReportId): Promise<GuardReport> {
+  async getByGuardReportId(guardReportId: string): Promise<GuardReport> {
     const GuardReportModel = this.models.guardReports;
     const rawGuardReport = await GuardReportModel.findUnique({
-      where: { id: guardReportId.id }
+      where: { id: guardReportId }
     });
-    const GuardReport = GuardReportMap.toDomain(rawGuardReport);
-    return GuardReport;
+    const guardReport = GuardReportMap.toDomain(rawGuardReport);
+    return guardReport;
   }
-  async getByUserId(userId: UserId): Promise<GuardReport> {
+  async getByUserId(userId: string): Promise<GuardReport | GuardReport[]> {
     const GuardReportModel = this.models.guardReports;
-    const rawGuardReport = await GuardReportModel.findAll({
-      where: { userId: userId.id }
+    const rawGuardReport = await GuardReportModel.findMany({
+      where: { userId: userId }
     });
-    const GuardReport = GuardReportMap.toDomain(rawGuardReport);
-    return GuardReport;
+
+    if (Array.isArray(rawGuardReport)) {
+      const guardReport = rawGuardReport.map((rawGuardReport) =>
+        GuardReportMap.toDomain(rawGuardReport)
+      );
+      return guardReport;
+    } else {
+      const guardReport = GuardReportMap.toDomain(rawGuardReport);
+      return guardReport;
+    }
   }
 }

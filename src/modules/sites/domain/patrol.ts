@@ -13,8 +13,8 @@ export interface PatrolProps {
   siteId?: SiteId;
   type: PatrolType;
   userId: UserId;
-  siteIds?: [SiteId];
-  instructions?: [Instruction];
+  siteIds?: SiteId[];
+  instructions?: Instruction[];
  }
 
 export class Patrol extends Entity<PatrolProps> {
@@ -30,17 +30,17 @@ export class Patrol extends Entity<PatrolProps> {
   get userId(): UserId {
     return this.props.userId;
   }
-  get siteIds(): [SiteId] {
+  get siteIds(): SiteId[] {
     return this.props.siteIds;
   }
-  get instructions(): [Instruction] {
+  get instructions(): Instruction[] {
     return this.props.instructions;
   }
  
-  set instructions(instructions: [Instruction]) {
+  set instructions(instructions: Instruction[]) {
     this.props.instructions = instructions;
   }
-  set siteIds(siteIds: [SiteId]) {
+  set siteIds(siteIds: SiteId[]) {
     this.props.siteIds = siteIds;
   }
   set siteId(siteId: SiteId) {

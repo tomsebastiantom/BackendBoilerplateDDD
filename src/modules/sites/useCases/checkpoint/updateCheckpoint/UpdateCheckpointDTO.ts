@@ -5,9 +5,7 @@ export interface UpdateCheckpointDTO {
     checkpointName: string;
     description?: string;
     isActive?: boolean;
-    creationTimestamp?: Number;
-    lastUpdatedTimestamp?: Number;
-    checkpointId: CheckpointId;
+    checkpointId: string;
     latitude?: number;
     longitude?: number;
     siteId: SiteId; 

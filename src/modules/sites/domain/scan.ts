@@ -16,7 +16,7 @@ export interface ScanProps {
   checkpointId: CheckpointId;
   location: string;
   comment?: string;
-  assets?: [string];
+  assets?: string[];
 }
 
 export class Scan extends Entity<ScanProps> {
@@ -51,7 +51,7 @@ export class Scan extends Entity<ScanProps> {
   get comment(): string {
     return this.props.comment;
   }
-  get assets(): [string] {
+  get assets(): string[] {
     return this.props.assets;
   }
   get location(): string {

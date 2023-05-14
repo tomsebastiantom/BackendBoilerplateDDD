@@ -14,9 +14,9 @@ export interface SiteProps {
   siteName: SiteName;
   address: Address;
   companyName: string;
-  contacts?: [Contact];
+  contacts?: Contact[];
   isActive: boolean;
-  instructions?: [Instruction];
+  instructions?: Instruction[];
   creationTimestamp?: Number;
   lastUpdatedTimestamp?: Number;
    isArchived?: boolean;
@@ -51,7 +51,7 @@ export class Site extends AggregateRoot<SiteProps> {
     this.props.isActive = isActive;
   }
 
-  get instructions(): [Instruction] {
+  get instructions(): Instruction[] {
     return this.props.instructions;
   }
   set creationTimestamp(creationTimestamp: Number) {
@@ -66,7 +66,7 @@ export class Site extends AggregateRoot<SiteProps> {
   get lastUpdatedTimestamp(): Number {
     return this.props.lastUpdatedTimestamp;
   }
-  get contacts(): [Contact] {
+  get contacts(): Contact[] {
     return this.props.contacts;
   }
   public addContact(contact: Contact): void {
@@ -76,10 +76,10 @@ export class Site extends AggregateRoot<SiteProps> {
   public addInstruction(instruction: Instruction): void {
     this.props.instructions.push(instruction);
   }
-  set instructions(instructions: [Instruction]) {
+  set instructions(instructions: Instruction[]) {
     this.props.instructions = instructions;
   }
-  set contacts(contacts: [Contact]) {
+  set contacts(contacts: Contact[]) {
     this.props.contacts = contacts;
   }
   private constructor(props: SiteProps, id?: UniqueEntityID) {
@@ -88,7 +88,7 @@ export class Site extends AggregateRoot<SiteProps> {
   //Todo Guard against null or undefined
   public static create(props: SiteProps, id?: UniqueEntityID): Result<Site> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
-      { argument: props.siteName, argumentName: 'memberId' }
+      { argument: props.siteName, argumentName: 'siteName' }
     ]);
 
     if (nullGuard.isFailure) {

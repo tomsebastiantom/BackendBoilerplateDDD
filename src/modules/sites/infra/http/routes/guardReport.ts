@@ -1,35 +1,34 @@
-import express from 'express'
-import { activateSiteController } from '../../../useCases/site/activateSite';
-import { createSiteController } from '../../../useCases/site/createSite';
-import { deleteSiteController } from '../../../useCases/site/deleteSite';
-import { deactivateSiteController } from '../../../useCases/site/deactivateSite';
-import { updateSiteController } from '../../../useCases/site/updateSite';
-import { archiveSiteController } from '../../../useCases/site/archiveSite';
+import express from 'express';
+import { createGuardReportController } from '../../../useCases/guardReport/createGuardReport';
+import { deleteGuardReportController } from '../../../useCases/guardReport/deleteGuardReport';
+import { getGuardReportByIdController } from '../../../useCases/guardReport/getGuardReportById';
+import { getGuardReportBySiteIdController } from '../../../useCases/guardReport/getGuardReportBySiteId';
+import { updateGuardReportController } from '../../../useCases/guardReport/updateGuardReport';
+import { getGuardReportByUserIdController } from '../../../useCases/guardReport/getGuardReportByUserId';
 
-const siteRouter = express.Router();
+const guardReportRouter = express.Router();
 
-siteRouter.get('/mge',
-  (req, res) => activateSiteController.execute(req, res)
-)
+guardReportRouter.post('/', (req, res) =>
+  createGuardReportController.execute(req, res)
+);
+guardReportRouter.get('/:siteId', (req, res) =>
+  getGuardReportBySiteIdController.execute(req, res)
+);
 
-siteRouter.get('/deactivate',
-  (req, res) => deactivateSiteController.execute(req, res)
-)
-siteRouter.get('/me',
-  (req, res) => deleteSiteController.execute(req, res)
-)
+guardReportRouter.get('/:userId', (req, res) =>
+  getGuardReportByUserIdController.execute(req, res)
+);
 
-siteRouter.get('/username',
-  (req, res) => updateSiteController.execute(req, res)
-)
-siteRouter.get('/mee',
-  (req, res) => createSiteController.execute(req, res)
-)
+guardReportRouter.get('/:guardReportId', (req, res) =>
+  getGuardReportByIdController.execute(req, res)
+);
 
-siteRouter.get('/ert',
-  (req, res) => archiveSiteController.execute(req, res)
-)
+guardReportRouter.put('/:guardReportId', (req, res) =>
+  updateGuardReportController.execute(req, res)
+);
 
-export {
-  siteRouter
-}
+guardReportRouter.delete('/:guardReportId', (req, res) =>
+  deleteGuardReportController.execute(req, res)
+);
+
+export { guardReportRouter };

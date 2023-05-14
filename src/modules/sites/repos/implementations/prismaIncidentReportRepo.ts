@@ -17,52 +17,64 @@ export class PrismaIncidentReportRepo implements IIncidentReportRepo {
     await IncidentReportModel.create({ data: { ...rawIncidentReports } });
     return;
   }
-  async delete(incidentId: ReportId): Promise<void> {
+  async delete(incidentId: string): Promise<void> {
     const IncidentReportModel = this.models.incidentReports;
-    await IncidentReportModel.destroy({ where: { id: incidentId.id } });
+    await IncidentReportModel.destroy({ where: { id: incidentId} });
   }
 
   async update(
-    incidentId: ReportId,
+    incidentId: string,
     incidentReport: IncidentReport
   ): Promise<void> {
     const IncidentReportModel = this.models.incidentReports;
     const rawIncidentReport = IncidentReportMap.toPersistence(incidentReport);
-    await IncidentReportModel.update(rawIncidentReport, {
-      where: { IncidentReportId: incidentId.id }
+    await IncidentReportModel.update({
+      data: { ...rawIncidentReport },
+      where: { IncidentReportId: incidentId }
     });
     return;
   }
-  async getByIncidentReportId(incidentId: ReportId): Promise<IncidentReport> {
+  async getByIncidentReportId(incidentId: string): Promise<IncidentReport> {
     const IncidentReportModel = this.models.incidentReports;
     const rawIncidentReport = await IncidentReportModel.findUnique({
-      where: { IncidentReportId: incidentId.id }
+      where: { IncidentReportId: incidentId }
     });
     const IncidentReport = IncidentReportMap.toDomain(rawIncidentReport);
     return IncidentReport;
   }
-  async getAllBySiteId(
-    siteId: SiteId
-  ): Promise<[IncidentReport] | IncidentReport> {
+  async getBySiteId(
+    siteId: string
+  ): Promise<IncidentReport[]|IncidentReport> {
     const IncidentReportModel = this.models.incidentReports;
-    const rawIncidentReport = await IncidentReportModel.findAll({
-      where: { siteId: siteId.id }
+    const rawIncidentReport = await IncidentReportModel.findMany({
+      where: { siteId: siteId }
     });
-    //check if exist or if an array
-
-    const IncidentReport = IncidentReportMap.toDomain(rawIncidentReport);
-    return IncidentReport;
+    if (Array.isArray(rawIncidentReport)) {
+      const incidentReport = rawIncidentReport.map((rawIncidentReport) =>
+        IncidentReportMap.toDomain(rawIncidentReport)
+      );
+      return incidentReport;
+    } else {
+      const incidentReport = IncidentReportMap.toDomain(rawIncidentReport);
+      return incidentReport;
+    }
   }
-  async getAllByUserId(
-    userId: UserId
-  ): Promise<[IncidentReport] | IncidentReport> {
+  async getByUserId(
+    userId: string
+  ): Promise<IncidentReport[]|IncidentReport> {
     const IncidentReportModel = this.models.incidentReports;
-    const rawIncidentReport = await IncidentReportModel.findAll({
-      where: { userId: userId.id }
+    const rawIncidentReport = await IncidentReportModel.findMany({
+      where: { userId: userId }
     });
-    //check if exist or if an array
-
-    const IncidentReport = IncidentReportMap.toDomain(rawIncidentReport);
-    return IncidentReport;
+    //check if  rawIncidentReport is an array or not
+    if (Array.isArray(rawIncidentReport)) {
+      const incidentReport = rawIncidentReport.map((rawIncidentReport) =>
+        IncidentReportMap.toDomain(rawIncidentReport)
+      );
+      return incidentReport;
+    } else {
+      const incidentReport = IncidentReportMap.toDomain(rawIncidentReport);
+      return incidentReport;
+    }
   }
 }

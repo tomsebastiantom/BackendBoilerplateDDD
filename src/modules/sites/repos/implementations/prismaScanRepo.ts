@@ -19,19 +19,22 @@ export class PrismaScanRepo implements IScanRepo {
   }
   async delete(scanId: ScanId): Promise<void> {
     const SiteModel = this.models.Scan;
-    await SiteModel.destroy({ where: { id: scanId.id } });
+    await SiteModel.delete({ where: { id: scanId.id } });
     return;
   }
 
   async update(ScanId: ScanId, Scan: Scan): Promise<void> {
     const ScanModel = this.models.Scan;
     const rawScan = ScanMap.toPersistence(Scan);
-    await ScanModel.update(rawScan, { where: { ScanId: ScanId.id } });
+    await ScanModel.update(
+      { data: { ...rawScan } },
+      { where: { ScanId: ScanId.id } }
+    );
     return;
   }
   async getByCheckpointId(checkpointId: CheckpointId): Promise<Scan | [Scan]> {
     const ScanModel = this.models.Scan;
-    const rawScans = await ScanModel.findAll({
+    const rawScans = await ScanModel.findMany({
       where: { id: checkpointId.id }
     });
     const Scans = rawScans.map((rawScan) => ScanMap.toDomain(rawScan));
@@ -39,13 +42,13 @@ export class PrismaScanRepo implements IScanRepo {
   }
   async getAllBySiteId(siteId: SiteId): Promise<Scan | [Scan]> {
     const ScanModel = this.models.Scan;
-    const rawScan = await ScanModel.findAll({ where: { siteId: siteId.id } });
+    const rawScan = await ScanModel.findMany({ where: { siteId: siteId.id } });
     const Scan = ScanMap.toDomain(rawScan);
     return Scan;
   }
   async getAllByUserId(userId: UserId): Promise<Scan | [Scan]> {
     const ScanModel = this.models.Scan;
-    const rawScan = await ScanModel.findAll({ where: { userId: userId.id } });
+    const rawScan = await ScanModel.findMany({ where: { userId: userId.id } });
     const Scan = ScanMap.toDomain(rawScan);
     return Scan;
   }

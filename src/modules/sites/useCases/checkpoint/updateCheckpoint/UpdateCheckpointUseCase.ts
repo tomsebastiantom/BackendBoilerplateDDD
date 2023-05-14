@@ -20,26 +20,26 @@ export class UpdateCheckpointUseCase
   public async execute(
     request: UpdateCheckpointDTO
   ): Promise<UpdateCheckpointResponse> {
-    const UpdatedCheckpoint = Checkpoint.create(
-      {
+    try {
+      let newcheckpoint: any = {
         siteId: request.siteId,
         checkpointName: request.checkpointName,
-        creationTimestamp: request.creationTimestamp,
-        lastUpdatedTimestamp: request.lastUpdatedTimestamp,
-      },
-      new UniqueEntityID(request.checkpointId.toString())
-    ).getValue();
-
-    if (request.description) {
-      UpdatedCheckpoint.description = request.description;
-    }
-   
-    if (request.isActive) {
-        UpdatedCheckpoint.isActive = request.isActive;
-    }
-
-    try {
-      await this.checkPointRepo.save(UpdatedCheckpoint);
+        description: request.description
+      };
+      if (request.latitude) {
+        newcheckpoint.latitude = request.latitude;
+      }
+      if (request.longitude) {
+        newcheckpoint.longitude = request.longitude;
+      }
+      if (request.isActive) {
+        newcheckpoint.isActive = request.isActive;
+      }
+      const updatedCheckpoint: Checkpoint = Checkpoint.create(
+        newcheckpoint,
+        new UniqueEntityID(request.checkpointId.toString())
+      ).getValue();
+      await this.checkPointRepo.update(request.checkpointId, updatedCheckpoint);
       return right(Result.ok<void>());
     } catch (err) {
       return left(new AppError.UnexpectedError(err));
