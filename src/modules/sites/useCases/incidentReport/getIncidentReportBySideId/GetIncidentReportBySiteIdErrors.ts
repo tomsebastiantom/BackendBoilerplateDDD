@@ -5,7 +5,7 @@ export namespace GetIncidentReportBySiteIdErrors {
   export class IncidentIdForSiteIdNotValidError extends Result<UseCaseError> {
     constructor(siteId: string) {
       super(false, {
-        message: ` ${siteId} is not a valid address`
+        message: ` ${siteId} is not a valid `
       } as UseCaseError);
     }
   }

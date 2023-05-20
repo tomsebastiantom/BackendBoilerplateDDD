@@ -1,11 +1,11 @@
 
 
 export interface GuardReportDTO {
-  siteId?: String;
-  userId:String;  
-  startTimestamp:Number; 
-  endTimestamp:Number;
-  sendTimestamp?:Number;
+  siteId?: string;
+  userId:string;  
+  startTimestamp:number; 
+  endTimestamp:number;
+  sendTimestamp?:number;
   recipient?: string;
 }
 

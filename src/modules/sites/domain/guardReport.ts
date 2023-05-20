@@ -10,9 +10,9 @@ import { UserId } from '../../users/domain/userId';
 export interface GuardReportProps {
   siteId?: SiteId;
   userId: UserId;
-  startTimestamp: Number;
-  endTimestamp: Number;
-  sentTimestamp?: Number;
+  startTimestamp: number;
+  endTimestamp: number;
+  sentTimestamp?: number;
   recipient?: string;
 }
 
@@ -29,15 +29,15 @@ export class GuardReport extends Entity<GuardReportProps> {
     return this.props.userId;
   }
 
-  get startTimestamp(): Number {
+  get startTimestamp(): number {
     return this.props.startTimestamp;
   }
 
-  get endTimestamp(): Number {
+  get endTimestamp(): number {
     return this.props.endTimestamp;
   }
 
-  get sentTimestamp(): Number {
+  get sentTimestamp(): number {
    
     return this.props.sentTimestamp;
   }

@@ -2,7 +2,7 @@ import { checkpointRepo, scanRepo } from '../../../repos';
 import { CreateScanController } from './CreateScanController';
 import { CreateScanUseCase } from './CreateScanUseCase';
 
-const createSiteUseCase = new CreateScanUseCase(scanRepo,checkpointRepo);
-const createSiteController = new CreateScanController(createSiteUseCase);
+const createScanUseCase = new CreateScanUseCase(scanRepo,checkpointRepo);
+const createScanController = new CreateScanController(createScanUseCase);
 
-export { createSiteUseCase, createSiteController };
+export { createScanUseCase, createScanController };

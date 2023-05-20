@@ -2,14 +2,14 @@ import { BaseController } from '../../../../../shared/infra/http/models/BaseCont
 import { DecodedExpressRequest } from '../../../../users/infra/http/models/decodedRequest';
 import * as express from 'express';
 
-import { GetIncidentReportByIdDTO } from './GetIncidentReportByUserIdDTO';
-import { GetIncidentReportByIdErrors } from './GetIncidentReportByUserIdErrors';
-import { GetIncidentReportByIdUseCase } from './GetIncidentReportByUserIdUseCase';
+import { GetIncidentReportByUserIdDTO } from './GetIncidentReportByUserIdDTO';
+import { GetIncidentReportByUserIdErrors } from './GetIncidentReportByUserIdErrors';
+import { GetIncidentReportByUserIdUseCase } from './GetIncidentReportByUserIdUseCase';
 
-export class GetIncidentReportByIdController extends BaseController {
-  private useCase: GetIncidentReportByIdUseCase;
+export class GetIncidentReportByUserIdController extends BaseController {
+  private useCase: GetIncidentReportByUserIdUseCase;
 
-  constructor(useCase: GetIncidentReportByIdUseCase) {
+  constructor(useCase: GetIncidentReportByUserIdUseCase) {
     super();
     this.useCase = useCase;
   }
@@ -18,7 +18,7 @@ export class GetIncidentReportByIdController extends BaseController {
     req: DecodedExpressRequest,
     res: express.Response
   ): Promise<any> {
-    const dto: GetIncidentReportByIdDTO = req.body as GetIncidentReportByIdDTO;
+    const dto: GetIncidentReportByUserIdDTO = req.body as GetIncidentReportByUserIdDTO;
     try {
       const result = await this.useCase.execute(dto);
 
@@ -26,7 +26,7 @@ export class GetIncidentReportByIdController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case GetIncidentReportByIdErrors.IncidentIdNotValidError:
+          case GetIncidentReportByUserIdErrors.UserIdNotValidError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

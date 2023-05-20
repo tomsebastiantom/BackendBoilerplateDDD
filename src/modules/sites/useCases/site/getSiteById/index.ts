@@ -1,9 +1,9 @@
-import { CreateSiteController } from "./GetSiteByIdController";
-import { CreateSiteUseCase } from "./GetSiteByIdUseCase";
+import { GetSiteByIdController } from "./GetSiteByIdController";
+import { GetSiteByIdUseCase } from "./GetSiteByIdUseCase";
 import { siteRepo } from "../../../repos";
 
 
-const createSiteUseCase = new CreateSiteUseCase(siteRepo);
-const createSiteController = new CreateSiteController(createSiteUseCase);
+const getSiteByIdUseCase = new GetSiteByIdUseCase(siteRepo);
+const getSiteByIdController = new GetSiteByIdController(getSiteByIdUseCase);
 
-export { createSiteUseCase, createSiteController };
+export { getSiteByIdController,getSiteByIdUseCase };

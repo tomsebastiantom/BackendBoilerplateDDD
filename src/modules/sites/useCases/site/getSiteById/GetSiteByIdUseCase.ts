@@ -28,6 +28,8 @@ export class GetSiteByIdUseCase
           return right(Result.ok<Site[]>(site));
         }
         return right(Result.ok<Site>(site));
+      }else{
+        return left(new AppError.UnexpectedError('Either siteId or tenantId must be provided'));
       }
     } catch (err) {
       return left(new AppError.UnexpectedError(err));

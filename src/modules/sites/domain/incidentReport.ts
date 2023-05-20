@@ -10,7 +10,7 @@ import { UserId } from '../../users/domain/userId';
 export interface IncidentReportProps {
   siteId: SiteId;
   userId: UserId;
-  timeOfIncident: Number;
+  timeOfIncident: number;
   incidentType: string;
   incidentDescription: string;
   photos?: string[];
@@ -29,7 +29,7 @@ export class IncidentReport extends Entity<IncidentReportProps> {
     return this.props.userId;
   }
 
-  get timeOfIncident(): Number {
+  get timeOfIncident(): number {
     return this.props.timeOfIncident;
   }
 

@@ -1,29 +1,34 @@
 import express from 'express'
-import { activateCheckpointController } from '../../../useCases/checkpoint/activateCheckpoint';
-import { createCheckpointController } from '../../../useCases/checkpoint/createCheckpoint';
-import { deleteCheckpointController } from '../../../useCases/checkpoint/deleteCheckpoint';
-import { deactivateCheckpointController } from '../../../useCases/checkpoint/deactivateCheckpoint';
-import { updateCheckpointController } from '../../../useCases/checkpoint/updateCheckpoint';
 
-const checkpointRouter = express.Router();
+import { createIncidentReportController } from '../../../useCases/incidentReport/createIncidentReport';
+import { deleteIncidentReportController } from '../../../useCases/incidentReport/deleteIncidentReport';
+import { getIncidentReportBySiteIdController } from '../../../useCases/incidentReport/getIncidentReportBySideId';
+import { getIncidentReportByIdController } from '../../../useCases/incidentReport/getIncidentByIdReport';
+import { updateIncidentReportController } from '../../../useCases/incidentReport/updateIncidentReport';
+import { getIncidentReportByUserIdController } from '../../../useCases/incidentReport/getIncidentReportByUserId';
 
-checkpointRouter.get('/me',
-  (req, res) => activateCheckpointController.execute(req, res)
-)
+const incidentReportRouter = express.Router();
 
-checkpointRouter.get('/:username',
-  (req, res) => createCheckpointController.execute(req, res)
+
+incidentReportRouter.post('/',
+  (req, res) => createIncidentReportController.execute(req, res)
 )
-checkpointRouter.get('/:username',
-  (req, res) => deleteCheckpointController.execute(req, res)
+incidentReportRouter.delete('/:incidentReportId',
+  (req, res) => deleteIncidentReportController.execute(req, res)
 )
-checkpointRouter.get('/:username',
-  (req, res) => deactivateCheckpointController.execute(req, res)
+incidentReportRouter.put('/:incidentReportId',
+  (req, res) => updateIncidentReportController.execute(req, res)
 )
-checkpointRouter.get('/:username',
-  (req, res) => updateCheckpointController.execute(req, res)
+incidentReportRouter.get('/:siteId',
+  (req, res) => getIncidentReportBySiteIdController.execute(req, res)
+)
+incidentReportRouter.get('/:incidentReportId',
+  (req, res) => getIncidentReportByIdController.execute(req, res)
+)
+incidentReportRouter.get('/:userId',
+  (req, res) => getIncidentReportByUserIdController.execute(req, res)
 )
 
 export {
-  checkpointRouter
+  incidentReportRouter
 }

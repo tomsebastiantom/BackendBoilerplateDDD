@@ -1,8 +1,8 @@
-import { siteRepo } from '../../../repos';
-import { UpdateSiteController } from './UpdateSiteController';
-import { UpdateSiteUseCase } from './UpdateSiteUseCase';
+import { scanRepo,checkpointRepo } from '../../../repos';
+import { UpdateScanController } from './UpdateScanController';
+import { UpdateScanUseCase } from './UpdateScanUseCase';
 
-const updateSiteUseCase = new UpdateSiteUseCase(siteRepo);
-const updateSiteController = new UpdateSiteController(updateSiteUseCase);
+const updateScanUseCase = new UpdateScanUseCase(scanRepo,checkpointRepo);
+const updateScanController = new UpdateScanController(updateScanUseCase);
 
-export { updateSiteUseCase, updateSiteController };
+export { updateScanUseCase, updateScanController };

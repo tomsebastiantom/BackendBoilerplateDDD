@@ -30,5 +30,8 @@ guardReportRouter.put('/:guardReportId', (req, res) =>
 guardReportRouter.delete('/:guardReportId', (req, res) =>
   deleteGuardReportController.execute(req, res)
 );
+guardReportRouter.delete('/:siteId', (req, res) =>
+  deleteGuardReportController.execute(req, res)
+);
 
 export { guardReportRouter };

@@ -13,7 +13,7 @@ export interface ScanProps {
   siteId: SiteId;
   userId: UserId;
   identifier: string;
-  timestamp: Number;
+  timestamp: number;
   checkpointId: CheckpointId;
   location: Location;
   comment?: string;
@@ -34,10 +34,10 @@ export class Scan extends Entity<ScanProps> {
     return ScanId.create(this._id).getValue();
   }
 
-  get timestamp(): Number {
+  get timestamp(): number {
     return this.props.timestamp;
   }
-  set timestamp(timestamp: Number) {
+  set timestamp(timestamp: number) {
     this.props.timestamp = timestamp;
   }
   get checkpointId(): CheckpointId {

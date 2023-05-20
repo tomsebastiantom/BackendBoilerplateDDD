@@ -7,7 +7,7 @@ import { DeleteGuardReportResponse } from './DeleteGuardReportResponse';
 import { DeleteGuardReportErrors } from './DeleteGuardReportErrors';
 import { IGuardReportRepo } from '../../../repos/guardReportRepo';
 import { GuardReport } from '../../../domain/guardReport';
-import { ReportId } from '../../../domain/ReportId';
+
 export class DeleteGuardReportUseCase
   implements UseCase<DeleteGuardReportDTO, Promise<DeleteGuardReportResponse>>
 {
@@ -21,17 +21,25 @@ export class DeleteGuardReportUseCase
     request: DeleteGuardReportDTO
   ): Promise<DeleteGuardReportResponse> {
     try {
-      const guardReport: GuardReport =
-        await this.guardReportRepo.getByGuardReportId(request.ReportId);
+      if (!request.reportId) {
+        const guardReport: GuardReport =
+          await this.guardReportRepo.getByGuardReportId(
+            request.reportId as string
+          );
 
-      const guardReportFound = !!guardReport === true;
-      if (!guardReportFound) {
-        return left(
-          new DeleteGuardReportErrors.GuardReportIdNotValidError(request.ReportId)
-        );
+        const guardReportFound = !!guardReport === true;
+        if (!guardReportFound) {
+          return left(
+            new DeleteGuardReportErrors.GuardReportIdNotValidError(
+              request.reportId as string
+            )
+          );
+        }
+
+        await this.guardReportRepo.delete(request.reportId as string);
+      } else if (request.siteId) {
+        await this.guardReportRepo.deleteBySiteId(request.siteId);
       }
-
-      await this.guardReportRepo.delete(request.ReportId);
 
       return right(Result.ok<void>());
     } catch (err) {

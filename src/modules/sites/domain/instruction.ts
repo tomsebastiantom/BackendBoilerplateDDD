@@ -9,7 +9,7 @@ import { InstructionType } from './instructionType';
 interface InstructionProps {
   instructionType: string;
   instructionDescription: string;
-  instructionCreationTimestamp: Number;
+  instructionCreationTimestamp: number;
   // visibility: Visibility;
 }
 
@@ -20,7 +20,7 @@ export class Instruction extends ValueObject<InstructionProps> {
   get instructionDescription(): string {
     return this.props.instructionDescription;
   }
-  get instructionCreationTimestamp(): Number {
+  get instructionCreationTimestamp(): number {
     return this.props.instructionCreationTimestamp;
   }
   // get visibility(): Visibility {

@@ -8,21 +8,22 @@ import { getCheckpointBySiteIdController } from '../../../useCases/checkpoint/ge
 
 const checkpointRouter = express.Router();
 
-checkpointRouter.post('/', (req, res) =>
-  createCheckpointController.execute(req, res)
-);
-checkpointRouter.get('/:checkpointId', (req, res) =>
-  getCheckpointController.execute(req, res)
-);
-checkpointRouter.delete('/:checkpointId', (req, res) =>
-  deleteCheckpointController.execute(req, res)
-);
+checkpointRouter.post('/',
+  (req, res) => createCheckpointController.execute(req, res)
+)
+checkpointRouter.delete('/:checkpointId',
+  (req, res) => deleteCheckpointController.execute(req, res)
+)
+checkpointRouter.put('/:checkpointId',
+  (req, res) => updateCheckpointController.execute(req, res)
+)
+checkpointRouter.get('/:siteId',
+  (req, res) => getCheckpointBySiteIdController.execute(req, res)
+)
+checkpointRouter.get('/:checkpointId',
+  (req, res) => getCheckpointController.execute(req, res)
+)
 
-checkpointRouter.put('/:checkpointId', (req, res) =>
-  updateCheckpointController.execute(req, res)
-);
-checkpointRouter.get('/:siteId', (req, res) =>
-  getCheckpointBySiteIdController.execute(req, res)
-);
-
-export { checkpointRouter };
+export {
+  checkpointRouter
+}

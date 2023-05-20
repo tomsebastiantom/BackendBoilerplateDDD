@@ -10,7 +10,7 @@ export interface UpdateSiteDTO {
     contact?: ContactDTO;
     contacts?: ContactDTO[];
     instruction?: InstructionDTO;
-    instructions?: InstructionDTO[] ;
+    instructions?: InstructionDTO[];
     tenantId?: string;
    
   }

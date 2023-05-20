@@ -60,14 +60,14 @@ export class UpdateScanUseCase
 
       const scanOrError = Scan.create(
         newScan,
-        new UniqueEntityID(request.siteId.toString())
+        new UniqueEntityID(request.scanId.toString())
       );
       if (scanOrError.isFailure) {
         return left(
           Result.fail<any>(scanOrError.getErrorValue().toString())
         ) as UpdateScanResponse;
       }
-      await this.scanRepo.update(request.scanId, scanOrError.getValue());
+      await this.scanRepo.update(request.scanId, scanOrError.getValue() as Scan);
 
       return right(Result.ok<Scan>(scanOrError.getValue()));
     } catch (err) {

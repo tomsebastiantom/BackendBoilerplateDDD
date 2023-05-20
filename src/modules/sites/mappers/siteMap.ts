@@ -27,7 +27,6 @@ export class SiteMap implements Mapper<Site> {
       siteId: site.siteId.id.toString(),
       siteName: site.siteName,
       instructions: site.instructions,
-     
       address: site.address,
       companyName: site.companyName,
       contacts: site.contacts
@@ -35,14 +34,13 @@ export class SiteMap implements Mapper<Site> {
   }
 
   public static toDTO(site: Site): SiteDTO {
+    
     return {
       siteId: site.siteId.id.toString(),
       siteName: site.siteName,
       instructions: site.instructions,
       isActive: site.isActive,
-      creationTimestamp: site.creationTimestamp,
-      lastUpdatedTimestamp: site.lastUpdatedTimestamp,
-       address: site.address,
+      address: site.address,
       companyName: site.companyName,
       contacts: site.contacts,
     };

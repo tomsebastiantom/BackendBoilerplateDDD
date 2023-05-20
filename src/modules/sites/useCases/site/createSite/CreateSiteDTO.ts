@@ -23,7 +23,7 @@ export interface CreateSiteDTO {
   export interface InstructionDTO {
     instructionType: string;
     instructionDescription: string;
-    instructionCreationTimestamp: Number;
+    instructionCreationTimestamp: number;
 
   }
 

@@ -1,11 +1,11 @@
 
 
 export interface ScanDTO {
-    siteId: String;
-    userId: String;
+    siteId: string;
+    userId: string;
     identifier: string;
-    timestamp: Number;
-    checkpointId: String;
+    timestamp: number;
+    checkpointId: string;
     location: string;
     comment?: string;
     assets?: string[];

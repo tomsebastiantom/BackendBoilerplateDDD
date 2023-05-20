@@ -1,35 +1,44 @@
 import express from 'express'
-import { activateSiteController } from '../../../useCases/site/activateSite';
-import { createSiteController } from '../../../useCases/site/createSite';
-import { deleteSiteController } from '../../../useCases/site/deleteSite';
-import { deactivateSiteController } from '../../../useCases/site/deactivateSite';
-import { updateSiteController } from '../../../useCases/site/updateSite';
-import { archiveSiteController } from '../../../useCases/site/archiveSite';
 
-const siteRouter = express.Router();
+import { createScanController } from '../../../useCases/scan/createScan';
+import { updateScanController } from '../../../useCases/scan/updateScan';
+import { deleteScanController } from '../../../useCases/scan/deleteScan';
+import { getScanByIdController } from '../../../useCases/scan/getScanById';
 
-siteRouter.get('/me',
-  (req, res) => activateSiteController.execute(req, res)
+const scanRouter = express.Router();
+
+
+scanRouter.post('/',
+  (req, res) => createScanController.execute(req, res)
 )
 
-siteRouter.get('/:username',
-  (req, res) => deactivateSiteController.execute(req, res)
+scanRouter.delete('/:scanId',
+  (req, res) => deleteScanController.execute(req, res)
 )
-siteRouter.get('/me',
-  (req, res) => deleteSiteController.execute(req, res)
+scanRouter.delete('/:siteId',
+  (req, res) => deleteScanController.execute(req, res)
 )
-
-siteRouter.get('/:username',
-  (req, res) => updateSiteController.execute(req, res)
-)
-siteRouter.get('/me',
-  (req, res) => createSiteController.execute(req, res)
+scanRouter.delete('/:checkpointId',
+  (req, res) => deleteScanController.execute(req, res)
 )
 
-siteRouter.get('/:username',
-  (req, res) => archiveSiteController.execute(req, res)
+scanRouter.put('/:scanId',
+  (req, res) => updateScanController.execute(req, res)
+)
+
+scanRouter.get('/:scanId',
+  (req, res) =>getScanByIdController.execute(req, res)
+)
+scanRouter.get('/:userId',
+  (req, res) =>getScanByIdController.execute(req, res)
+)
+scanRouter.get('/:checkpointId',
+  (req, res) =>getScanByIdController.execute(req, res)
+)
+scanRouter.get('/:siteId',
+  (req, res) =>getScanByIdController.execute(req, res)
 )
 
 export {
-  siteRouter
+  scanRouter
 }

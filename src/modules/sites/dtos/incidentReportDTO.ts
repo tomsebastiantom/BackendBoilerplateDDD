@@ -1,8 +1,8 @@
 
 export interface IncidentReportDTO {
-  siteId: String;
-  userId: String;
-  timeOfIncident: Number;
+  siteId: string;
+  userId: string;
+  timeOfIncident: number;
   incidentType: string;
   incidentDescription: string;
   photos?: string[];
