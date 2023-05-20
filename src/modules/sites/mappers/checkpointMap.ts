@@ -11,8 +11,7 @@ export class CheckpointMap implements Mapper<Checkpoint> {
         checkpointName: raw.checkpointName,
         description: raw.description,
         isActive: raw.isActive,
-        creationTimestamp: raw.creationTimestamp,
-        lastUpdatedTimestamp: raw.lastUpdatedTimestamp,
+        identifier: raw.identifier,
         siteId: raw.siteId
       },
       new UniqueEntityID(raw.checkpointId)
@@ -29,8 +28,7 @@ export class CheckpointMap implements Mapper<Checkpoint> {
       checkpointName: checkpoint.checkpointName,
       description: checkpoint.description,
       isActive: checkpoint.isActive,
-      creationTimestamp: checkpoint.creationTimestamp,
-      lastUpdatedTimestamp: checkpoint.lastUpdatedTimestamp
+      identifier: checkpoint.identifier
     };
   }
 
@@ -41,8 +39,7 @@ export class CheckpointMap implements Mapper<Checkpoint> {
       checkpointName: checkpoint.checkpointName,
       description: checkpoint.description,
       isActive: checkpoint.isActive,
-      lastUpdatedTimestamp: checkpoint.lastUpdatedTimestamp,
-      creationTimestamp: checkpoint.creationTimestamp
+      identifier: checkpoint.identifier,
     };
   }
 }

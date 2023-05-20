@@ -5,7 +5,7 @@ import { CreateSiteErrors } from "./CreateSiteErrors";
 
 export type CreateSiteResponse = Either<
   CreateSiteErrors.AddressNotValidError |
-  AppError.UnexpectedError |
-  Result<any>,
+  AppError.UnexpectedError ,
+  Result<any>|
   Result<void>
 >

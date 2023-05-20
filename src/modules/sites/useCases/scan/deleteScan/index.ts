@@ -1,8 +1,8 @@
-import { siteRepo } from '../../../repos';
-import { DeleteSiteController } from './DeleteSiteController';
-import { DeleteSiteUseCase } from './DeleteSiteUseCase';
+import { scanRepo } from '../../../repos';
+import { DeleteScanController } from './DeleteScanController';
+import { DeleteScanUseCase } from './DeleteScanUseCase';
 
-const deleteSiteUseCase = new DeleteSiteUseCase(siteRepo);
-const deleteSiteController = new DeleteSiteController(deleteSiteUseCase);
+const deleteScanUseCase = new DeleteScanUseCase(scanRepo);
+const deleteScanController = new DeleteScanController(deleteScanUseCase);
 
-export { deleteSiteUseCase, deleteSiteController };
+export { deleteScanUseCase, deleteScanController };

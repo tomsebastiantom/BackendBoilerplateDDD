@@ -1,15 +1,39 @@
-import { SiteName } from "../../../domain/siteName";
-import { Address } from "../../../../../shared/nexa/address";
-import { Contact } from "../../../domain/contact";
-import { Instruction } from "../../../domain/instruction";
+
 
 export interface CreateSiteDTO {
 
-    siteName: SiteName;
-    address: Address;
+    siteName: string;
+    address: AddressDTO;
     companyName: string;
-    contacts?: [Contact];
+    contacts?: ContactDTO[];
+    contact?: ContactDTO;
     isActive: boolean;
-    instructions?: [Instruction];
-   
+    instruction?: InstructionDTO;
+    instructions?: InstructionDTO[];
+    tenantId?: string;
   }
+
+
+  export interface ContactDTO {
+    contactName: string;
+    contactPhone?: string;
+    contactEmail: string;
+    contactRole: string;
+  }
+  export interface InstructionDTO {
+    instructionType: string;
+    instructionDescription: string;
+    instructionCreationTimestamp: Number;
+
+  }
+
+  export interface AddressDTO {
+    city: string;
+    state: string;
+    country?: string;
+    postalCode: string;
+  }
+ 
+ 
+  
+

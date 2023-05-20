@@ -1,57 +1,81 @@
-import { Either, Result, left, right } from '../../../../../shared/core/Result';
 import { AppError } from '../../../../../shared/core/AppError';
+import { Either, left, Result, right } from '../../../../../shared/core/Result';
 import { UseCase } from '../../../../../shared/core/UseCase';
-import { Address } from '../../../../../shared/nexa/address';
-import { ISiteRepo } from '../../../repos/siteRepo';
+import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
+import { IncidentReport } from '../../../domain/incidentReport';
+import { IIncidentReportRepo } from '../../../repos/incidentReportRepo';
 import { UpdateIncidentReportDTO } from './UpdateIncidentReportDTO';
 import { UpdateIncidentReportErrors } from './UpdateIncidentReportErrors';
 import { UpdateIncidentReportResponse } from './UpdateIncidentReportResponse';
-import { Site } from '../../../domain/site';
-
 
 export class UpdateIncidentReportUseCase
-  implements UseCase<UpdateIncidentReportDTO, Promise<UpdateIncidentReportResponse>>
+  implements
+    UseCase<UpdateIncidentReportDTO, Promise<UpdateIncidentReportResponse>>
 {
-  private siteRepo: ISiteRepo;
+  private incidentReportRepo: IIncidentReportRepo;
 
-  constructor(siteRepo: ISiteRepo) {
-    this.siteRepo = siteRepo;
+  constructor(incidentReportRepo: IIncidentReportRepo) {
+    this.incidentReportRepo = incidentReportRepo;
   }
 
-  public async execute(request: UpdateIncidentReportDTO): Promise<UpdateIncidentReportResponse> {
-    //Todo Validation and Error Handling
-    const errors = [];
-    const addressOrError = Address.create(request.address);
-    // const contactsOrError = Contact.create(request.contacts)
-    // const instructionsOrError = Instruction.create(request.instructions)
-    // if (addressOrError.isFailure) errors.push(addressOrError.error)
-    // if (contactsOrError.isFailure) errors.push(contactsOrError.error)
-    // if (instructionsOrError.isFailure) errors.push(instructionsOrError.error)
-    if (addressOrError.isFailure)
-      return left(new UpdateIncidentReportErrors.AddressNotValidError(request.address));
-    else {
-      const createdSite = Site.create({
-        siteName: request.siteName,
-        isActive: true,
-        companyName: request.companyName,
-
-
-        address: addressOrError.getValue()
-      }).getValue();
-
-      if (request.instructions) {
-        createdSite.instructions = request.instructions;
+  public async execute(
+    request: UpdateIncidentReportDTO
+  ): Promise<UpdateIncidentReportResponse> {
+    try {
+      const incidentReport: IncidentReport =
+        await this.incidentReportRepo.getByIncidentReportId(
+          request.incidentReportId
+        );
+      if (!incidentReport) {
+        return left(
+          new UpdateIncidentReportErrors.IncidentReportIdNotValidError(
+            request.incidentReportId
+          )
+        ) as UpdateIncidentReportResponse;
       }
-      if (request.contacts) {
-        createdSite.contacts = request.contacts;
+      let newIncidentReport: any = {
+        ...incidentReport
+      };
+
+      if (request.userId) {
+        newIncidentReport.userId = request.userId;
       }
-      
-      try {
-        await this.siteRepo.save(createdSite);
-        return right(Result.ok<void>());
-      } catch (err) {
-        return left(new AppError.UnexpectedError(err));
+      if (request.siteId) {
+        newIncidentReport.siteId = request.siteId;
       }
+      if (request.timeOfIncident) {
+        newIncidentReport.timeOfIncident = request.timeOfIncident;
+      }
+      if (request.incidentDescription) {
+        newIncidentReport.incidentDescription = request.incidentDescription;
+      }
+      if (request.incidentType) {
+        newIncidentReport.incidentType = request.incidentType;
+      }
+      if (request.photos) {
+        newIncidentReport.photos = request.photos;
+      }
+      if (request.videos) {
+        newIncidentReport.videos = request.videos;
+      }
+      const incidentReportOrError: Result<IncidentReport> =
+        IncidentReport.create(
+          newIncidentReport,
+          new UniqueEntityID(request.incidentReportId.toString())
+        );
+      if (incidentReportOrError.isFailure) {
+        return left(
+          Result.fail<any>(incidentReportOrError.getErrorValue().toString())
+        ) as UpdateIncidentReportResponse;
+      } else {
+        await this.incidentReportRepo.update(
+          request.incidentReportId,
+          incidentReportOrError.getValue()
+        );
+        return right(Result.ok<IncidentReport>(incidentReport));
+      }
+    } catch (err) {
+      return left(new AppError.UnexpectedError(err));
     }
   }
 }

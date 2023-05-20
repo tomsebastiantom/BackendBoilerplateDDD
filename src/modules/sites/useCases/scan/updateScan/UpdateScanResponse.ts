@@ -1,10 +1,11 @@
-import { Either,Result } from "../../../../../shared/core/Result";
-import { AppError } from "../../../../../shared/core/AppError";
-import { UpdateSiteErrors } from "./UpdateSiteErrors";
 
-export type UpdateSiteResponse = Either<
-  UpdateSiteErrors.SiteIdNotFoundError |
-  AppError.UnexpectedError |
-  Result<any>,
+import { AppError } from '../../../../../shared/core/AppError';
+import { Either, Result } from '../../../../../shared/core/Result';
+import { UpdateScanErrors } from './UpdateScanErrors';
+
+export type UpdateScanResponse = Either<
+  UpdateScanErrors.ScanIdNotValidError |
+  AppError.UnexpectedError ,
+  Result<any>|
   Result<void>
 >

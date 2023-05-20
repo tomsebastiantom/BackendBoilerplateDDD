@@ -4,8 +4,8 @@ import { TenantId } from "../../users/domain/tenantId";
 
 export interface ISiteRepo {
     save (site: Site): Promise<void>
-    delete (site: Site): Promise<void>
-    getAll (tenantId:TenantId): Promise<Site[]> 
-    update (siteId: SiteId, site: Site): Promise<void>
-    getBySiteId (siteId: SiteId): Promise<Site>   
+    delete (siteId: string): Promise<void>
+    update (siteId: string, site: Site): Promise<void>
+    getBySiteId (siteId: string): Promise<Site>   
+    getByTenantId (tenantId: string): Promise<Site|Site[]>
 }

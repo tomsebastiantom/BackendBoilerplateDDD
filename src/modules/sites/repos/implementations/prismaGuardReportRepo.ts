@@ -17,7 +17,7 @@ export class PrismaGuardReportRepo implements IGuardReportRepo {
   }
   async delete(guardReportId: string): Promise<void> {
     const GuardReportModel = this.models.guardReports;
-    await GuardReportModel.destroy({ where: { id: guardReportId } });
+    await GuardReportModel.delete({ where: { id: guardReportId } });
   }
 
   async getBySiteId(siteId: string): Promise<GuardReport | GuardReport[]> {
@@ -35,10 +35,7 @@ export class PrismaGuardReportRepo implements IGuardReportRepo {
       return guardReport;
     }
   }
-  async update(
-    guardReportId: string,
-    guardReport: GuardReport
-  ): Promise<void> {
+  async update(guardReportId: string, guardReport: GuardReport): Promise<void> {
     const GuardReportModel = this.models.guardReports;
     const rawGuardReport = GuardReportMap.toPersistence(guardReport);
     await GuardReportModel.update(

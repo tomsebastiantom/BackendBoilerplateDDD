@@ -3,7 +3,7 @@ import { AppError } from '../../../../../shared/core/AppError';
 import { UseCase } from '../../../../../shared/core/UseCase';
 
 import { ISiteRepo } from '../../../repos/siteRepo';
-import { CreateSiteDTO } from './CreateSiteDTO';
+import { AddressDTO, CreateSiteDTO } from './CreateSiteDTO';
 import { CreateSiteErrors } from './CreateSiteErrors';
 import { CreateSiteResponse } from './CreateSiteResponse';
 import { Site } from '../../../domain/site';
@@ -22,37 +22,69 @@ export class CreateSiteUseCase
   }
 
   public async execute(request: CreateSiteDTO): Promise<CreateSiteResponse> {
-    //Todo Validation and Error Handling
-    const errors = [];
-    const addressOrError = Address.create(request.address);
-    // const contactsOrError = Contact.create(request.contacts)
-    // const instructionsOrError = Instruction.create(request.instructions)
-    // if (addressOrError.isFailure) errors.push(addressOrError.error)
-    // if (contactsOrError.isFailure) errors.push(contactsOrError.error)
-    // if (instructionsOrError.isFailure) errors.push(instructionsOrError.error)
-    if (addressOrError.isFailure)
-      return left(new CreateSiteErrors.AddressNotValidError(request.address));
-    else {
-      const createdSite = Site.create({
-        siteName: request.siteName,
-        isActive: true,
-        companyName: request.companyName,
-        address: addressOrError.getValue()
-      }).getValue();
+    try {
+      let address: AddressDTO = {
+        city: request.address.city,
+        state: request.address.state,
 
-      if (request.instructions) {
-        createdSite.instructions = request.instructions;
+        postalCode: request.address.postalCode
+      };
+      if (request.address.country) {
+        address.country = request.address.country;
       }
+      const addressOrError = Address.create(address);
+
+      if (addressOrError.isFailure)
+        return left(
+          new CreateSiteErrors.AddressNotValidError(
+            addressOrError.getErrorValue()
+          )
+        );
+      let newSite: any = {};
       if (request.contacts) {
-        createdSite.contacts = request.contacts;
+        const contacts = request.contacts.map((contact) => {
+          Contact.create(contact);
+        });
+        newSite.contacts = contacts;
       }
-    
-      try {
-        await this.siteRepo.save(createdSite);
-        return right(Result.ok<void>());
-      } catch (err) {
-        return left(new AppError.UnexpectedError(err));
+      if (request.contact) {
+        const contact = Contact.create(request.contact);
+        newSite.contact = contact;
       }
+      if (request.instructions) {
+        const instructions = request.instructions.map((instruction) => {
+          Instruction.create(instruction);
+        });
+        newSite.instructions = instructions;
+      }
+      if (request.instruction) {
+        const instruction = Instruction.create(request.instruction);
+        newSite.instruction = instruction;
+      }
+
+      newSite.siteName = request.siteName;
+
+      newSite.companyName = request.companyName;
+      newSite.isActive = true;
+      newSite.isArchived = false;
+      if (request.tenantId) {
+        newSite.tenantId = request.tenantId;
+      }
+
+      const siteOrError = Site.create({
+        ...newSite,
+        address: addressOrError.getValue()
+      });
+      if (siteOrError.isFailure) {
+        return left(
+          Result.fail<any>(siteOrError.getErrorValue().toString())
+        ) as CreateSiteResponse;
+      }
+
+      await this.siteRepo.save(siteOrError.getValue());
+      return right(Result.ok<Site>(siteOrError.getValue()));
+    } catch (err) {
+      return left(new AppError.UnexpectedError(err));
     }
   }
 }

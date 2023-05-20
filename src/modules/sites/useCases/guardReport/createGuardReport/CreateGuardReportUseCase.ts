@@ -3,7 +3,6 @@ import { AppError } from '../../../../../shared/core/AppError';
 import { UseCase } from '../../../../../shared/core/UseCase';
 
 import { CreateGuardReportDTO } from './CreateGuardReportDTO';
-import { CreateGuardReportErrors } from './CreateGuardReportErrors';
 import { CreateGuardReportResponse } from './CreateGuardReportResponse';
 import { IGuardReportRepo } from '../../../repos/guardReportRepo';
 import { GuardReport } from '../../../domain/guardReport';

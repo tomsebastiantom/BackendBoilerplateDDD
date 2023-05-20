@@ -11,11 +11,11 @@ interface CheckpointProps {
   checkpointName: string;
   description?: string;
   isActive?: boolean;
-  creationTimestamp: Number;
-  lastUpdatedTimestamp: Number;
+  creationTimestamp?: Number;
+  lastUpdatedTimestamp?: Number;
   location?: Location;
   siteId: SiteId;
-  identifier?: string;
+  identifier: string;
 }
 
 export class Checkpoint extends Entity<CheckpointProps> {

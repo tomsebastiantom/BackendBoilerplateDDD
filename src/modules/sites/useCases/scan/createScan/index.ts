@@ -1,8 +1,8 @@
-import { siteRepo } from '../../../repos';
-import { CreateSiteController } from './CreateSiteController';
-import { CreateSiteUseCase } from './CreateSiteUseCase';
+import { checkpointRepo, scanRepo } from '../../../repos';
+import { CreateScanController } from './CreateScanController';
+import { CreateScanUseCase } from './CreateScanUseCase';
 
-const createSiteUseCase = new CreateSiteUseCase(siteRepo);
-const createSiteController = new CreateSiteController(createSiteUseCase);
+const createSiteUseCase = new CreateScanUseCase(scanRepo,checkpointRepo);
+const createSiteController = new CreateScanController(createSiteUseCase);
 
 export { createSiteUseCase, createSiteController };

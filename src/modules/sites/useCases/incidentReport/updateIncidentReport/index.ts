@@ -1,10 +1,10 @@
-import { DeleteIncidentReportController } from './DeleteIncidentReportController';
-import { DeleteIncidentReportUseCase } from './DeleteIncidentReportUseCase';
-import { siteRepo } from '../../../repos';
+import { incidentReportRepo } from '../../../repos';
+import { UpdateIncidentReportController } from './UpdateIncidentReportController';
+import { UpdateIncidentReportUseCase } from './UpdateIncidentReportUseCase';
 
-const deleteIncidentReportUseCase = new DeleteIncidentReportUseCase(siteRepo);
-const deleteIncidentReportController = new DeleteIncidentReportController(
-  deleteIncidentReportUseCase
+const updateIncidentReportUseCase = new UpdateIncidentReportUseCase(incidentReportRepo);
+const updateIncidentReportController = new UpdateIncidentReportController(
+  updateIncidentReportUseCase
 );
 
-export { deleteIncidentReportUseCase, deleteIncidentReportController };
+export { updateIncidentReportUseCase, updateIncidentReportController };

@@ -4,7 +4,7 @@ import { User } from '../../domain/user';
 import { UserMap } from '../../mappers/userMap';
 import { UserEmail } from '../../domain/userEmail';
 
-export class SequelizeUserRepo implements IUserRepo {
+export class SequelizeUserRepo  {
   private models: any;
 
   constructor(models: any) {

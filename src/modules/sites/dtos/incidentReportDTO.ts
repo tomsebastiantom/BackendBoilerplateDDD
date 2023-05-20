@@ -5,6 +5,6 @@ export interface IncidentReportDTO {
   timeOfIncident: Number;
   incidentType: string;
   incidentDescription: string;
-  photos?: [string];
-  videos?: [string];
+  photos?: string[];
+  videos?: string[];
 }

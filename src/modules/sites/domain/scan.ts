@@ -7,6 +7,7 @@ import { UserId } from '../../users/domain/userId';
 import { Entity } from '../../../shared/domain/Entity';
 import { ScanId } from './scanId';
 import { CheckpointId } from './checkpointId';
+import { Location } from './location';
 
 export interface ScanProps {
   siteId: SiteId;
@@ -14,7 +15,7 @@ export interface ScanProps {
   identifier: string;
   timestamp: Number;
   checkpointId: CheckpointId;
-  location: string;
+  location: Location;
   comment?: string;
   assets?: string[];
 }
@@ -54,10 +55,10 @@ export class Scan extends Entity<ScanProps> {
   get assets(): string[] {
     return this.props.assets;
   }
-  get location(): string {
+  get location(): Location {
     return this.props.location;
   }
-  set location(location: string) {
+  set location(location: Location) {
     this.props.location = location;
   }
 

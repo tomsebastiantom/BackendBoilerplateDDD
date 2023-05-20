@@ -1,11 +1,11 @@
 
 import { AppError } from '../../../../../shared/core/AppError';
 import { Either, Result } from '../../../../../shared/core/Result';
-import { DeleteSiteErrors } from './DeleteSiteErrors';
+import { DeleteScanErrors } from './DeleteScanErrors';
 
-export type DeleteSiteResponse = Either<
-  DeleteSiteErrors.SiteIdNotFoundError |
-  AppError.UnexpectedError |
-  Result<any>,
+export type DeleteScanResponse = Either<
+  DeleteScanErrors.SiteIdNotValidError |
+  AppError.UnexpectedError ,
+  Result<any>|
   Result<void>
 >

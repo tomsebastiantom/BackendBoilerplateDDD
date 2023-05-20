@@ -17,9 +17,8 @@ export interface SiteProps {
   contacts?: Contact[];
   isActive: boolean;
   instructions?: Instruction[];
-  creationTimestamp?: Number;
-  lastUpdatedTimestamp?: Number;
-   isArchived?: boolean;
+  isArchived?: boolean;
+  tenantId?: string;
 }
 
 //Todo Domain Events
@@ -54,18 +53,18 @@ export class Site extends AggregateRoot<SiteProps> {
   get instructions(): Instruction[] {
     return this.props.instructions;
   }
-  set creationTimestamp(creationTimestamp: Number) {
-    this.props.creationTimestamp = creationTimestamp;
-  }
-  get creationTimestamp(): Number {
-    return this.props.creationTimestamp;
-  }
-  set lastUpdatedTimestamp(lastUpdatedTimestamp: Number) {
-    this.props.lastUpdatedTimestamp = lastUpdatedTimestamp;
-  }
-  get lastUpdatedTimestamp(): Number {
-    return this.props.lastUpdatedTimestamp;
-  }
+  // set creationTimestamp(creationTimestamp: Number) {
+  //   this.props.creationTimestamp = creationTimestamp;
+  // }
+  // get creationTimestamp(): Number {
+  //   return this.props.creationTimestamp;
+  // }
+  // set lastUpdatedTimestamp(lastUpdatedTimestamp: Number) {
+  //   this.props.lastUpdatedTimestamp = lastUpdatedTimestamp;
+  // }
+  // get lastUpdatedTimestamp(): Number {
+  //   return this.props.lastUpdatedTimestamp;
+  // }
   get contacts(): Contact[] {
     return this.props.contacts;
   }

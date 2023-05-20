@@ -23,8 +23,9 @@ export class GetCheckpointUseCase
    
 
     try {
-      await this.checkPointRepo.getByCheckpointId(request.checkpointId)
-      return right(Result.ok<void>());
+      const checkpoint:Checkpoint   = await this.checkPointRepo.getByCheckpointId(request.checkpointId)
+    
+      return right(Result.ok<Checkpoint>(checkpoint));
     } catch (err) {
       return left(new AppError.UnexpectedError(err));
     }

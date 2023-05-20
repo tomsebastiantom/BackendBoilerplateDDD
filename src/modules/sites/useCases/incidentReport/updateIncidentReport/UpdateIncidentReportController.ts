@@ -1,7 +1,7 @@
-import { BaseController } from '../../../../../shared/infra/http/models/BaseController';
-import { DecodedExpressRequest } from '../../../../users/infra/http/models/decodedRequest';
 import * as express from 'express';
 
+import { BaseController } from '../../../../../shared/infra/http/models/BaseController';
+import { DecodedExpressRequest } from '../../../../users/infra/http/models/decodedRequest';
 import { UpdateIncidentReportDTO } from './UpdateIncidentReportDTO';
 import { UpdateIncidentReportErrors } from './UpdateIncidentReportErrors';
 import { UpdateIncidentReportUseCase } from './UpdateIncidentReportUseCase';
@@ -26,7 +26,7 @@ export class UpdateIncidentReportController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case UpdateIncidentReportErrors.AddressNotValidError:
+          case UpdateIncidentReportErrors.IncidentReportIdNotValidError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

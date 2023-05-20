@@ -7,6 +7,7 @@ import { UpdateCheckpointDTO } from './UpdateCheckpointDTO';
 import { UpdateCheckpointResponse } from './UpdateCheckpointResponse';
 import { Checkpoint } from '../../../domain/checkpoint';
 import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
+import { UpdateCheckpointErrors } from './UpdateCheckpointErrors';
 
 export class UpdateCheckpointUseCase
   implements UseCase<UpdateCheckpointDTO, Promise<UpdateCheckpointResponse>>
@@ -21,11 +22,26 @@ export class UpdateCheckpointUseCase
     request: UpdateCheckpointDTO
   ): Promise<UpdateCheckpointResponse> {
     try {
-      let newcheckpoint: any = {
-        siteId: request.siteId,
-        checkpointName: request.checkpointName,
-        description: request.description
-      };
+      const checkpoint: Checkpoint =
+        await this.checkPointRepo.getByCheckpointId(request.checkpointId);
+      if (!checkpoint) {
+        return left(
+          new UpdateCheckpointErrors.CheckpointIdNotFoundError(
+            request.checkpointId
+          )
+        ) as UpdateCheckpointResponse;
+      }
+      let newcheckpoint: any = {};
+
+      if (request.checkpointName) {
+        newcheckpoint.checkpointName = request.checkpointName;
+      }
+      if (request.siteId) {
+        newcheckpoint.siteId = request.siteId;
+      }
+      if (request.description) {
+        newcheckpoint.description = request.description;
+      }
       if (request.latitude) {
         newcheckpoint.latitude = request.latitude;
       }
@@ -35,12 +51,21 @@ export class UpdateCheckpointUseCase
       if (request.isActive) {
         newcheckpoint.isActive = request.isActive;
       }
-      const updatedCheckpoint: Checkpoint = Checkpoint.create(
+      const updatedCheckpointOrError: Result<Checkpoint> = Checkpoint.create(
         newcheckpoint,
         new UniqueEntityID(request.checkpointId.toString())
-      ).getValue();
-      await this.checkPointRepo.update(request.checkpointId, updatedCheckpoint);
-      return right(Result.ok<void>());
+      );
+      if (updatedCheckpointOrError.isFailure) {
+        return left(
+          Result.fail<any>(updatedCheckpointOrError.getErrorValue().toString())
+        ) as UpdateCheckpointResponse;
+      }
+
+      await this.checkPointRepo.update(
+        request.checkpointId,
+        updatedCheckpointOrError.getValue()
+      );
+      return right(Result.ok<Checkpoint>(updatedCheckpointOrError.getValue()));
     } catch (err) {
       return left(new AppError.UnexpectedError(err));
     }

@@ -4,8 +4,8 @@ import { Either, Result } from '../../../../../shared/core/Result';
 import { CreateScanErrors } from './CreateScanErrors';
 
 export type CreateScanResponse = Either<
-  CreateScanErrors.AddressNotValidError |
-  AppError.UnexpectedError |
-  Result<any>,
+  CreateScanErrors.SiteIdNotValidError |
+  AppError.UnexpectedError ,
+  Result<any>|
   Result<void>
 >

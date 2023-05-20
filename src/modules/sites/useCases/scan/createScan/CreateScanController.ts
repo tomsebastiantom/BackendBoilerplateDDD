@@ -26,7 +26,7 @@ export class CreateScanController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case CreateScanErrors.AddressNotValidError:
+          case CreateScanErrors.SiteIdNotValidError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

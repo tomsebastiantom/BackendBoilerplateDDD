@@ -3,7 +3,7 @@ import { AppError } from '../../../../../shared/core/AppError';
 import { DeleteIncidentReportErrors } from './DeleteIncidentReportErrors';
 
 export type DeleteIncidentReportResponse = Either<
-  | DeleteIncidentReportErrors.AddressNotValidError
+  | DeleteIncidentReportErrors.IncidentIdNotValidError
   | AppError.UnexpectedError
   | Result<any>,
   Result<void>

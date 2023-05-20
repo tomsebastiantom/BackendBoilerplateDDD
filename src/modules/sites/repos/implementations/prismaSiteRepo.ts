@@ -1,8 +1,6 @@
 import { ISiteRepo } from '../siteRepo';
 import { Site } from '../../domain/site';
 import { SiteMap } from '../../mappers/siteMap';
-import { SiteId } from '../../domain/siteId';
-import { TenantId } from '../../../users/domain/tenantId';
 
 export class PrismaSiteRepo implements ISiteRepo {
   private models: any;
@@ -16,33 +14,33 @@ export class PrismaSiteRepo implements ISiteRepo {
     await SiteModel.create({ data: { ...rawSite } });
     return;
   }
-  async delete(site: Site): Promise<void> {
+  async delete(siteId: string): Promise<void> {
     const SiteModel = this.models.Site;
-    await SiteModel.delete({ where: { siteId: site.siteId.id } });
+    await SiteModel.delete({ where: { id: siteId } });
     return;
   }
 
-  async update(siteId: SiteId, site: Site): Promise<void> {
+  async update(siteId: string, site: Site): Promise<void> {
     const SiteModel = this.models.Site;
     const rawSite = SiteMap.toPersistence(site);
     await SiteModel.update(
       { data: { ...rawSite } },
-      { where: { siteId: siteId.id } }
+      { where: { siteId: siteId } }
     );
     return;
   }
-  async getBySiteId(siteId: SiteId): Promise<Site> {
+  async getBySiteId(siteId: string): Promise<Site> {
     const SiteModel = this.models.Site;
     const rawSite = await SiteModel.findUnique({
-      where: { siteId: siteId.id }
+      where: { siteId: siteId }
     });
     const site = SiteMap.toDomain(rawSite);
     return site;
   }
-  async getAll(tenantId: TenantId): Promise<Site[]> {
+  async getByTenantId(tenantId: string): Promise<Site | Site[]> {
     const SiteModel = this.models.Site;
     const rawSites = await SiteModel.findMany({
-      where: { tenantId: tenantId.id }
+      where: { tenantId: tenantId }
     });
     const sites = rawSites.map((rawSite) => SiteMap.toDomain(rawSite));
     return sites;

@@ -5,6 +5,5 @@ export interface CreateCheckpointDTO {
     checkpointName: string;
     description?: string;
     siteId: SiteId;
-    creationTimestamp: Number;
-    lastUpdatedTimestamp:Number;
+    identifier: string;
 }

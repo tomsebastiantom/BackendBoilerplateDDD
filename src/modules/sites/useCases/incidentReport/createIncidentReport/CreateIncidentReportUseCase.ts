@@ -1,55 +1,55 @@
 import { Either, Result, left, right } from '../../../../../shared/core/Result';
 import { AppError } from '../../../../../shared/core/AppError';
 import { UseCase } from '../../../../../shared/core/UseCase';
-import { Address } from '../../../../../shared/nexa/address';
-import { ISiteRepo } from '../../../repos/siteRepo';
+
+import { IIncidentReportRepo } from '../../../repos/incidentReportRepo';
 import { CreateIncidentReportDTO } from './CreateIncidentReportDTO';
 import { CreateIncidentReportErrors } from './CreateIncidentReportErrors';
 import { CreateIncidentReportResponse } from './CreateIncidentReportResponse';
-import { Site } from '../../../domain/site';
-
+import { IncidentReport } from '../../../domain/incidentReport';
 
 export class CreateIncidentReportUseCase
-  implements UseCase<CreateIncidentReportDTO, Promise<CreateIncidentReportResponse>>
+  implements
+    UseCase<CreateIncidentReportDTO, Promise<CreateIncidentReportResponse>>
 {
-  private siteRepo: ISiteRepo;
+  private incidentReportRepo: IIncidentReportRepo;
 
-  constructor(siteRepo: ISiteRepo) {
-    this.siteRepo = siteRepo;
+  constructor(incidentReportRepo: IIncidentReportRepo) {
+    this.incidentReportRepo = incidentReportRepo;
   }
 
-  public async execute(request: CreateIncidentReportDTO): Promise<CreateIncidentReportResponse> {
-   
-    const errors = [];
-    const addressOrError = Address.create(request.address);
-    // const contactsOrError = Contact.create(request.contacts)
-    // const instructionsOrError = Instruction.create(request.instructions)
-    // if (addressOrError.isFailure) errors.push(addressOrError.error)
-    // if (contactsOrError.isFailure) errors.push(contactsOrError.error)
-    // if (instructionsOrError.isFailure) errors.push(instructionsOrError.error)
-    if (addressOrError.isFailure)
-      return left(new CreateIncidentReportErrors.AddressNotValidError(request.address));
-    else {
-      const createdSite = Site.create({
-        siteName: request.siteName,
-        isActive: true,
-        companyName: request.companyName,
-        address: addressOrError.getValue()
-      }).getValue();
+  public async execute(
+    request: CreateIncidentReportDTO
+  ): Promise<CreateIncidentReportResponse> {
+    try {
+      let newIncidentReport: any = {
+        userId: request.userId,
+        siteId: request.siteId,
+        timeOfIncident: request.timeOfIncident,
+        incidentDescription: request.incidentDescription,
+        incidentType: request.incidentType
+      };
 
-      if (request.instructions) {
-        createdSite.instructions = request.instructions;
+      if (request.photos) {
+        newIncidentReport.photos = request.photos;
       }
-      if (request.contacts) {
-        createdSite.contacts = request.contacts;
+      if (request.videos) {
+        newIncidentReport.videos = request.videos;
       }
-      
-      try {
-        await this.siteRepo.save(createdSite);
-        return right(Result.ok<void>());
-      } catch (err) {
-        return left(new AppError.UnexpectedError(err));
+      const guardReportOrError: Result<IncidentReport> =
+        IncidentReport.create(newIncidentReport);
+      if (guardReportOrError.isFailure) {
+        return left(
+          Result.fail<any>(guardReportOrError.getErrorValue().toString())
+        ) as CreateIncidentReportResponse;
+      } else {
+        const incidentReport: IncidentReport = guardReportOrError.getValue();
+
+        await this.incidentReportRepo.save(incidentReport);
+        return right(Result.ok<IncidentReport>(incidentReport));
       }
+    } catch (err) {
+      return left(new AppError.UnexpectedError(err));
     }
   }
 }

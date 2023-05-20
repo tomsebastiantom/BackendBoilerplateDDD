@@ -6,7 +6,7 @@ import { ICheckpointRepo } from '../../../repos/checkpointRepo';
 import { CreateCheckpointDTO } from './CreateCheckpointDTO';
 import { CreateCheckpointResponse } from './CreateCheckpointResponse';
 import { Checkpoint } from '../../../domain/checkpoint';
-import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
+
 
 export class CreateCheckpointUseCase
   implements UseCase<CreateCheckpointDTO, Promise<CreateCheckpointResponse>>
@@ -20,21 +20,27 @@ export class CreateCheckpointUseCase
   public async execute(
     request: CreateCheckpointDTO
   ): Promise<CreateCheckpointResponse> {
-    //Todo SiteId Not Validated
-    const CreatedCheckpoint = Checkpoint.create({
-      siteId: request.siteId,
-      checkpointName: request.checkpointName,
-      isActive: true,
-      creationTimestamp: request.creationTimestamp,
-      lastUpdatedTimestamp:request.lastUpdatedTimestamp,
-    }).getValue();
-
-    if (request.description) {
-      CreatedCheckpoint.description = request.description;
-    }
     try {
-      await this.checkPointRepo.save(CreatedCheckpoint);
-      return right(Result.ok<void>());
+      let newcheckpoint: any = {
+        siteId: request.siteId,
+        checkpointName: request.checkpointName,
+        isActive: true,
+        identifier: request.identifier
+      };
+      if (request.description) {
+        newcheckpoint.description = request.description;
+      }
+
+      const checkpointOrError: Result<Checkpoint> =
+        Checkpoint.create(newcheckpoint);
+      if (checkpointOrError.isFailure) {
+        return left(
+          Result.fail<any>(checkpointOrError.getErrorValue().toString())
+        ) as CreateCheckpointResponse;
+      } else {
+        await this.checkPointRepo.save(checkpointOrError.getValue());
+        return right(Result.ok<void>());
+      }
     } catch (err) {
       return left(new AppError.UnexpectedError(err));
     }

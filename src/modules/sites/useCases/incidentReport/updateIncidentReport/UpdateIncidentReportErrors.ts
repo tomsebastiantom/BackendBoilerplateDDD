@@ -1,13 +1,12 @@
-import { UseCaseError } from '../../../../../shared/core/UseCaseError';
+
 import { Result } from '../../../../../shared/core/Result';
-
-
+import { UseCaseError } from '../../../../../shared/core/UseCaseError';
 
 export namespace UpdateIncidentReportErrors {
-  export class AddressNotValidError extends Result<UseCaseError> {
-    constructor(address: string) {
+  export class IncidentReportIdNotValidError extends Result<UseCaseError> {
+    constructor(incidentId: string) {
       super(false, {
-        message: ` ${address} is not a valid address`
+        message: ` ${incidentId} is not valid`
       } as UseCaseError);
     }
   }

@@ -1,61 +1,77 @@
-import { Either, Result, left, right } from '../../../../../shared/core/Result';
 import { AppError } from '../../../../../shared/core/AppError';
+import { Either, left, Result, right } from '../../../../../shared/core/Result';
 import { UseCase } from '../../../../../shared/core/UseCase';
-
-import { ISiteRepo } from '../../../repos/siteRepo';
-import { UpdateSiteDTO } from './UpdateSiteDTO';
-import { UpdateSiteErrors } from './UpdateSiteErrors';
-import { UpdateSiteResponse } from './UpdateSiteResponse';
-import { Site } from '../../../domain/site';
 import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
-import { Address } from '../../../domain/address';
-import { Contact } from '../../../domain/contact';
-import { Instruction } from '../../../domain/instruction';
+import { Scan } from '../../../domain/scan';
+import { ICheckpointRepo } from '../../../repos/checkpointRepo';
+import { IScanRepo } from '../../../repos/scanRepo';
+import { UpdateScanDTO } from './UpdateScanDTO';
+import { UpdateScanErrors } from './UpdateScanErrors';
+import { UpdateScanResponse } from './UpdateScanResponse';
 
-export class UpdateSiteUseCase
-  implements UseCase<UpdateSiteDTO, Promise<UpdateSiteResponse>>
+export class UpdateScanUseCase
+  implements UseCase<UpdateScanDTO, Promise<UpdateScanResponse>>
 {
-  private siteRepo: ISiteRepo;
+  private scanRepo: IScanRepo;
+  private checkpointRepo: ICheckpointRepo;
 
-  constructor(siteRepo: ISiteRepo) {
-    this.siteRepo = siteRepo;
+  constructor(scanRepo: IScanRepo, checkpointRepo: ICheckpointRepo) {
+    this.scanRepo = scanRepo;
+    this.checkpointRepo = checkpointRepo;
   }
 
-  public async execute(request: UpdateSiteDTO): Promise<UpdateSiteResponse> {
-    //Todo Validation and Error Handling
-  
-    const addressOrError = Address.create(request.address);
-    // const contactsOrError = Contact.Update(request.contacts)
-    // const instructionsOrError = Instruction.Update(request.instructions)
-    // if (addressOrError.isFailure) errors.push(addressOrError.error)
-    // if (contactsOrError.isFailure) errors.push(contactsOrError.error)
-    // if (instructionsOrError.isFailure) errors.push(instructionsOrError.error)
-    if (addressOrError.isFailure)
-      return left(new UpdateSiteErrors.AddressNotValidError(request.address));
-    else {
-      const updatedSite = Site.create({
-        siteName: request.siteName,
-        isActive: true,
-        companyName: request.companyName,
-        creationDate: new Date(),
-        lastUpdatedDate: new Date(),
-        address: addressOrError.getValue()
-      },new UniqueEntityID(request.siteId.toString())).getValue();
-// Todo array of instruction make anything not required since only changed value needs to be send
-      if (request.instructions) {
-        updatedSite.instructions = request.instructions;
+  public async execute(request: UpdateScanDTO): Promise<UpdateScanResponse> {
+    try {
+      const scan: Scan = await this.scanRepo.getByScanId(request.scanId);
+      if (!scan) {
+        return left(
+          new UpdateScanErrors.ScanIdNotValidError(request.scanId)
+        ) as UpdateScanResponse;
       }
-      if (request.contacts) {
-        updatedSite.contacts = request.contacts;
+      let newScan: any = {
+        ...scan
+      };
+
+      if (request.userId) {
+        newScan.userId = request.userId;
       }
-      updatedSite.creationDate = new Date();
-      updatedSite.lastUpdatedDate = new Date();
-      try {
-        await this.siteRepo.save(updatedSite);
-        return right(Result.ok<void>());
-      } catch (err) {
-        return left(new AppError.UnexpectedError(err));
+      if (request.identifier) {
+        newScan.identifier = request.identifier;
       }
+      if (request.timestamp) {
+        newScan.timestamp = request.timestamp;
+      }
+      if (request.location) {
+        newScan.location = request.location;
+      }
+
+      if (request.comment) {
+        newScan.comment = request.comment;
+      }
+      if (request.assets) {
+        newScan.assets = request.assets;
+      }
+      if (request.checkpointId) {
+        newScan.checkpointId = request.checkpointId;
+      }
+      if (request.siteId) {
+        newScan.siteId = request.siteId;
+      }
+
+      const scanOrError = Scan.create(
+        newScan,
+        new UniqueEntityID(request.siteId.toString())
+      );
+      if (scanOrError.isFailure) {
+        return left(
+          Result.fail<any>(scanOrError.getErrorValue().toString())
+        ) as UpdateScanResponse;
+      }
+      await this.scanRepo.update(request.scanId, scanOrError.getValue());
+
+      return right(Result.ok<Scan>(scanOrError.getValue()));
+    } catch (err) {
+      return left(new AppError.UnexpectedError(err));
     }
   }
 }

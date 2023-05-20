@@ -1,14 +1,14 @@
-import { SiteId } from '../domain/siteId';
-import { CheckpointId } from '../domain/checkpointId';
 import { Scan } from '../domain/scan';
-import { ScanId } from '../domain/scanId';
-import { UserId } from '../../users/domain/userId';
 
 export interface IScanRepo {
   save(scan: Scan): Promise<void>;
-  delete(scanId: ScanId): Promise<void>;
-  update(scanId: ScanId, scan: Scan): Promise<void>;
-  getByCheckpointId(checkpointId: CheckpointId): Promise<Scan | [Scan]>;
-  getAllBySiteId(siteId: SiteId): Promise<[Scan] | Scan>;
-  getAllByUserId(userId: UserId): Promise<[Scan] | Scan>;
+  deleteById(scanId: string): Promise<void>;
+  deleteBySiteId(scanId: string): Promise<void>;
+  deleteByCheckpointId(scanId: string): Promise<void>;
+  deleteByUserId(scanId: string): Promise<void>;
+  update(scanId: string, scan: Scan): Promise<void>;
+  getByScanId(scanId: string): Promise<Scan>;
+  getByCheckpointId(checkpointId: string): Promise<Scan | Scan[]>;
+  getBySiteId(siteId: string): Promise<Scan[] | Scan>;
+  getByUserId(userId: string): Promise<Scan[] | Scan>;
 }

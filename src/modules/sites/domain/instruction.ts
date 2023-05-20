@@ -7,14 +7,14 @@ import { ValueObject } from '../../../shared/domain/ValueObject';
 import { InstructionType } from './instructionType';
 
 interface InstructionProps {
-  instructionType: InstructionType;
+  instructionType: string;
   instructionDescription: string;
   instructionCreationTimestamp: Number;
   // visibility: Visibility;
 }
 
 export class Instruction extends ValueObject<InstructionProps> {
-  get instructionType(): InstructionType {
+  get instructionType(): string {
     return this.props.instructionType;
   }
   get instructionDescription(): string {

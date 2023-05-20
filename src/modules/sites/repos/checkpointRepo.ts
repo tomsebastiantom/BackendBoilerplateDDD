@@ -6,4 +6,5 @@ export interface ICheckpointRepo {
     getBySiteId (siteId: string): Promise<Checkpoint[]|Checkpoint>
     update (checkpointId: string, checkpoint: Checkpoint): Promise<void>
     getByCheckpointId (checkpointId: string): Promise<Checkpoint>
+    getByCheckpointByIdentifier (identifier: string): Promise<Checkpoint>
 }

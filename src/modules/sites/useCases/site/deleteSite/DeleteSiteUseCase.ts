@@ -38,7 +38,7 @@ export class DeleteSiteUseCase
 
    
 
-      await this.siteRepo.delete(site);
+      await this.siteRepo.delete(request.siteId);
       return right(Result.ok<void>());
     } catch (err) {
       return left(new AppError.UnexpectedError(err));

@@ -26,7 +26,7 @@ export class DeleteIncidentReportController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case DeleteIncidentReportErrors.AddressNotValidError:
+          case DeleteIncidentReportErrors.IncidentIdNotValidError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

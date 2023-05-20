@@ -1,15 +1,13 @@
-import { SiteName } from "../../../domain/siteName";
 
-import { Contact } from "../../../domain/contact";
-import { Instruction } from "../../../domain/instruction";
 
-export interface UpdateIncidentReportDTO {
-
-    siteName: SiteName;
-    address: string;
-    companyName: string;
-    contacts?: Contact[];
-    isActive: boolean;
-    instructions?: Instruction[];
-   
-  }
+export interface UpdateIncidentReportDTO  {
+    incidentReportId: string;
+    siteId?: string;
+    userId?: string;
+    timeOfIncident?: Number;
+    incidentType?: string;
+    incidentDescription?: string;
+    photos?: string[];
+    videos?: string[];
+     
+    }

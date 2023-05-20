@@ -1,10 +1,9 @@
 import { Either, Result } from '../../../../../shared/core/Result';
 import { AppError } from '../../../../../shared/core/AppError';
 import { CreateIncidentReportErrors } from './CreateIncidentReportErrors';
+import { IncidentReport } from '../../../domain/incidentReport';
 
 export type CreateIncidentReportResponse = Either<
-  | CreateIncidentReportErrors.AddressNotValidError
-  | AppError.UnexpectedError
-  | Result<any>,
-  Result<void>
+  CreateIncidentReportErrors.SiteIdNotValidError | AppError.UnexpectedError,
+  Result<IncidentReport> | Result<void>
 >;

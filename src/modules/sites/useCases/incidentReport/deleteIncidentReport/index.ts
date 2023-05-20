@@ -1,8 +1,8 @@
 import { DeleteIncidentReportController } from './DeleteIncidentReportController';
 import { DeleteIncidentReportUseCase } from './DeleteIncidentReportUseCase';
-import { siteRepo } from '../../../repos';
+import { incidentReportRepo } from '../../../repos';
 
-const deleteIncidentReportUseCase = new DeleteIncidentReportUseCase(siteRepo);
+const deleteIncidentReportUseCase = new DeleteIncidentReportUseCase(incidentReportRepo);
 const deleteIncidentReportController = new DeleteIncidentReportController(
   deleteIncidentReportUseCase
 );

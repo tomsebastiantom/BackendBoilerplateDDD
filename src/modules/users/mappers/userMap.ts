@@ -21,10 +21,7 @@ export class UserMap implements Mapper<User> {
     const userNameOrError = UserName.create({ name: raw.username });
     const userPasswordOrError = UserPassword.create({ value: raw.password, hashed: true });
     const userEmailOrError = UserEmail.create(raw.email);
-console.log('raw', raw);
-console.log('userEmailOrError', userEmailOrError);
-console.log('userPasswordOrError', userPasswordOrError);
-console.log('userNameOrError', userNameOrError);
+
     const userOrError = User.create({
       username: userNameOrError.getValue(),
       isAdminUser: raw.isAdminUser,
@@ -64,12 +61,20 @@ console.log('userNameOrError', userNameOrError);
   }
 }
 
-// email: UserEmail;
-// username: UserName;
-// password: UserPassword;
-// isEmailVerified?: boolean;
-// isAdminUser?: boolean;
-// accessToken?: JWTToken;
-// refreshToken?: RefreshToken;
-// isDeleted?: boolean;
-// lastLogin?: Date;
+// interface UserProps {
+//   email: UserEmail;
+//   name: string;
+//   phone?: PhoneNumber;
+//   tenantId?: TenantId;
+//   username: UserName;
+//   password: UserPassword;
+//   isEmailVerified?: boolean;
+//   isAdminUser?: boolean;
+//   isSuperAdmin?: boolean;
+//   accessToken?: JWTToken;
+//   refreshToken?: RefreshToken;
+//   isDeleted?: boolean;
+//   lastLogin?: Date;
+//   roles?: string;
+//   Address?: Address;
+// }

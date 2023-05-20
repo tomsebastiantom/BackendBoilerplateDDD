@@ -1,43 +1,34 @@
 import { AppError } from '../../../../../shared/core/AppError';
 import { Either, left, Result, right } from '../../../../../shared/core/Result';
 import { UseCase } from '../../../../../shared/core/UseCase';
-import { Site } from '../../../domain/site';
-import { ISiteRepo } from '../../../repos/siteRepo';
-import { DeleteSiteDTO } from './DeleteSiteDTO';
-import { DeleteSiteErrors } from './DeleteSiteErrors';
-import { DeleteSiteResponse } from './DeleteSiteResponse';
+import { IScanRepo } from '../../../repos/scanRepo';
+import { DeleteScanDTO } from './DeleteScanDTO';
+import { DeleteScanResponse } from './DeleteScanResponse';
 
-export class DeleteSiteUseCase
-  implements
-    UseCase<DeleteSiteDTO, Promise<DeleteSiteResponse>>
+export class DeleteScanUseCase
+  implements UseCase<DeleteScanDTO, Promise<DeleteScanResponse>>
 {
-  private siteRepo: ISiteRepo;
+  private scanRepo: IScanRepo;
 
-  constructor(siteRepo: ISiteRepo) {
-    this.siteRepo = siteRepo;
+  constructor(scanRepo: IScanRepo) {
+    this.scanRepo = scanRepo;
   }
 
-  public async execute(
-    request: DeleteSiteDTO
-  ): Promise<DeleteSiteResponse> {
+  public async execute(request: DeleteScanDTO): Promise<DeleteScanResponse> {
     try {
-      const site:Site = await this.siteRepo.getBySiteId(
-        request.siteId
-      );
-      const siteFound = !!site === true;
-      if (!siteFound) {
-        return left(
-          new DeleteSiteErrors.SiteIdNotFoundError(
-            request.siteId
-          )
-        );
+      if (request.siteId) {
+        await this.scanRepo.deleteBySiteId(request.siteId);
+        return right(Result.ok<void>());
       }
-     
+      if (request.checkpointId) {
+        await this.scanRepo.deleteByCheckpointId(request.checkpointId);
+        return right(Result.ok<void>());
+      }
+      if (request.scanId) {
+        await this.scanRepo.deleteById(request.scanId);
 
-   
-
-      await this.siteRepo.delete(site);
-      return right(Result.ok<void>());
+        return right(Result.ok<void>());
+      }
     } catch (err) {
       return left(new AppError.UnexpectedError(err));
     }

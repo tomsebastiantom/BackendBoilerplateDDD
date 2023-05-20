@@ -4,10 +4,10 @@ import { Result } from '../../../../../shared/core/Result';
 
 
 export namespace DeleteIncidentReportErrors {
-  export class AddressNotValidError extends Result<UseCaseError> {
+  export class IncidentIdNotValidError  extends Result<UseCaseError> {
     constructor(address: string) {
       super(false, {
-        message: ` ${address} is not a valid address`
+        message: ` ${address} is not valid `
       } as UseCaseError);
     }
   }

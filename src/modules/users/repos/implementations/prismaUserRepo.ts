@@ -4,6 +4,7 @@ import { User } from '../../domain/user';
 import { UserMap } from '../../mappers/userMap';
 import { UserEmail } from '../../domain/userEmail';
 
+
 export class PrismaUserRepo implements IUserRepo {
   private models: any;
 
@@ -43,6 +44,7 @@ export class PrismaUserRepo implements IUserRepo {
         id: userId
       }
     });
+
     if (!!user === false) throw new Error('User not found.');
     return UserMap.toDomain(User);
   }
@@ -56,6 +58,32 @@ export class PrismaUserRepo implements IUserRepo {
       await UserModel.create({ data: { ...rawSequelizeUser } });
     }
 
+    return;
+  }
+  async getByTenantId(tenantId: string): Promise<User[] | User> {
+    const UserModel = this.models.users;
+    const user = await UserModel.find({
+      where: {
+        tenantId: tenantId
+      }
+    });
+
+    if (!!user === false) throw new Error('User not found.');
+    if (user.length > 1) {
+      return user.map((user) => UserMap.toDomain(user));
+    } else {
+      return UserMap.toDomain(User);
+    }
+  }
+  async update(userId: string, user: User): Promise<void> {
+    const UserModel = this.models.users;
+    const rawSequelizeUser = await UserMap.toPersistence(user);
+    await UserModel.update({
+      where: {
+        id: userId
+      },
+      data: { ...rawSequelizeUser }
+    });
     return;
   }
 }

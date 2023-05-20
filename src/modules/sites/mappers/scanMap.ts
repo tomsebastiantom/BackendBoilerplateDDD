@@ -6,6 +6,7 @@ import { UserId } from '../../users/domain/userId';
 import { Scan } from '../domain/scan';
 import { ScanDTO } from '../dtos/scanDTO';
 import { CheckpointId } from '../domain/checkpointId';
+import { Location } from '../domain/location';
 
 export class ScanMap implements Mapper<Scan> {
   public static toDomain(raw: any): Scan {
@@ -16,7 +17,7 @@ export class ScanMap implements Mapper<Scan> {
         identifier: raw.identifier,
         timestamp: raw.timestamp,
         checkpointId: CheckpointId.create(raw.checkpointId).getValue(),
-        location: raw.location,
+        location: Location.create(raw.location).getValue(),        
         comment: raw.comment,
         assets: raw.assets
       },
@@ -49,7 +50,7 @@ export class ScanMap implements Mapper<Scan> {
       identifier: scan.identifier,
       timestamp: scan.timestamp,
       checkpointId: scan.checkpointId.id.toString(),
-      location: scan.location,
+      location: JSON.stringify(scan.location),
       comment: scan.comment,
       assets: scan.assets
     };

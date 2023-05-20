@@ -4,7 +4,7 @@ import { UpdateSiteErrors } from "./UpdateSiteErrors";
 
 export type UpdateSiteResponse = Either<
   UpdateSiteErrors.SiteIdNotFoundError |
-  AppError.UnexpectedError |
-  Result<any>,
+  AppError.UnexpectedError ,
+  Result<any>|
   Result<void>
 >

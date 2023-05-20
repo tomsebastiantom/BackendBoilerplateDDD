@@ -26,7 +26,7 @@ export class CreateIncidentReportController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case CreateIncidentReportErrors.AddressNotValidError:
+          case CreateIncidentReportErrors.SiteIdNotValidError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

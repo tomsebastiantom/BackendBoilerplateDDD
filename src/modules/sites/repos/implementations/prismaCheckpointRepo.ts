@@ -24,30 +24,26 @@ export class PrismaCheckpointRepo implements ICheckpointRepo {
   }
   async delete(checkpointId: string): Promise<void> {
     const CheckpointModel = this.models.checkpoints;
-    await CheckpointModel.destroy({ where: { id: checkpointId } });
+    await CheckpointModel.delete({ where: { id: checkpointId } });
   }
 
-  async getBySiteId(siteId: string): Promise<Checkpoint[]|Checkpoint> {
+  async getBySiteId(siteId: string): Promise<Checkpoint[] | Checkpoint> {
     const CheckpointModel = this.models.checkpoints;
     const rawCheckpoints = await CheckpointModel.findMany({
       where: { siteId: siteId }
     });
- 
-    if (Array.isArray(rawCheckpoints)) {  
+
+    if (Array.isArray(rawCheckpoints)) {
       const checkpoints = rawCheckpoints.map((rawCheckpoint) =>
         CheckpointMap.toDomain(rawCheckpoint)
       );
       return checkpoints;
-    } else {  
+    } else {
       const checkpoint = CheckpointMap.toDomain(rawCheckpoints);
       return checkpoint;
     }
-  
   }
-  async update(
-    checkpointId: string,
-    checkpoint: Checkpoint
-  ): Promise<void> {
+  async update(checkpointId: string, checkpoint: Checkpoint): Promise<void> {
     const CheckpointModel = this.models.Checkpoint;
     const rawCheckpoint = CheckpointMap.toPersistence(checkpoint);
     await CheckpointModel.update({
@@ -61,7 +57,16 @@ export class PrismaCheckpointRepo implements ICheckpointRepo {
     const rawCheckpoint = await CheckpointModel.findUnique({
       where: { id: checkpointId }
     });
-   
+
+    const checkpoint = CheckpointMap.toDomain(rawCheckpoint);
+    return checkpoint;
+  }
+  async getByCheckpointByIdentifier(identifier: string): Promise<Checkpoint> {
+    const CheckpointModel = this.models.checkpoints;
+    const rawCheckpoint = await CheckpointModel.findUnique({
+      where: { identifier: identifier }
+    });
+
     const checkpoint = CheckpointMap.toDomain(rawCheckpoint);
     return checkpoint;
   }

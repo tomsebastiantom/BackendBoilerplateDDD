@@ -1,15 +1,15 @@
-import { BaseController } from '../../../../../shared/infra/http/models/BaseController';
-import { DecodedExpressRequest } from '../../../../users/infra/http/models/decodedRequest';
 import * as express from 'express';
 
-import { UpdateSiteDTO } from './UpdateSiteDTO';
-import { UpdateSiteErrors } from './UpdateSiteErrors';
-import { UpdateSiteUseCase } from './UpdateSiteUseCase';
+import { BaseController } from '../../../../../shared/infra/http/models/BaseController';
+import { DecodedExpressRequest } from '../../../../users/infra/http/models/decodedRequest';
+import { UpdateScanDTO } from './UpdateScanDTO';
+import { UpdateScanErrors } from './UpdateScanErrors';
+import { UpdateScanUseCase } from './UpdateScanUseCase';
 
-export class UpdateSiteController extends BaseController {
-  private useCase: UpdateSiteUseCase;
+export class UpdateScanController extends BaseController {
+  private useCase: UpdateScanUseCase;
 
-  constructor(useCase: UpdateSiteUseCase) {
+  constructor(useCase: UpdateScanUseCase) {
     super();
     this.useCase = useCase;
   }
@@ -18,7 +18,7 @@ export class UpdateSiteController extends BaseController {
     req: DecodedExpressRequest,
     res: express.Response
   ): Promise<any> {
-    const dto: UpdateSiteDTO = req.body as UpdateSiteDTO;
+    const dto: UpdateScanDTO = req.body as UpdateScanDTO;
     try {
       const result = await this.useCase.execute(dto);
 
@@ -26,7 +26,7 @@ export class UpdateSiteController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case UpdateSiteErrors.SiteIdNotFoundError:
+          case UpdateScanErrors.ScanIdNotValidError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

@@ -2,15 +2,14 @@ import * as express from 'express';
 
 import { BaseController } from '../../../../../shared/infra/http/models/BaseController';
 import { DecodedExpressRequest } from '../../../../users/infra/http/models/decodedRequest';
-import { SiteId } from '../../../domain/siteId';
-import { DeleteSiteDTO } from './DeleteSiteDTO';
-import { DeleteSiteErrors } from './DeleteSiteErrors';
-import { DeleteSiteUseCase } from './DeleteSiteUseCase';
+import { DeleteScanDTO } from './DeleteScanDTO';
+import { DeleteScanErrors } from './DeleteScanErrors';
+import { DeleteScanUseCase } from './DeleteScanUseCase';
 
-export class DeleteSiteController extends BaseController {
-  private useCase: DeleteSiteUseCase;
+export class DeleteScanController extends BaseController {
+  private useCase: DeleteScanUseCase;
 
-  constructor(useCase: DeleteSiteUseCase) {
+  constructor(useCase: DeleteScanUseCase) {
     super();
     this.useCase = useCase;
   }
@@ -19,11 +18,7 @@ export class DeleteSiteController extends BaseController {
     req: DecodedExpressRequest,
     res: express.Response
   ): Promise<any> {
-    const siteId = (req.decoded as any).siteId;
-    const dto: DeleteSiteDTO = {
-      siteId: siteId
-    };
-
+    const dto: DeleteScanDTO = req.body as DeleteScanDTO;
     try {
       const result = await this.useCase.execute(dto);
 
@@ -31,7 +26,7 @@ export class DeleteSiteController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case DeleteSiteErrors.SiteIdNotFoundError:
+          case DeleteScanErrors.ScanIdNotValidError:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {

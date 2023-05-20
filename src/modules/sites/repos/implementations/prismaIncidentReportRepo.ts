@@ -1,9 +1,6 @@
 import { IIncidentReportRepo } from '../incidentReportRepo';
 import { IncidentReportMap } from '../../mappers/incidentReportMap';
 import { IncidentReport } from '../../domain/incidentReport';
-import { ReportId } from '../../domain/ReportId';
-import { SiteId } from '../../domain/siteId';
-import { UserId } from '../../../users/domain/userId';
 
 export class PrismaIncidentReportRepo implements IIncidentReportRepo {
   private models: any;
@@ -19,7 +16,7 @@ export class PrismaIncidentReportRepo implements IIncidentReportRepo {
   }
   async delete(incidentId: string): Promise<void> {
     const IncidentReportModel = this.models.incidentReports;
-    await IncidentReportModel.destroy({ where: { id: incidentId} });
+    await IncidentReportModel.delete({ where: { id: incidentId } });
   }
 
   async update(
@@ -44,7 +41,7 @@ export class PrismaIncidentReportRepo implements IIncidentReportRepo {
   }
   async getBySiteId(
     siteId: string
-  ): Promise<IncidentReport[]|IncidentReport> {
+  ): Promise<IncidentReport[] | IncidentReport> {
     const IncidentReportModel = this.models.incidentReports;
     const rawIncidentReport = await IncidentReportModel.findMany({
       where: { siteId: siteId }
@@ -61,12 +58,12 @@ export class PrismaIncidentReportRepo implements IIncidentReportRepo {
   }
   async getByUserId(
     userId: string
-  ): Promise<IncidentReport[]|IncidentReport> {
+  ): Promise<IncidentReport[] | IncidentReport> {
     const IncidentReportModel = this.models.incidentReports;
     const rawIncidentReport = await IncidentReportModel.findMany({
       where: { userId: userId }
     });
-    //check if  rawIncidentReport is an array or not
+
     if (Array.isArray(rawIncidentReport)) {
       const incidentReport = rawIncidentReport.map((rawIncidentReport) =>
         IncidentReportMap.toDomain(rawIncidentReport)

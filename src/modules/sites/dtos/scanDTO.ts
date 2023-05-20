@@ -8,5 +8,5 @@ export interface ScanDTO {
     checkpointId: String;
     location: string;
     comment?: string;
-    assets?: [string];
+    assets?: string[];
   }
