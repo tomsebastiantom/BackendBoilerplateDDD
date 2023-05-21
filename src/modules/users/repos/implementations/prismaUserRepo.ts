@@ -50,7 +50,7 @@ export class PrismaUserRepo implements IUserRepo {
   }
 
   async save(user: User): Promise<void> {
-    const UserModel = this.models.User;
+    const UserModel = this.models.users;
     const exists = await this.exists(user.email);
 
     if (!exists) {

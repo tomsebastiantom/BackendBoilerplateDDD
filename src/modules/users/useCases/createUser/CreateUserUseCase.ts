@@ -42,6 +42,7 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
     const password: UserPassword = passwordOrError.getValue();
     const username: UserName = usernameOrError.getValue();
     const name = request.name;
+    const phone = request.phone;
     try {
       const userAlreadyExists = await this.userRepo.exists(email);
 
@@ -66,7 +67,7 @@ export class CreateUserUseCase implements UseCase<CreateUserDTO, Promise<Respons
 
 
       const userOrError: Result<User> = User.create({
-        email, password, username,name
+        email, password, username,name,phone
       });
 
       if (userOrError.isFailure) {

@@ -23,11 +23,14 @@ export class SiteMap implements Mapper<Site> {
     return siteOrError.isSuccess ? siteOrError.getValue() : null;
   }
   public static toPersistence(site: Site): any {
+ 
+
     return {
-      siteId: site.siteId.id.toString(),
+      id: site.siteId.id.toString(),
       siteName: site.siteName,
       instructions: site.instructions,
       address: site.address,
+      isActive: site.isActive,
       companyName: site.companyName,
       contacts: site.contacts
     };
@@ -36,7 +39,6 @@ export class SiteMap implements Mapper<Site> {
   public static toDTO(site: Site): SiteDTO {
     
     return {
-      siteId: site.siteId.id.toString(),
       siteName: site.siteName,
       instructions: site.instructions,
       isActive: site.isActive,

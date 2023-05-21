@@ -7,7 +7,6 @@ export abstract class BaseController {
 
   public async execute (req: express.Request, res: express.Response): Promise<void> {
     try {
-      console.log(`[BaseController]: Request received for ${req.path}`);
       await this.executeImpl(req, res);
     } catch (err) {
       console.log(`[BaseController]: Uncaught controller error`);

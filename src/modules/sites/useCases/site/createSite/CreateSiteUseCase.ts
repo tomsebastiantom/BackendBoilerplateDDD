@@ -7,7 +7,6 @@ import { AddressDTO, CreateSiteDTO } from './CreateSiteDTO';
 import { CreateSiteErrors } from './CreateSiteErrors';
 import { CreateSiteResponse } from './CreateSiteResponse';
 import { Site } from '../../../domain/site';
-import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
 import { Address } from '../../../../../shared/nexa/address';
 import { Contact } from '../../../domain/contact';
 import { Instruction } from '../../../domain/instruction';
@@ -43,23 +42,26 @@ export class CreateSiteUseCase
       let newSite: any = {};
       if (request.contacts) {
         const contacts = request.contacts.map((contact) => {
-          Contact.create(contact);
+          return Contact.create(contact).getValue();
         });
+
         newSite.contacts = contacts;
       }
       if (request.contact) {
         const contact = Contact.create(request.contact);
-        newSite.contact = contact;
+        newSite.contact = contact.getValue();
       }
       if (request.instructions) {
         const instructions = request.instructions.map((instruction) => {
-          Instruction.create(instruction);
+          return Instruction.create(instruction).getValue();
         });
+
         newSite.instructions = instructions;
       }
       if (request.instruction) {
         const instruction = Instruction.create(request.instruction);
-        newSite.instruction = instruction;
+
+        newSite.instruction = instruction.getValue();
       }
 
       newSite.siteName = request.siteName;
@@ -75,6 +77,7 @@ export class CreateSiteUseCase
         ...newSite,
         address: addressOrError.getValue()
       });
+   
       if (siteOrError.isFailure) {
         return left(
           Result.fail<any>(siteOrError.getErrorValue().toString())

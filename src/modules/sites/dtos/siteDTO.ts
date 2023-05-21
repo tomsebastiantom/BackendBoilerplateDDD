@@ -1,7 +1,6 @@
 
 
 export interface SiteDTO {
-  siteId: string;
   siteName:string;
   address: AddressDTO;
   companyName: string;

@@ -11,21 +11,21 @@ export class PrismaGuardReportRepo implements IGuardReportRepo {
   }
 
   async save(guardReport: GuardReport): Promise<void> {
-    const GuardReportModel = this.models.guardReports;
+    const GuardReportModel = this.models.guardreports;
     const rawguardReport = GuardReportMap.toPersistence(guardReport);
     await GuardReportModel.create({ data: { ...rawguardReport } });
   }
   async delete(guardReportId: string): Promise<void> {
-    const GuardReportModel = this.models.guardReports;
+    const GuardReportModel = this.models.guardreports;
     await GuardReportModel.delete({ where: { id: guardReportId } });
   }
   async deleteBySiteId(siteId: string): Promise<void> {
-    const GuardReportModel = this.models.guardReports;
+    const GuardReportModel = this.models.guardreports;
     await GuardReportModel.deleteMany({ where: { siteId: siteId } });
   }
 
   async getBySiteId(siteId: string): Promise<GuardReport | GuardReport[]> {
-    const GuardReportModel = this.models.guardReports;
+    const GuardReportModel = this.models.guardreports;
     const rawGuardReport = await GuardReportModel.findMany({
       where: { siteId: siteId }
     });
@@ -40,7 +40,7 @@ export class PrismaGuardReportRepo implements IGuardReportRepo {
     }
   }
   async update(guardReportId: string, guardReport: GuardReport): Promise<void> {
-    const GuardReportModel = this.models.guardReports;
+    const GuardReportModel = this.models.guardreports;
     const rawGuardReport = GuardReportMap.toPersistence(guardReport);
     await GuardReportModel.update(
       { data: { ...rawGuardReport } },
@@ -50,7 +50,7 @@ export class PrismaGuardReportRepo implements IGuardReportRepo {
     );
   }
   async getByGuardReportId(guardReportId: string): Promise<GuardReport> {
-    const GuardReportModel = this.models.guardReports;
+    const GuardReportModel = this.models.guardreports;
     const rawGuardReport = await GuardReportModel.findUnique({
       where: { id: guardReportId }
     });
@@ -58,7 +58,7 @@ export class PrismaGuardReportRepo implements IGuardReportRepo {
     return guardReport;
   }
   async getByUserId(userId: string): Promise<GuardReport | GuardReport[]> {
-    const GuardReportModel = this.models.guardReports;
+    const GuardReportModel = this.models.guardreports;
     const rawGuardReport = await GuardReportModel.findMany({
       where: { userId: userId }
     });

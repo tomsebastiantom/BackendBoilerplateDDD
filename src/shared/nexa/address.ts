@@ -37,8 +37,7 @@ export class Address extends ValueObject<any> {
       { argument: props.city, argumentName: 'city' },
       { argument: props.state, argumentName: 'state' },
       { argument: props.postalCode, argumentName: 'postalCode' },
-      { argument: props.country, argumentName: 'country' }
-    ]);
+     ]);
 
     if (nullGuard.isFailure) {
       return Result.fail<Address>(nullGuard.getErrorValue());

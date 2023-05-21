@@ -28,7 +28,7 @@ export class Site extends AggregateRoot<SiteProps> {
   }
 
   get siteName(): SiteName {
-    return this.siteName;
+    return this.props.siteName;
   }
   get isArchived(): boolean {
     return this.props.isArchived;
@@ -37,7 +37,7 @@ export class Site extends AggregateRoot<SiteProps> {
     this.props.isArchived = isArchived;
   }
   get address(): Address {
-    return this.address;
+    return this.props.address;
   }
   get companyName(): string {
     return this.props.companyName;

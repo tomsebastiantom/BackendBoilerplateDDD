@@ -9,13 +9,13 @@ export class PrismaIncidentReportRepo implements IIncidentReportRepo {
   }
 
   async save(incidentReport: IncidentReport): Promise<void> {
-    const IncidentReportModel = this.models.incidentReports;
+    const IncidentReportModel = this.models.incidentreports;
     const rawIncidentReports = IncidentReportMap.toPersistence(incidentReport);
     await IncidentReportModel.create({ data: { ...rawIncidentReports } });
     return;
   }
   async delete(incidentId: string): Promise<void> {
-    const IncidentReportModel = this.models.incidentReports;
+    const IncidentReportModel = this.models.incidentreports;
     await IncidentReportModel.delete({ where: { id: incidentId } });
   }
 
@@ -23,7 +23,7 @@ export class PrismaIncidentReportRepo implements IIncidentReportRepo {
     incidentId: string,
     incidentReport: IncidentReport
   ): Promise<void> {
-    const IncidentReportModel = this.models.incidentReports;
+    const IncidentReportModel = this.models.incidentreports;
     const rawIncidentReport = IncidentReportMap.toPersistence(incidentReport);
     await IncidentReportModel.update({
       data: { ...rawIncidentReport },
@@ -32,7 +32,7 @@ export class PrismaIncidentReportRepo implements IIncidentReportRepo {
     return;
   }
   async getByIncidentReportId(incidentId: string): Promise<IncidentReport> {
-    const IncidentReportModel = this.models.incidentReports;
+    const IncidentReportModel = this.models.incidentreports;
     const rawIncidentReport = await IncidentReportModel.findUnique({
       where: { IncidentReportId: incidentId }
     });
@@ -42,7 +42,7 @@ export class PrismaIncidentReportRepo implements IIncidentReportRepo {
   async getBySiteId(
     siteId: string
   ): Promise<IncidentReport[] | IncidentReport> {
-    const IncidentReportModel = this.models.incidentReports;
+    const IncidentReportModel = this.models.incidentreports;
     const rawIncidentReport = await IncidentReportModel.findMany({
       where: { siteId: siteId }
     });
@@ -59,7 +59,7 @@ export class PrismaIncidentReportRepo implements IIncidentReportRepo {
   async getByUserId(
     userId: string
   ): Promise<IncidentReport[] | IncidentReport> {
-    const IncidentReportModel = this.models.incidentReports;
+    const IncidentReportModel = this.models.incidentreports;
     const rawIncidentReport = await IncidentReportModel.findMany({
       where: { userId: userId }
     });

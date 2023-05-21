@@ -44,7 +44,7 @@ export class PrismaCheckpointRepo implements ICheckpointRepo {
     }
   }
   async update(checkpointId: string, checkpoint: Checkpoint): Promise<void> {
-    const CheckpointModel = this.models.Checkpoint;
+    const CheckpointModel = this.models.checkpoints;
     const rawCheckpoint = CheckpointMap.toPersistence(checkpoint);
     await CheckpointModel.update({
       data: { ...rawCheckpoint },
