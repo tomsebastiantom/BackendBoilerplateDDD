@@ -5,6 +5,7 @@
 /build
 
 /postgres-data
+/redis-data
 # IDE/Editor files
 .vscode
 .idea
