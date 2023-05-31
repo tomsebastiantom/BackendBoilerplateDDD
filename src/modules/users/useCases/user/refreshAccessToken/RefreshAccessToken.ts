@@ -49,9 +49,10 @@ export class RefreshAccessToken
       const accessToken: JWTToken = this.authService.signJWT({
         username: user.username.value,
         email: user.email.value,
-        isEmailVerified: user.isEmailVerified,
+        isAdminUser: user.isAdminUser,
+        isSuperAdmin: user.isSuperAdmin,
         userId: user.userId.id.toString(),
-        adminUser: user.isAdminUser
+        tenantId: user.tenantId.id.toString(),
       });
 
       // sign a new jwt for that user
