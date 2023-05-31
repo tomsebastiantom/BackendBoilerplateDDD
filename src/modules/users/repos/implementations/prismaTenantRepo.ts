@@ -10,8 +10,8 @@ export class PrismaTenantRepo implements ITenantRepo {
   }
 
   async getTenantById(tenantId: string): Promise<Tenant> {
-    const TenantModel = this.models.tenants;
-
+    const TenantModel = this.models.tenant;
+ 
     const tenant = await TenantModel.findUnique({
       where: {
         id: tenantId
@@ -23,18 +23,19 @@ export class PrismaTenantRepo implements ITenantRepo {
   }
 
   async save(tenant: Tenant): Promise<void> {
-    const TenantModel = this.models.Tenants;
+    const TenantModel = this.models.tenant;
     // const exists = await this.getTenantById(tenant.TenantId.id.toString());
 
     // if (!exists) {
-    const rawSequelizeTenant = await TenantMap.toPersistence(tenant);
-    await TenantModel.create({ data: { ...rawSequelizeTenant } });
+    const rawTenant = await TenantMap.toPersistence(tenant);
+    await TenantModel.create({ data: { ...rawTenant } });
     // }
 
     return;
   }
   async exists(name: string): Promise<boolean> {
-    const TenantModel = this.models.Tenants;
+    const TenantModel = this.models.tenant;
+    
     const tenant = await TenantModel.findUnique({
       where: {
         name: name
@@ -44,7 +45,7 @@ export class PrismaTenantRepo implements ITenantRepo {
   }
 
   async update(tenantId: string, tenant: Tenant): Promise<void> {
-    const TenantModel = this.models.Tenants;
+    const TenantModel = this.models.tenant;
     const rawTenant = await TenantMap.toPersistence(tenant);
     await TenantModel.update({
       where: {
@@ -55,7 +56,7 @@ export class PrismaTenantRepo implements ITenantRepo {
     return;
   }
   async delete(tenantId: string): Promise<void> {
-    const TenantModel = this.models.Tenants;
+    const TenantModel = this.models.tenant;
     await TenantModel.delete({
       where: {
         id: tenantId

@@ -9,7 +9,7 @@ export class PrismaCheckpointRepo implements ICheckpointRepo {
   }
 
   async save(checkpoint: Checkpoint[] | Checkpoint): Promise<void> {
-    const CheckpointModel = this.models.checkpoints;
+    const CheckpointModel = this.models.checkpoint;
     if (checkpoint instanceof Array) {
       const rawCheckpoints = checkpoint.map((checkpoint) =>
         CheckpointMap.toPersistence(checkpoint)
@@ -23,12 +23,12 @@ export class PrismaCheckpointRepo implements ICheckpointRepo {
     }
   }
   async delete(checkpointId: string): Promise<void> {
-    const CheckpointModel = this.models.checkpoints;
+    const CheckpointModel = this.models.checkpoint;
     await CheckpointModel.delete({ where: { id: checkpointId } });
   }
 
   async getBySiteId(siteId: string): Promise<Checkpoint[] | Checkpoint> {
-    const CheckpointModel = this.models.checkpoints;
+    const CheckpointModel = this.models.checkpoint;
     const rawCheckpoints = await CheckpointModel.findMany({
       where: { siteId: siteId }
     });
@@ -44,7 +44,7 @@ export class PrismaCheckpointRepo implements ICheckpointRepo {
     }
   }
   async update(checkpointId: string, checkpoint: Checkpoint): Promise<void> {
-    const CheckpointModel = this.models.checkpoints;
+    const CheckpointModel = this.models.checkpoint;
     const rawCheckpoint = CheckpointMap.toPersistence(checkpoint);
     await CheckpointModel.update({
       data: { ...rawCheckpoint },
@@ -53,7 +53,7 @@ export class PrismaCheckpointRepo implements ICheckpointRepo {
     return;
   }
   async getByCheckpointId(checkpointId: string): Promise<Checkpoint> {
-    const CheckpointModel = this.models.checkpoints;
+    const CheckpointModel = this.models.checkpoint;
     const rawCheckpoint = await CheckpointModel.findUnique({
       where: { id: checkpointId }
     });
@@ -62,7 +62,7 @@ export class PrismaCheckpointRepo implements ICheckpointRepo {
     return checkpoint;
   }
   async getByCheckpointByIdentifier(identifier: string): Promise<Checkpoint> {
-    const CheckpointModel = this.models.checkpoints;
+    const CheckpointModel = this.models.checkpoint;
     const rawCheckpoint = await CheckpointModel.findUnique({
       where: { identifier: identifier }
     });

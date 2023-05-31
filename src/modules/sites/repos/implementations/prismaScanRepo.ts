@@ -10,34 +10,34 @@ export class PrismaScanRepo implements IScanRepo {
     this.models = models;
   }
   async save(scan: Scan): Promise<void> {
-    const ScanModel = this.models.scans;
+    const ScanModel = this.models.scan;
     const rawScan = ScanMap.toPersistence(scan);
     await ScanModel.create({ data: { ...rawScan } });
     return;
   }
   async deleteById(scanId: string): Promise<void> {
-    const ScanModel = this.models.scans;
+    const ScanModel = this.models.scan;
     await ScanModel.delete({ where: { id: scanId } });
     return;
   }
   async deleteBySiteId(siteId: string): Promise<void> {
-    const ScanModel = this.models.scans;
+    const ScanModel = this.models.scan;
     await ScanModel.deleteMany({ where: { siteId: siteId } });
     return;
   }
   async deleteByCheckpointId(checkpointId: string): Promise<void> {
-    const ScanModel = this.models.scans;
+    const ScanModel = this.models.scan;
     await ScanModel.deleteMany({ where: { checkpointId: checkpointId } });
     return;
   }
   async deleteByUserId(userId: string): Promise<void> {
-    const ScanModel = this.models.scans;
+    const ScanModel = this.models.scan;
     await ScanModel.deleteMany({ where: { userId: userId } });
     return;
   }
 
   async update(scanId: string, Scan: Scan): Promise<void> {
-    const ScanModel = this.models.scans;
+    const ScanModel = this.models.scan;
     const rawScan = ScanMap.toPersistence(Scan);
     await ScanModel.update(
       { data: { ...rawScan } },
@@ -47,7 +47,7 @@ export class PrismaScanRepo implements IScanRepo {
   }
 
   async getByScanId(scanId: string): Promise<Scan> {
-    const ScanModel = this.models.scans;
+    const ScanModel = this.models.scan;
     const rawScan = await ScanModel.findUnique({
       where: { id: scanId }
     });
@@ -55,7 +55,7 @@ export class PrismaScanRepo implements IScanRepo {
     return Scan;
   }
   async getByCheckpointId(checkpointId: string): Promise<Scan | Scan[]> {
-    const ScanModel = this.models.scans;
+    const ScanModel = this.models.scan;
     const rawScans = await ScanModel.findMany({
       where: { id: checkpointId }
     });
@@ -69,7 +69,7 @@ export class PrismaScanRepo implements IScanRepo {
   }
 
   async getBySiteId(siteId: string): Promise<Scan | Scan[]> {
-    const ScanModel = this.models.scans;
+    const ScanModel = this.models.scan;
     const rawScan = await ScanModel.findMany({ where: { siteId: siteId } });
     if (Array.isArray(rawScan)) {
       const Scan = rawScan.map((rawScan) => ScanMap.toDomain(rawScan));
@@ -80,7 +80,7 @@ export class PrismaScanRepo implements IScanRepo {
     }
   }
   async getByUserId(userId: string): Promise<Scan | Scan[]> {
-    const ScanModel = this.models.scans;
+    const ScanModel = this.models.scan;
     const rawScan = await ScanModel.findMany({ where: { userId: userId } });
     if (Array.isArray(rawScan)) {
       const Scan = rawScan.map((rawScan) => ScanMap.toDomain(rawScan));

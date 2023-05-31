@@ -47,6 +47,7 @@ export class CreateTenantUseCase
         ) as Response;
       }
       const tenant: Tenant = tenantOrError.getValue();
+      console.log("tenant",tenantOrError.getValue());
       if (request.dbUrl) {
         tenant.dbUrl = request.dbUrl;
         this.authService.saveTenantDBUrl(

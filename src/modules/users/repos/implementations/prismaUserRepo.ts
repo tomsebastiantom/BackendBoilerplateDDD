@@ -54,8 +54,8 @@ export class PrismaUserRepo implements IUserRepo {
     const exists = await this.exists(user.email);
 
     if (!exists) {
-      const rawSequelizeUser = await UserMap.toPersistence(user);
-      await UserModel.create({ data: { ...rawSequelizeUser } });
+      const rawUser = await UserMap.toPersistence(user);
+      await UserModel.create({ data: { ...rawUser } });
     }
 
     return;
@@ -77,12 +77,12 @@ export class PrismaUserRepo implements IUserRepo {
   }
   async update(userId: string, user: User): Promise<void> {
     const UserModel = this.models.users;
-    const rawSequelizeUser = await UserMap.toPersistence(user);
+    const rawUser = await UserMap.toPersistence(user);
     await UserModel.update({
       where: {
         id: userId
       },
-      data: { ...rawSequelizeUser }
+      data: { ...rawUser }
     });
     return;
   }

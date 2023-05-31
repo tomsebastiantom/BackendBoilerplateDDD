@@ -31,7 +31,8 @@ export class RedisAuthService extends AbstractRedisClient implements IAuthServic
   }
   public async saveTenantDBUrl (tenantId: string, dbUrl: string): Promise<void> {
     await this.set(tenantId, dbUrl);
-
+    const key  = await this.getOne(tenantId) as string;
+    console.log('key',key);
   }
   public async getTenantDBUrl(tenantId: string): Promise<string|null> {
     const key  = await this.getOne(tenantId) as string;

@@ -9,19 +9,19 @@ export class PrismaSiteRepo implements ISiteRepo {
   }
 
   async save(site: Site): Promise<void> {
-    const SiteModel = this.models.sites;
+    const SiteModel = this.models.site;
     const rawSite = SiteMap.toPersistence(site);
     await SiteModel.create({ data: { ...rawSite } });
     return;
   }
   async delete(siteId: string): Promise<void> {
-    const SiteModel = this.models.sites;
+    const SiteModel = this.models.site;
     await SiteModel.delete({ where: { id: siteId } });
     return;
   }
 
   async update(siteId: string, site: Site): Promise<void> {
-    const SiteModel = this.models.sites;
+    const SiteModel = this.models.site;
     const rawSite = SiteMap.toPersistence(site);
     await SiteModel.update(
       { data: { ...rawSite } },
@@ -30,7 +30,7 @@ export class PrismaSiteRepo implements ISiteRepo {
     return;
   }
   async getBySiteId(siteId: string): Promise<Site> {
-    const SiteModel = this.models.sites;
+    const SiteModel = this.models.site;
     const rawSite = await SiteModel.findUnique({
       where: { siteId: siteId }
     });
@@ -38,7 +38,7 @@ export class PrismaSiteRepo implements ISiteRepo {
     return site;
   }
   async getByTenantId(tenantId: string): Promise<Site | Site[]> {
-    const SiteModel = this.models.sites;
+    const SiteModel = this.models.site;
     const rawSites = await SiteModel.findMany({
       where: { tenantId: tenantId }
     });
