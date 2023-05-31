@@ -12,5 +12,5 @@ export interface UpdateSiteDTO {
     instruction?: InstructionDTO;
     instructions?: InstructionDTO[];
     tenantId?: string;
-   
+    
   }

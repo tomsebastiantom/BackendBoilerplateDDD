@@ -38,6 +38,8 @@ export class ScanMap implements Mapper<Scan> {
       timestamp: scan.timestamp,
       checkpointId: scan.checkpointId.id.toString(),
       location: scan.location,
+      guardName: scan.guardName,
+      siteName: scan.siteName,
       comment: scan.comment,
       assets: scan.assets,
      };

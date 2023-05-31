@@ -11,4 +11,6 @@ export interface IAuthService {
   deAuthenticateUser(username: string): Promise<void>;
   refreshTokenExists (refreshToken: RefreshToken): Promise<boolean>;
   getUserNameFromRefreshToken (refreshToken: RefreshToken): Promise<string>;
+  saveTenantDBUrl (tenantId: string, dbUrl: string): Promise<void>;
+  getTenantDBUrl (tenantId: string): Promise<string|null>;
 }

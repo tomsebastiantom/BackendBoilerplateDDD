@@ -7,7 +7,7 @@ import { UpdateSiteDTO } from './UpdateSiteDTO';
 import { UpdateSiteErrors } from './UpdateSiteErrors';
 import { UpdateSiteResponse } from './UpdateSiteResponse';
 import { Site } from '../../../domain/site';
-import { Address } from '../../../../../shared/nexa/address';
+import { Address } from '../../../../../shared/domain/nexa/address';
 import { Contact } from '../../../domain/contact';
 import { Instruction } from '../../../domain/instruction';
 

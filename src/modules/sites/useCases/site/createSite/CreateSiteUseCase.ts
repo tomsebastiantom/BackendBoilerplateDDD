@@ -7,7 +7,7 @@ import { AddressDTO, CreateSiteDTO } from './CreateSiteDTO';
 import { CreateSiteErrors } from './CreateSiteErrors';
 import { CreateSiteResponse } from './CreateSiteResponse';
 import { Site } from '../../../domain/site';
-import { Address } from '../../../../../shared/nexa/address';
+import { Address } from '../../../../../shared/domain/nexa/address';
 import { Contact } from '../../../domain/contact';
 import { Instruction } from '../../../domain/instruction';
 
@@ -22,16 +22,7 @@ export class CreateSiteUseCase
 
   public async execute(request: CreateSiteDTO): Promise<CreateSiteResponse> {
     try {
-      let address: AddressDTO = {
-        city: request.address.city,
-        state: request.address.state,
-
-        postalCode: request.address.postalCode
-      };
-      if (request.address.country) {
-        address.country = request.address.country;
-      }
-      const addressOrError = Address.create(address);
+      const addressOrError = Address.create(request.address);
 
       if (addressOrError.isFailure)
         return left(
@@ -77,7 +68,7 @@ export class CreateSiteUseCase
         ...newSite,
         address: addressOrError.getValue()
       });
-   
+
       if (siteOrError.isFailure) {
         return left(
           Result.fail<any>(siteOrError.getErrorValue().toString())

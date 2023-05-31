@@ -17,6 +17,8 @@ export interface ScanProps {
   checkpointId: CheckpointId;
   location: Location;
   comment?: string;
+  guardName?: string;
+  siteName?: string;
   assets?: string[];
 }
 
@@ -60,6 +62,12 @@ export class Scan extends Entity<ScanProps> {
   }
   set location(location: Location) {
     this.props.location = location;
+  }
+  get guardName(): string {
+    return this.props.guardName;
+  }
+  get siteName(): string {
+    return this.props.siteName;
   }
 
   private constructor(props: ScanProps, id?: UniqueEntityID) {

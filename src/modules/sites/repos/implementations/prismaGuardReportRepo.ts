@@ -1,6 +1,4 @@
 import { GuardReport } from '../../domain/guardReport';
-
-import { ReportId } from '../../domain/ReportId';
 import { GuardReportMap } from '../../mappers/guardReportMap';
 import { IGuardReportRepo } from '../guardReportRepo';
 

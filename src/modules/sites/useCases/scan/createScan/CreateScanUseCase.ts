@@ -31,7 +31,8 @@ export class CreateScanUseCase
         identifier: request.identifier,
         timestamp: request.timestamp,
         location: request.location,
-        
+        guardName: request.guardName,
+        siteName: request.siteName,
 
 
       }

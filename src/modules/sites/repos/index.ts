@@ -13,6 +13,7 @@ const scanRepo = new PrismaScanRepo(prisma);
 const guardReportRepo = new PrismaGuardReportRepo(prisma);
 const incidentReportRepo = new PrismaIncidentReportRepo(prisma);
 
+
 export {
   checkpointRepo,
   siteRepo,

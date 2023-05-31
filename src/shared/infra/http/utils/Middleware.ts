@@ -86,7 +86,7 @@ export class Middleware {
     }
   
     const approvedDomainList = [
-      'https://khalilstemmler.com'
+      'https://tsk.com'
     ]
   
     const domain = req.headers.origin;

@@ -13,7 +13,7 @@ import { UserId } from './userId';
 // import { Organization } from './organization';
 import { TenantId } from './tenantId';
 // import { UserRole } from './userRoles';
-import { Address } from '../../../shared/nexa/address';
+import { Address } from '../../../shared/domain/nexa/address';
 import { PhoneNumber } from './phoneNumber';
 
 interface UserProps {
@@ -31,7 +31,7 @@ interface UserProps {
   isDeleted?: boolean;
   lastLogin?: Date;
   roles?: string;
-  Address?: Address;
+  address?: Address;
 }
 
 export class User extends AggregateRoot<UserProps> {
@@ -50,7 +50,7 @@ export class User extends AggregateRoot<UserProps> {
     return this.props.tenantId;
   }
   set organizationId(tenantId: TenantId) {
-    this.props.tenantId=tenantId;
+    this.props.tenantId = tenantId;
   }
 
   get email(): UserEmail {
@@ -90,6 +90,9 @@ export class User extends AggregateRoot<UserProps> {
   }
   get isSuperAdmin(): boolean {
     return this.props.isSuperAdmin;
+  }
+  set address(address: Address) {
+    this.props.address = address;
   }
 
   public isLoggedIn(): boolean {

@@ -6,7 +6,7 @@ import { Guard } from '../../../shared/core/Guard';
 import { SiteId } from './siteId';
 import { SiteCreated } from './events/siteCreated';
 import { Contact } from './contact';
-import { Address } from '../../../shared/nexa/address';
+import { Address } from '../../../shared/domain/nexa/address';
 import { Instruction } from './instruction';
 import { SiteName } from './siteName';
 
@@ -44,6 +44,9 @@ export class Site extends AggregateRoot<SiteProps> {
   }
   get isActive(): boolean {
     return this.props.isActive;
+  }
+  get tenantId(): string {
+    return this.props.tenantId;
   }
 
   set isActive(isActive: boolean) {

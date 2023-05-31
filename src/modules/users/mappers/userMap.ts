@@ -1,42 +1,50 @@
-
-import { Mapper } from '../../../shared/infra/Mapper'
+import { Mapper } from '../../../shared/infra/Mapper';
 import { User } from '../domain/user';
 import { UserDTO } from '../dtos/userDTO';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { UserName } from '../domain/userName';
 import { UserPassword } from '../domain/userPassword';
 import { UserEmail } from '../domain/userEmail';
+import { Address } from '../../../shared/domain/nexa/address';
 
 export class UserMap implements Mapper<User> {
-  public static toDTO (user: User): UserDTO {
+  public static toDTO(user: User): UserDTO {
     return {
       username: user.username.value,
       isEmailVerified: user.isEmailVerified,
       isAdminUser: user.isAdminUser,
       isDeleted: user.isDeleted
-    }
+    };
   }
 
-  public static toDomain (raw: any): User {
+  public static toDomain(raw: any): User {
     const userNameOrError = UserName.create({ name: raw.username });
-    const userPasswordOrError = UserPassword.create({ value: raw.password, hashed: true });
+    const userPasswordOrError = UserPassword.create({
+      value: raw.password,
+      hashed: true
+    });
     const userEmailOrError = UserEmail.create(raw.email);
+    const AddressorError = Address.create(raw.address);
 
-    const userOrError = User.create({
-      username: userNameOrError.getValue(),
-      isAdminUser: raw.isAdminUser,
-      name:raw.name,
-      isEmailVerified: raw.isEmailVerified,
-      password: userPasswordOrError.getValue(),
-      email: userEmailOrError.getValue(),
-    }, new UniqueEntityID(raw.id));
+    const userOrError = User.create(
+      {
+        username: userNameOrError.getValue(),
+        isAdminUser: raw.isAdminUser,
+        name: raw.name,
+        isEmailVerified: raw.isEmailVerified,
+        password: userPasswordOrError.getValue(),
+        email: userEmailOrError.getValue(),
+        address: AddressorError.getValue()
+      },
+      new UniqueEntityID(raw.id)
+    );
 
     userOrError.isFailure ? console.log(userOrError.getErrorValue()) : '';
 
     return userOrError.isSuccess ? userOrError.getValue() : null;
   }
 
-  public static async toPersistence (user: User): Promise<any> {
+  public static async toPersistence(user: User): Promise<any> {
     let password: string = null;
     if (!!user.password === true) {
       if (user.password.isAlreadyHashed()) {
@@ -54,10 +62,10 @@ export class UserMap implements Mapper<User> {
       username: user.username.value,
       password: password,
       isAdminUser: user.isAdminUser,
-      isSuperAdmin : user.isSuperAdmin,
+      isSuperAdmin: user.isSuperAdmin,
       isDeleted: user.isDeleted,
-      lastLogin: user.lastLogin,
-    }
+      lastLogin: user.lastLogin
+    };
   }
 }
 

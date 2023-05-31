@@ -83,6 +83,8 @@ model Scan {
   assets       String[]   @db.VarChar(255)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+  guardName    String     @db.VarChar(255)
+  siteName     String     @db.VarChar(255)
   checkpoints  Checkpoint @relation(fields: [checkpointId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   sites        Site       @relation(fields: [siteId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users        User       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -101,6 +103,8 @@ model Site {
   isArchived      Boolean?         @default(false)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
+  tenantId        String           @db.Uuid
+  tenants         Tenant           @relation(fields: [tenantId], references: [id])
   checkpoints     Checkpoint[]
   guardreports    GuardReport[]
   incidentreports IncidentReport[]
@@ -111,11 +115,13 @@ model Site {
 }
 
 model Tenant {
-  id         String   @id @db.Uuid
-  TenantName String   @db.VarChar(255)
-  address    String   @db.VarChar(255)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @db.Uuid
+  name      String   @db.VarChar(255)
+  address   String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  dbUrl     String   @db.VarChar(255)
+  Site      Site[]
 
   @@map("tenants")
 }

@@ -29,6 +29,14 @@ export class RedisAuthService extends AbstractRedisClient implements IAuthServic
     const keys = await this.getAllKeys(`*${refreshToken}*`);
     return keys.length !== 0;
   }
+  public async saveTenantDBUrl (tenantId: string, dbUrl: string): Promise<void> {
+    await this.set(tenantId, dbUrl);
+
+  }
+  public async getTenantDBUrl(tenantId: string): Promise<string|null> {
+    const key  = await this.getOne(tenantId) as string;
+    return !!key ? key : null;
+}
 
   public async getUserNameFromRefreshToken (refreshToken: RefreshToken): Promise<string> {
     const keys = await this.getAllKeys(`*${refreshToken}*`);
@@ -67,8 +75,9 @@ export class RedisAuthService extends AbstractRedisClient implements IAuthServic
       email: props.email,
       username: props.username,
       userId: props.userId,
-      adminUser: props.adminUser,
-      isEmailVerified: props.isEmailVerified
+      isAdminUser: props.isAdminUser,
+      isSuperAdmin: props.isSuperAdmin,
+      tenantId: props.tenantId,
     };
 
     return jwt.sign(claims, authConfig.secret, {

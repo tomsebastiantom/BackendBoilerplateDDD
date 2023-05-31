@@ -9,4 +9,6 @@ export interface ScanDTO {
     location: string;
     comment?: string;
     assets?: string[];
+    guardName?: string;
+    siteName?: string;
   }
