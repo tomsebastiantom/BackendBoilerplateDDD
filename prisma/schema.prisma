@@ -116,11 +116,11 @@ model Site {
 
 model Tenant {
   id        String   @id @db.Uuid
-  name      String   @db.VarChar(255)
+  name      String   @db.VarChar(255) @unique
   address   String   @db.VarChar(255)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  dbUrl     String   @db.VarChar(255)
+  dbUrl     String?   @db.VarChar(255)
   Site      Site[]
 
   @@map("tenants")

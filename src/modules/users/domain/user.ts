@@ -20,7 +20,7 @@ interface UserProps {
   email: UserEmail;
   name: string;
   phone?: PhoneNumber;
-  tenantId?: TenantId;
+  tenantId: TenantId;
   username: UserName;
   password: UserPassword;
   isEmailVerified?: boolean;

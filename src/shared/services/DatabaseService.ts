@@ -14,8 +14,14 @@ export class DatabaseService implements IDatabaseService {
     this.clients = new Map();
     this.authService = authService;
   }
+  removeHyphens(tenantId: string) {
+    return tenantId.replace(/-/g, '');
+  }
   async createClient(tenantId: string, dbUrl?: string): Promise<any> {
-    if (!dbUrl) dbUrl = BASE_DATABASE_URL + tenantId + '?schema=public';
+    if (!dbUrl)
+      dbUrl =
+        BASE_DATABASE_URL + '_'+ this.removeHyphens(tenantId) + '?schema=public';
+        console.log('dbUrl', dbUrl);
     const client = new PrismaClient({
       datasources: {
         db: {
@@ -56,9 +62,11 @@ export class DatabaseService implements IDatabaseService {
     const client = new Client({
       connectionString: DATABASE_URL
     });
-    await client.$connect();
-    await client.query(`CREATE DATABASE ${tenantId}`);
-    await client.$disconnect();
+    const DBname = '_'+tenantId.replace(/-/g, '');
+ 
+    await client.connect();
+    await client.query(`CREATE DATABASE ${DBname}`);
+    await client.end();
 
     return;
   }

@@ -4,6 +4,7 @@ import { CreateTenantErrors } from './CreateTenantErrors';
 import { BaseController } from '../../../../../shared/infra/http/models/BaseController';
 import { DecodedExpressRequest } from '../../../infra/http/models/decodedRequest';
 import * as express from 'express';
+import { CreateTenantResponseDTO } from './CreateTenantDTO';
 
 export class CreateTenantController extends BaseController {
   private useCase: CreateTenantUseCase;
@@ -19,12 +20,6 @@ export class CreateTenantController extends BaseController {
   ): Promise<any> {
     let dto: CreateTenantDTO = req.body as CreateTenantDTO;
 
-    dto = {
-      name: dto.name,
-      address: dto.address,
-      dbUrl: dto.dbUrl
-    };
-
     try {
       const result = await this.useCase.execute(dto);
 
@@ -34,12 +29,14 @@ export class CreateTenantController extends BaseController {
         switch (error.constructor) {
           case CreateTenantErrors.TenantNameTakenError:
             return this.conflict(res, error.getErrorValue().message);
-
+            break;
           default:
             return this.fail(res, error.getErrorValue().message);
         }
       } else {
-        return this.ok(res);
+        const dto: CreateTenantResponseDTO =
+          result.value.getValue() as CreateTenantResponseDTO;
+        return this.ok<CreateTenantResponseDTO>(res, dto);
       }
     } catch (err) {
       return this.fail(res, err);

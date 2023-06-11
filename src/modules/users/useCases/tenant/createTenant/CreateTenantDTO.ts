@@ -7,3 +7,7 @@ export interface CreateTenantDTO {
  
 }
 
+export interface CreateTenantResponseDTO {
+  name: string;
+  tenantId: string;
+}

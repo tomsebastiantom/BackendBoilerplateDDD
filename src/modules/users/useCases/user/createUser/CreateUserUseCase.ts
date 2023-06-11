@@ -8,6 +8,8 @@ import { UserEmail } from '../../../domain/userEmail';
 import { UserPassword } from '../../../domain/userPassword';
 import { UserName } from '../../../domain/userName';
 import { User } from '../../../domain/user';
+import { TenantId } from '../../../domain/tenantId';
+import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
 
 type Response = Either<
   | CreateUserErrors.EmailAlreadyExistsError
@@ -46,6 +48,9 @@ export class CreateUserUseCase
     const username: UserName = usernameOrError.getValue();
     const name = request.name;
     const phone = request.phone;
+    const tenantId = request.tenantId;
+    if(!tenantId) return left(Result.fail<void>("TenantId is required"))
+
     try {
       const userAlreadyExists = await this.userRepo.exists(email);
 
@@ -73,7 +78,8 @@ export class CreateUserUseCase
         password,
         username,
         name,
-        phone
+        phone,
+        tenantId: TenantId.create(new UniqueEntityID(request.tenantId)).getValue()
       });
 
       if (userOrError.isFailure) {

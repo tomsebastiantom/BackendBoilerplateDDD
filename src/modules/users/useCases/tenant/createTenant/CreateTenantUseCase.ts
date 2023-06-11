@@ -8,12 +8,12 @@ import { Address } from '../../../../../shared/domain/nexa/address';
 import { Tenant } from '../../../domain/tenant';
 import { DatabaseService } from '../../../../../shared/services/DatabaseService';
 import { IAuthService } from '../../../services/authService';
+import { CreateTenantResponseDTO } from './CreateTenantDTO';
 
 type Response = Either<
   | CreateTenantErrors.TenantNameTakenError
-  | AppError.UnexpectedError
-  | Result<any>,
-  Result<void>
+  | AppError.UnexpectedError,
+  Result<CreateTenantResponseDTO>
 >;
 
 export class CreateTenantUseCase
@@ -36,9 +36,16 @@ export class CreateTenantUseCase
         ) as Response;
       }
 
+      const addressOrError = Address.create(request.address);
+
+      if (addressOrError.isFailure) {
+        return left(
+          Result.fail<Tenant>(addressOrError.getErrorValue().toString())
+        ) as Response;
+      }
       const tenantOrError: Result<Tenant> = Tenant.create({
         name: request.name,
-        address: Address.create(request.address).getValue()
+        address: addressOrError.getValue()
       });
 
       if (tenantOrError.isFailure) {
@@ -47,7 +54,7 @@ export class CreateTenantUseCase
         ) as Response;
       }
       const tenant: Tenant = tenantOrError.getValue();
-      console.log("tenant",tenantOrError.getValue());
+
       if (request.dbUrl) {
         tenant.dbUrl = request.dbUrl;
         this.authService.saveTenantDBUrl(
@@ -61,7 +68,10 @@ export class CreateTenantUseCase
       }
       await this.tenantRepo.save(tenant);
 
-      return right(Result.ok<void>());
+      return right(Result.ok<CreateTenantResponseDTO>({
+        tenantId: tenant.TenantId.id.toString(),
+        name: tenant.name,
+      }));
     } catch (err) {
       return left(new AppError.UnexpectedError(err)) as Response;
     }

@@ -25,7 +25,8 @@ export class CreateUserController extends BaseController {
       email: TextUtils.sanitize(dto.email),
       password: dto.password,
       phone: dto.phone,
-      name: dto.name
+      name: dto.name,
+      tenantId: dto.tenantId,
     };
     // console.log(dto);
     try {
