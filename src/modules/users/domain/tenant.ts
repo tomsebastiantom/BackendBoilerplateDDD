@@ -7,9 +7,14 @@ import { Address } from '../../../shared/domain/nexa/address';
 import { TenantId } from './tenantId';
 
 interface TenantProps {
-  name: string;
+  companyName: string;
   address: Address;
   dbUrl?: string;
+  email: string;
+  password: string;
+  phone?: string;
+  name: string;
+  username: string;
 }
 
 export class Tenant extends Entity<TenantProps> {
@@ -21,6 +26,21 @@ export class Tenant extends Entity<TenantProps> {
   }
   get address(): Address {
     return this.props.address;
+  }
+  get companyName(): string {
+    return this.props.companyName;
+  }
+  get email(): string {
+    return this.props.email;
+  }
+  get password(): string {
+    return this.props.password;
+  }
+  get phone(): string {
+    return this.props.phone;
+  }
+  get username(): string {
+    return this.props.username;
   }
   get dbUrl(): string {
     return this.props.dbUrl;
@@ -36,7 +56,8 @@ export class Tenant extends Entity<TenantProps> {
     id?: UniqueEntityID
   ): Result<Tenant> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
-      { argument: props.name, argumentName: 'name' }
+      { argument: props.name, argumentName: 'name' },
+      { argument: props.name, argumentName: 'companyName' }
     ]);
     //Todo Null Guard
     if (nullGuard.isFailure) {

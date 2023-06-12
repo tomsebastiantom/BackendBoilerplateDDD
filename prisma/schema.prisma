@@ -121,11 +121,11 @@ model Tenant {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   dbUrl       String?  @db.VarChar(255)
-  email       String  @db.VarChar(255)
-  password    String  @db.VarChar(255)
-  phone       String?  @db.VarChar(255)
-  companyName String  @db.VarChar(255)
-  username    String?  @db.VarChar(255)
+  email       String   @unique @db.VarChar(255)
+  password    String   @db.VarChar(255)
+  phone       String?  @unique @db.VarChar(255)
+  companyName String   @unique @db.VarChar(255)
+  username    String?  @unique @db.VarChar(255)
   Site        Site[]
 
   @@map("tenants")
