@@ -18,7 +18,7 @@ export class GetTenantByIdController extends BaseController {
     res: express.Response
   ): Promise<any> {
     const dto: GetTenantByIdDTO = req.body as GetTenantByIdDTO;
-
+   console.log(req);
     try {
       const result = await this.useCase.execute(dto);
 
