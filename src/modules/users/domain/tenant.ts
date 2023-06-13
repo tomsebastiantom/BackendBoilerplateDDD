@@ -1,9 +1,9 @@
-import { Entity } from '../../../shared/domain/Entity';
+import { AggregateRoot } from '../../../shared/domain/AggregateRoot';
 import { Result } from '../../../shared/core/Result';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { Guard } from '../../../shared/core/Guard';
 import { Address } from '../../../shared/domain/nexa/address';
-
+import { TenantCreated } from './events/tenantCreated';
 import { TenantId } from './tenantId';
 
 interface TenantProps {
@@ -17,7 +17,7 @@ interface TenantProps {
   username: string;
 }
 
-export class Tenant extends Entity<TenantProps> {
+export class Tenant extends AggregateRoot<TenantProps> {
   get TenantId(): TenantId {
     return TenantId.create(this._id).getValue();
   }
@@ -33,6 +33,10 @@ export class Tenant extends Entity<TenantProps> {
   get email(): string {
     return this.props.email;
   }
+  set email(email: string) {
+    this.props.email = email;
+  }
+  
   get password(): string {
     return this.props.password;
   }
@@ -63,9 +67,13 @@ export class Tenant extends Entity<TenantProps> {
     if (nullGuard.isFailure) {
       return Result.fail<Tenant>(nullGuard.getErrorValue());
     } else {
-      const tenant = !!id === false;
-
-      return Result.ok<Tenant>(new Tenant(props, id));
+      const tenant = new Tenant(props, id);
+      const newtenant = !!id === false;
+      if (newtenant) {
+        tenant.addDomainEvent(new TenantCreated(tenant));
+        console.log(`[TenantCreated]: ${tenant.name}`,tenant);
+      }
+      return Result.ok<Tenant>(tenant);
     }
   }
 }

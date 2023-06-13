@@ -1,6 +1,8 @@
 import { Tenant } from '../../domain/tenant';
 import { TenantMap } from '../../mappers/tenantMap';
 import { ITenantRepo } from '../tenantRepo';
+import { UniqueEntityID } from '../../../../shared/domain/UniqueEntityID';
+import { DomainEvents } from '../../../../shared/domain/events/DomainEvents';
 
 export class PrismaTenantRepo implements ITenantRepo {
   private models: any;
@@ -28,11 +30,13 @@ export class PrismaTenantRepo implements ITenantRepo {
 
     // if (!exists) {
     const rawTenant = await TenantMap.toPersistence(tenant);
-    await TenantModel.create({ data: { ...rawTenant } });
+     await TenantModel.create({ data: { ...rawTenant } });
     // }
-
+  
+    DomainEvents.dispatchEventsForAggregate(new UniqueEntityID(tenant.TenantId.id.toString()));
     return;
   }
+  
   async exists(name: string): Promise<boolean> {
     const TenantModel = this.models.tenant;
     

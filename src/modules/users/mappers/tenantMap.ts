@@ -9,6 +9,11 @@ export class TenantMap implements Mapper<Tenant> {
     return {
       id: tenant.TenantId.id.toString(),
       name: tenant.name,
+      companyName: tenant.companyName,
+      email: tenant.email,
+      password: tenant.password,
+      username: tenant.username,
+      ...(tenant.phone && { phone: tenant.phone }),
       address: JSON.stringify(tenant.address),
       ...(tenant.dbUrl && { dbUrl: tenant.dbUrl })
     };
@@ -19,7 +24,12 @@ export class TenantMap implements Mapper<Tenant> {
       {
         name: raw.name,
         address: Address.create(raw.address).getValue(),
-        ...(raw.dbUrl && { dbUrl: raw.dbUrl }),
+        companyName: raw.companyName,
+        email: raw.email,
+        password: raw.password,
+        username: raw.username,
+        ...(raw.phone && { phone: raw.phone }),
+        ...(raw.dbUrl && { dbUrl: raw.dbUrl })
       },
       new UniqueEntityID(raw.id)
     );
@@ -31,10 +41,15 @@ export class TenantMap implements Mapper<Tenant> {
 
   public static async toPersistence(tenant: Tenant): Promise<any> {
     return {
-        id: tenant.TenantId.id.toString(),
-        name: tenant.name,
-        address: JSON.stringify(tenant.address),
-        ...(tenant.dbUrl && { dbUrl: tenant.dbUrl }),
+      id: tenant.TenantId.id.toString(),
+      name: tenant.name,
+      companyName: tenant.companyName,
+      email: tenant.email,
+      password: tenant.password,
+      username: tenant.username,
+      ...(tenant.phone && { phone: tenant.phone }),
+      address: JSON.stringify(tenant.address),
+      ...(tenant.dbUrl && { dbUrl: tenant.dbUrl })
     };
   }
 }

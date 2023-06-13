@@ -1,7 +1,7 @@
 import { AddressDTO } from "../../../../sites/dtos/siteDTO";
 
 export interface CreateTenantDTO {
-  companyname: string;
+  companyName: string;
   address: AddressDTO;
   dbUrl?: string;
   email: string;

@@ -9,10 +9,9 @@ import { Tenant } from '../../../domain/tenant';
 import { DatabaseService } from '../../../../../shared/services/DatabaseService';
 import { IAuthService } from '../../../services/authService';
 import { CreateTenantResponseDTO } from './CreateTenantDTO';
-
+import { UserPassword } from '../../../domain/userPassword';
 type Response = Either<
-  | CreateTenantErrors.TenantNameTakenError
-  | AppError.UnexpectedError,
+  CreateTenantErrors.TenantNameTakenError | AppError.UnexpectedError,
   Result<CreateTenantResponseDTO>
 >;
 
@@ -43,8 +42,21 @@ export class CreateTenantUseCase
           Result.fail<Tenant>(addressOrError.getErrorValue().toString())
         ) as Response;
       }
+      const passwordOrError = UserPassword.create({ value: request.password });
+      if (passwordOrError.isFailure) {
+        return left(
+          Result.fail<Tenant>(passwordOrError.getErrorValue().toString())
+        ) as Response;
+      }
+      const passwordResult = await passwordOrError.getValue().getHashedValue();
       const tenantOrError: Result<Tenant> = Tenant.create({
         name: request.name,
+        companyName: request.companyName,
+        email: request.email,
+        password: passwordResult,
+        username: request.username,
+        phone: request.phone,
+        ...(request.dbUrl ? { dbUrl: request.dbUrl } : {}),
         address: addressOrError.getValue()
       });
 
@@ -68,10 +80,12 @@ export class CreateTenantUseCase
       }
       await this.tenantRepo.save(tenant);
 
-      return right(Result.ok<CreateTenantResponseDTO>({
-        tenantId: tenant.TenantId.id.toString(),
-        name: tenant.name,
-      }));
+      return right(
+        Result.ok<CreateTenantResponseDTO>({
+          tenantId: tenant.TenantId.id.toString(),
+          name: tenant.name
+        })
+      );
     } catch (err) {
       return left(new AppError.UnexpectedError(err)) as Response;
     }

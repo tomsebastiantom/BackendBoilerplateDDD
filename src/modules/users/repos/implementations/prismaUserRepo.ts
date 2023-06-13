@@ -9,12 +9,13 @@ export class PrismaUserRepo implements IUserRepo {
   private models: any;
 
   constructor(models: any) {
+    // console.log(`[PrismaUserRepo]: Constructing PrismaUserRepo`,models);
     this.models = models;
   }
 
   async exists(userEmail: UserEmail): Promise<boolean> {
-    const UserModel = this.models.users;
-
+    const UserModel = this.models.user;
+  //  console.log(`[PrismaUserRepo]: Checking if user exists ${userEmail.value}`,UserModel);
     const user = await UserModel.findUnique({
       where: {
         email: userEmail.value
@@ -24,7 +25,7 @@ export class PrismaUserRepo implements IUserRepo {
   }
 
   async getUserByUserName(userName: UserName | string): Promise<User> {
-    const UserModel = this.models.users;
+    const UserModel = this.models.user;
 
     const user = await UserModel.findUnique({
       where: {
@@ -38,7 +39,7 @@ export class PrismaUserRepo implements IUserRepo {
   }
 
   async getUserByUserId(userId: string): Promise<User> {
-    const UserModel = this.models.users;
+    const UserModel = this.models.user;
     const user = await UserModel.find({
       where: {
         id: userId
@@ -50,7 +51,7 @@ export class PrismaUserRepo implements IUserRepo {
   }
 
   async save(user: User): Promise<void> {
-    const UserModel = this.models.users;
+    const UserModel = this.models.user;
     const exists = await this.exists(user.email);
 
     if (!exists) {
@@ -61,7 +62,7 @@ export class PrismaUserRepo implements IUserRepo {
     return;
   }
   async getByTenantId(tenantId: string): Promise<User[] | User> {
-    const UserModel = this.models.users;
+    const UserModel = this.models.user;
     const user = await UserModel.find({
       where: {
         tenantId: tenantId
@@ -76,7 +77,7 @@ export class PrismaUserRepo implements IUserRepo {
     }
   }
   async update(userId: string, user: User): Promise<void> {
-    const UserModel = this.models.users;
+    const UserModel = this.models.user;
     const rawUser = await UserMap.toPersistence(user);
     await UserModel.update({
       where: {
