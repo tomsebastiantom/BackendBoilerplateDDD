@@ -9,13 +9,13 @@ export class AfterTenantCreated implements IHandle<TenantCreated> {
 
   constructor(createUser: typeof createUserUseCase) {
     this.setupSubscriptions();
-    console.log(`[AfterTenantCreated]: Subscribed to Domain Event`);
+    // console.log(`[AfterTenantCreated]: Subscribed to Domain Event`);
     this.createUser = createUser;
   }
 
   setupSubscriptions(): void {
     // Register to the domain event
-    console.log(`[AfterTenantCreated]: Subscribing to Domain Event`);
+    // console.log(`[AfterTenantCreated]: Subscribing to Domain Event`);
     DomainEvents.register(this.onTenantCreated.bind(this), TenantCreated.name);
   }
 
@@ -30,11 +30,27 @@ export class AfterTenantCreated implements IHandle<TenantCreated> {
         tenantId: event.tenant.TenantId.id.toString(),
         isAdminUser: true
       };
+      //   try {
       if (event.tenant.address) {
-        user.Address = event.tenant.address;
+        //   console.log(
+        //     `[AfterTenantCreated]: Adding Tenant as admin`,
+        //     event.tenant.address
+        //   );
+        user.address = {
+          city: event.tenant.address.city,
+          state: event.tenant.address.state,
+          postalCode: event.tenant.address.postalCode,
+          ...(event.tenant.address.country
+            ? { country: event.tenant.address.country }
+            : {})
+        };
       }
+      //   } catch (err) {
+      //     console.log(`[AfterTenantCreated]: Adding Tenant as admin Error`, err);
+      //   }
+
       await this.createUser.execute({ ...user });
-      console.log(`[AfterTenantCreated]: Added Tenant as admin`);
+    //   console.log(`[AfterTenantCreated]: Added Tenant as admin`);
     } catch (err) {
       console.log(`[AfterTenantCreated]: Added Tenant as admin Error`);
     }

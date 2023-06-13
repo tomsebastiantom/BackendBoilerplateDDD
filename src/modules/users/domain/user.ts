@@ -38,13 +38,20 @@ export class User extends AggregateRoot<UserProps> {
   get userId(): UserId {
     return UserId.create(this._id).getValue();
   }
-  set name(name: string) {}
+  set name(name: string) {
+    this.props.name = name;
+  }
   get name(): string {
     return this.props.name;
   }
-  set phone(phone: string) {}
+  set phone(phone: string) {
+    this.props.phone = phone;
+  }
   get phone(): string {
     return this.props.phone;
+  }
+  get address(): Address {
+    return this.props.address;
   }
   get tenantId(): TenantId {
     return this.props.tenantId;

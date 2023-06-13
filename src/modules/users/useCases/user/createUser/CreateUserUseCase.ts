@@ -10,6 +10,7 @@ import { UserName } from '../../../domain/userName';
 import { User } from '../../../domain/user';
 import { TenantId } from '../../../domain/tenantId';
 import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
+import { Address } from '../../../../../shared/domain/nexa/address';
 
 type Response = Either<
   | CreateUserErrors.EmailAlreadyExistsError
@@ -32,7 +33,7 @@ export class CreateUserUseCase
     const emailOrError = UserEmail.create(request.email);
     const passwordOrError = UserPassword.create({ value: request.password });
     const usernameOrError = UserName.create({ name: request.username });
-
+      
     const dtoResult = Result.combine([
       emailOrError,
       passwordOrError,
@@ -53,7 +54,6 @@ export class CreateUserUseCase
 
     try {
       const userAlreadyExists = await this.userRepo.exists(email);
-
       if (userAlreadyExists) {
         return left(
           new CreateUserErrors.EmailAlreadyExistsError(email.value)
@@ -72,6 +72,13 @@ export class CreateUserUseCase
           ) as Response;
         }
       } catch (err) {}
+      const addressOrError = Address.create(request.address);
+
+      if (addressOrError.isFailure) {
+        return left(
+          Result.fail<User>(addressOrError.getErrorValue().toString())
+        ) as Response;
+      }
 
       const userOrError: Result<User> = User.create({
         email,
@@ -79,6 +86,8 @@ export class CreateUserUseCase
         username,
         name,
         phone,
+        ...(request.address ? { address:addressOrError.getValue()} : {}),
+        isAdminUser: request.isAdminUser,
         tenantId: TenantId.create(new UniqueEntityID(request.tenantId)).getValue()
       });
 

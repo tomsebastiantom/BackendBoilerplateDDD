@@ -10,25 +10,33 @@ export interface AddressProps {
   postalCode: string;
 }
 
-export class Address extends ValueObject<any> {
+export class Address extends ValueObject<AddressProps> {
   private constructor(props: AddressProps) {
     super(props);
   }
 
   get city(): string {
-    return this.city;
+    return this.props.city;
   }
 
   get state(): string {
-    return this.state;
+    return this.props.state;
   }
 
   get country(): string {
-    return this.country;
+    return this.props.country;
   }
 
   get postalCode(): string {
-    return this.postalCode;
+    return this.props.postalCode;
+  }
+  public static toPersistence(address: Address): any {
+    return {
+      city: address.city,
+      state: address.state,
+      ...(address.country ? { country: address.country } : {}),
+      postalCode: address.postalCode
+    };
   }
   //Todo Address AutoComplete
   public static create(props: AddressProps): Result<Address> {

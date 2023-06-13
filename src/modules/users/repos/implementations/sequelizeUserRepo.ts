@@ -21,6 +21,7 @@ export class SequelizeUserRepo  {
     });
     return !!user === true;
   }
+  
 
   async getUserByUserName(userName: UserName | string): Promise<User> {
     const UserModel = this.models.User;

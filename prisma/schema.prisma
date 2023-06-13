@@ -145,7 +145,7 @@ model User {
   isDeleted       Boolean?         @default(false)
   lastLogin       DateTime?        @db.Timestamptz(6)
   roles           String?          @db.VarChar(255)
-  Address         Json?            @db.Json
+  address         Json?            @db.Json
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   guardreports    GuardReport[]

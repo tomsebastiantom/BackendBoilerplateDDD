@@ -24,7 +24,8 @@ export class UserMap implements Mapper<User> {
       hashed: true
     });
     const userEmailOrError = UserEmail.create(raw.email);
-    const AddressorError = Address.create(raw.address);
+    console.log(raw.address);
+    const AddressOrError = Address.create(raw.address);
 
     const userOrError = User.create(
       {
@@ -35,7 +36,7 @@ export class UserMap implements Mapper<User> {
         isEmailVerified: raw.isEmailVerified,
         password: userPasswordOrError.getValue(),
         email: userEmailOrError.getValue(),
-        address: AddressorError.getValue()
+        address: AddressOrError.getValue()
       },
       new UniqueEntityID(raw.id)
     );
@@ -54,7 +55,12 @@ export class UserMap implements Mapper<User> {
         password = await user.password.getHashedValue();
       }
     }
+    let address: any = null;
 
+  if(user.address){
+   address = await Address.toPersistence(user.address);
+
+  }
     return {
       id: user.userId.id.toString(),
       email: user.email.value,
@@ -63,6 +69,7 @@ export class UserMap implements Mapper<User> {
       isEmailVerified: user.isEmailVerified,
       username: user.username.value,
       password: password,
+      ...(user.address ? { address: address } : {}),
       isAdminUser: user.isAdminUser,
       isSuperAdmin: user.isSuperAdmin,
       isDeleted: user.isDeleted,

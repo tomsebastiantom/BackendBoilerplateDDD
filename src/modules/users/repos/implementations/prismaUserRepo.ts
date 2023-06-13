@@ -26,7 +26,6 @@ export class PrismaUserRepo implements IUserRepo {
 
   async getUserByUserName(userName: UserName | string): Promise<User> {
     const UserModel = this.models.user;
-
     const user = await UserModel.findUnique({
       where: {
         username:
@@ -34,7 +33,7 @@ export class PrismaUserRepo implements IUserRepo {
       }
     });
     if (!!user === false) throw new Error('User not found.');
-
+  // console.log(`[PrismaUserRepo]: Got user by username ${userName}`,user);
     return UserMap.toDomain(user);
   }
 
@@ -56,6 +55,7 @@ export class PrismaUserRepo implements IUserRepo {
 
     if (!exists) {
       const rawUser = await UserMap.toPersistence(user);
+      // console.log(`[PrismaUserRepo]: Saving user ${user.username.value}`,rawUser);
       await UserModel.create({ data: { ...rawUser } });
     }
 
