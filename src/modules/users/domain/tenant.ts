@@ -5,22 +5,26 @@ import { Guard } from '../../../shared/core/Guard';
 import { Address } from '../../../shared/domain/nexa/address';
 import { TenantCreated } from './events/tenantCreated';
 import { TenantId } from './tenantId';
+import { UserPassword } from './userPassword';
 
 interface TenantProps {
   companyName: string;
   address: Address;
   dbUrl?: string;
   email: string;
-  password: string;
+  password: UserPassword;
   phone?: string;
   name: string;
   username: string;
 }
 
 export class Tenant extends AggregateRoot<TenantProps> {
-  get TenantId(): TenantId {
+  get tenantId(): TenantId {
     return TenantId.create(this._id).getValue();
   }
+  // get userId(): UserId {
+  //   return UserId.create(this._id).getValue();
+  // }
   get name(): string {
     return this.props.name;
   }
@@ -37,7 +41,7 @@ export class Tenant extends AggregateRoot<TenantProps> {
     this.props.email = email;
   }
   
-  get password(): string {
+  get password(): UserPassword {
     return this.props.password;
   }
   get phone(): string {
@@ -71,7 +75,7 @@ export class Tenant extends AggregateRoot<TenantProps> {
       const newtenant = !!id === false;
       if (newtenant) {
         tenant.addDomainEvent(new TenantCreated(tenant));
-        console.log(`[TenantCreated]: ${tenant.name}`,tenant);
+        // console.log(`[TenantCreated]: ${tenant.name}`,tenant);
       }
       return Result.ok<Tenant>(tenant);
     }

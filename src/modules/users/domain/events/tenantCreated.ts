@@ -12,6 +12,6 @@ export class TenantCreated implements IDomainEvent {
   }
 
   public getAggregateId (): UniqueEntityID {
-    return this.tenant.TenantId.id;
+    return this.tenant.tenantId.id;
   }
 }

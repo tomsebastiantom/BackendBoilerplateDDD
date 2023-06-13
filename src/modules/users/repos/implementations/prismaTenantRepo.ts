@@ -33,7 +33,7 @@ export class PrismaTenantRepo implements ITenantRepo {
      await TenantModel.create({ data: { ...rawTenant } });
     // }
   
-    DomainEvents.dispatchEventsForAggregate(new UniqueEntityID(tenant.TenantId.id.toString()));
+    DomainEvents.dispatchEventsForAggregate(new UniqueEntityID(tenant.tenantId.id.toString()));
     return;
   }
   

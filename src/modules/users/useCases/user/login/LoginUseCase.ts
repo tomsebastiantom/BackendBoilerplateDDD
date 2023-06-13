@@ -52,15 +52,14 @@ export class LoginUserUseCase implements UseCase<LoginDTO, Promise<Response>> {
       }
 
       const passwordValid = await user.password.comparePassword(password.value);
-
+  console.log("passwordValid",user)
       if (!passwordValid) {
         return left(new LoginUseCaseErrors.PasswordDoesntMatchError());
       }
 
-      
-      await databaseService.getDBclient(user.tenantId.id.toString())
-      
   
+      await databaseService.getDBclient(user.tenantId.id.toString());
+
  
       const accessToken: JWTToken = this.authService.signJWT({
         username: user.username.value,

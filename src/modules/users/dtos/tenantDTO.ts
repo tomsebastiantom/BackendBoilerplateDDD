@@ -6,7 +6,7 @@ export interface TenantDTO {
     dbUrl?: string;
     companyName: string;
     email: string;
-    password: string;
+    password?: string;
     phone?: string;
     username: string;
   }

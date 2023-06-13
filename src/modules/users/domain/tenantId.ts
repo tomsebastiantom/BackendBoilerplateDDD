@@ -18,3 +18,4 @@ export class TenantId extends Entity<any> {
     return Result.ok<TenantId>(new TenantId(id));
   }
 }
+

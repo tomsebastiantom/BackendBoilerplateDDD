@@ -43,7 +43,7 @@ export class UpdateTenantUseCase
         newtenant.address = Address.create(request.address).getValue();
       }
 
-      const tenantOrError = Tenant.create(newtenant, tenant.TenantId.id);
+      const tenantOrError = Tenant.create(newtenant, tenant.tenantId.id);
 
       if (tenantOrError.isFailure) {
         return left(

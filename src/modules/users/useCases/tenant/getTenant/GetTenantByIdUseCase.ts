@@ -19,11 +19,11 @@ export class GetTenantByIdUseCase
 
   public async execute(request: GetTenantByIdDTO): Promise<Response> {
     try {
-      // const tenant = await this.tenantRepo.getTenantById(request.tenantId);
-      // if(!tenant){
-      //   return left(new GetTenantByIdErrors.TenantNotFoundError(request.tenantId)) as Response
-      // }
-      // return right(Result.ok<Tenant>(tenant));
+      const tenant = await this.tenantRepo.getTenantById(request.tenantId);
+      if(!tenant){
+        return left(new GetTenantByIdErrors.TenantNotFoundError(request.tenantId)) as Response
+      }
+      return right(Result.ok<Tenant>(tenant));
     } catch (err) {
       return left(new AppError.UnexpectedError(err));
     }

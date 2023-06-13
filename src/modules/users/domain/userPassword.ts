@@ -71,6 +71,9 @@ export class UserPassword extends ValueObject<IUserPasswordProps> {
       }
     })
   }
+  public getValue (): string {
+    return this.props.value;
+  }
 
   public static create (props: IUserPasswordProps): Result<UserPassword> {
     const propsResult = Guard.againstNullOrUndefined(props.value, 'password');

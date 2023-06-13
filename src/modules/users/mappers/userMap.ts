@@ -6,7 +6,7 @@ import { UserName } from '../domain/userName';
 import { UserPassword } from '../domain/userPassword';
 import { UserEmail } from '../domain/userEmail';
 import { Address } from '../../../shared/domain/nexa/address';
-
+import { TenantId } from '../domain/tenantId';
 export class UserMap implements Mapper<User> {
   public static toDTO(user: User): UserDTO {
     return {
@@ -24,19 +24,29 @@ export class UserMap implements Mapper<User> {
       hashed: true
     });
     const userEmailOrError = UserEmail.create(raw.email);
-    console.log(raw.address);
-    const AddressOrError = Address.create(raw.address);
+    // console.log(raw.address);
+    let AddressOrError = null;
+    if(raw.address){
+    AddressOrError = Address.create(raw.address);}
 
     const userOrError = User.create(
       {
         username: userNameOrError.getValue(),
         isAdminUser: raw.isAdminUser,
         name: raw.name,
-        tenantId: raw.tenantId,
+        tenantId: TenantId.create(raw.tenantId).getValue(),
         isEmailVerified: raw.isEmailVerified,
+        ...(raw.phone?{phone: raw.phone}:{}),
+        ...(raw.isAdminUser?{isAdminUser: raw.isAdminUser}:{}),
+        ...(raw.isSuperAdmin?{isSuperAdmin: raw.isSuperAdmin}:{}),
+        ...(raw.accessToken?{accessToken: raw.accessToken}:{}),
+        ...(raw.refreshToken?{refreshToken: raw.refreshToken}:{}),
+        ...(raw.isDeleted?{isDeleted: raw.isDeleted}:{}),
+        ...(raw.lastLogin?{lastLogin: raw.lastLogin}:{}),
+        ...(raw.roles?{roles: raw.roles}:{}),
         password: userPasswordOrError.getValue(),
         email: userEmailOrError.getValue(),
-        address: AddressOrError.getValue()
+        ...(raw.address ? { address: AddressOrError.getValue() } : {})
       },
       new UniqueEntityID(raw.id)
     );
@@ -79,14 +89,13 @@ export class UserMap implements Mapper<User> {
 }
 
 // interface UserProps {
-//   email: UserEmail;
-//   name: string;
-//   phone?: PhoneNumber;
-//   tenantId?: TenantId;
-//   username: UserName;
-//   password: UserPassword;
-//   isEmailVerified?: boolean;
-//   isAdminUser?: boolean;
+
+
+
+
+
+
+
 //   isSuperAdmin?: boolean;
 //   accessToken?: JWTToken;
 //   refreshToken?: RefreshToken;

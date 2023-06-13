@@ -48,7 +48,7 @@ export class CreateTenantUseCase
           Result.fail<Tenant>(passwordOrError.getErrorValue().toString())
         ) as Response;
       }
-      const passwordResult = await passwordOrError.getValue().getHashedValue();
+      const passwordResult = await passwordOrError.getValue();
       const tenantOrError: Result<Tenant> = Tenant.create({
         name: request.name,
         companyName: request.companyName,
@@ -70,19 +70,19 @@ export class CreateTenantUseCase
       if (request.dbUrl) {
         tenant.dbUrl = request.dbUrl;
         this.authService.saveTenantDBUrl(
-          tenant.TenantId.id.toString(),
+          tenant.tenantId.id.toString(),
           request.dbUrl
         );
       } else {
         await DatabaseService.createClientDatabase(
-          tenantOrError.getValue().TenantId.id.toString()
+          tenantOrError.getValue().tenantId.id.toString()
         );
       }
       await this.tenantRepo.save(tenant);
 
       return right(
         Result.ok<CreateTenantResponseDTO>({
-          tenantId: tenant.TenantId.id.toString(),
+          tenantId: tenant.tenantId.id.toString(),
           name: tenant.name
         })
       );

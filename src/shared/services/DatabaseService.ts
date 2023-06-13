@@ -17,6 +17,7 @@ export class DatabaseService implements IDatabaseService {
   removeHyphens(tenantId: string) {
     return tenantId.replace(/-/g, '');
   }
+  
   async createClient(tenantId: string, dbUrl?: string): Promise<any> {
     if (!dbUrl)
       dbUrl =

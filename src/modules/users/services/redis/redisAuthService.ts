@@ -35,8 +35,9 @@ export class RedisAuthService extends AbstractRedisClient implements IAuthServic
     console.log('key',key);
   }
   public async getTenantDBUrl(tenantId: string): Promise<string|null> {
-    const key  = await this.getOne(tenantId) as string;
-    return !!key ? key : null;
+    try{const key  = await this.getOne(tenantId) as string;
+      return !!key ? key : null;}catch(e){console.log(e); return null;}
+    
 }
 
   public async getUserNameFromRefreshToken (refreshToken: RefreshToken): Promise<string> {

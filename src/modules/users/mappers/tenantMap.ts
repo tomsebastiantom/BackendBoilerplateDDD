@@ -7,11 +7,11 @@ import { Address } from '../../../shared/domain/nexa/address';
 export class TenantMap implements Mapper<Tenant> {
   public static toDTO(tenant: Tenant): TenantDTO {
     return {
-      id: tenant.TenantId.id.toString(),
+      id: tenant.tenantId.id.toString(),
       name: tenant.name,
       companyName: tenant.companyName,
       email: tenant.email,
-      password: tenant.password,
+      // password: tenant.password,
       username: tenant.username,
       ...(tenant.phone && { phone: tenant.phone }),
       address: JSON.stringify(tenant.address),
@@ -40,12 +40,20 @@ export class TenantMap implements Mapper<Tenant> {
   }
 
   public static async toPersistence(tenant: Tenant): Promise<any> {
+    let password: string = null;
+    if (!!tenant.password === true) {
+      if (tenant.password.isAlreadyHashed()) {
+        password = tenant.password.value;
+      } else {
+        password = await tenant.password.getHashedValue();
+      }
+    }
     return {
-      id: tenant.TenantId.id.toString(),
+      id: tenant.tenantId.id.toString(),
       name: tenant.name,
       companyName: tenant.companyName,
       email: tenant.email,
-      password: tenant.password,
+      password: password,
       username: tenant.username,
       ...(tenant.phone && { phone: tenant.phone }),
       address: JSON.stringify(tenant.address),

@@ -20,15 +20,17 @@ export class AfterTenantCreated implements IHandle<TenantCreated> {
   }
 
   private async onTenantCreated(event: TenantCreated): Promise<void> {
+    
+ 
     try {
       let user: CreateUserDTO = {
         name: event.tenant.name,
         email: event.tenant.email,
-        password: event.tenant.password,
+        password: event.tenant.password.getValue(),
         username: event.tenant.username,
         phone: event.tenant.phone,
-        tenantId: event.tenant.TenantId.id.toString(),
-        isAdminUser: true
+        tenantId: event.tenant.tenantId.id.toString(),
+        isAdminUser: true,
       };
       //   try {
       if (event.tenant.address) {
