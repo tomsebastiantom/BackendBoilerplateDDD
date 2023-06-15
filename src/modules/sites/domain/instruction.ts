@@ -30,6 +30,13 @@ export class Instruction extends ValueObject<InstructionProps> {
   public constructor(props: InstructionProps) {
     super(props);
   }
+  public static toPersistence(instruction: Instruction): any {
+    return {
+      instructionType: instruction.instructionType,
+      instructionDescription: instruction.instructionDescription,
+      instructionCreationTimestamp: instruction.instructionCreationTimestamp
+    };
+  }
   public static create(props: InstructionProps): Result<Instruction> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
       { argument: props.instructionType, argumentName: 'instructionType' },

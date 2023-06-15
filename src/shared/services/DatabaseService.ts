@@ -16,7 +16,7 @@ export class DatabaseService implements IDatabaseService {
   }
   removeHyphens(tenantId: string) {
     return tenantId.replace(/-/g, '');
-  }
+  } 
   
   async createClient(tenantId: string, dbUrl?: string): Promise<any> {
     if (!dbUrl)
@@ -33,7 +33,7 @@ export class DatabaseService implements IDatabaseService {
     this.clients.set(tenantId, client);
     return client;
   }
-  async getDBclient(tenantId: string): Promise<any> {
+  async getDBclient(tenantId: string): Promise<PrismaClient> {
     const client = this.clients.get(tenantId);
     if (!client) {
       const dbUrl = await this.authService.getTenantDBUrl(tenantId);

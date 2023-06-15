@@ -40,7 +40,7 @@ export class CreateSiteUseCase
       }
       if (request.contact) {
         const contact = Contact.create(request.contact);
-        newSite.contact = contact.getValue();
+        newSite.contacts = [contact.getValue()];
       }
       if (request.instructions) {
         const instructions = request.instructions.map((instruction) => {
@@ -52,7 +52,7 @@ export class CreateSiteUseCase
       if (request.instruction) {
         const instruction = Instruction.create(request.instruction);
 
-        newSite.instruction = instruction.getValue();
+        newSite.instructions = [instruction.getValue()];
       }
 
       newSite.siteName = request.siteName;

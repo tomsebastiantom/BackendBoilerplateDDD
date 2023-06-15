@@ -10,6 +10,10 @@ import { DatabaseService } from '../../../../../shared/services/DatabaseService'
 import { IAuthService } from '../../../services/authService';
 import { CreateTenantResponseDTO } from './CreateTenantDTO';
 import { UserPassword } from '../../../domain/userPassword';
+import { PrismaMigrationService } from '../../../../../shared/utils/DBUtils';
+import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
+import { DomainEvents } from '../../../../../shared/domain/events/DomainEvents';
+
 type Response = Either<
   CreateTenantErrors.TenantNameTakenError | AppError.UnexpectedError,
   Result<CreateTenantResponseDTO>
@@ -67,6 +71,9 @@ export class CreateTenantUseCase
       }
       const tenant: Tenant = tenantOrError.getValue();
 
+      await this.tenantRepo.save(tenant);
+      // Usage:
+
       if (request.dbUrl) {
         tenant.dbUrl = request.dbUrl;
         this.authService.saveTenantDBUrl(
@@ -78,7 +85,21 @@ export class CreateTenantUseCase
           tenantOrError.getValue().tenantId.id.toString()
         );
       }
-      await this.tenantRepo.save(tenant);
+
+      const prismaMigrationService = new PrismaMigrationService(
+        tenantOrError.getValue().tenantId.id.toString()
+      );
+      try {
+        await prismaMigrationService.updateSchemaAndMigrate(request?.dbUrl);
+        console.log('Migration successful');
+      } catch (error) {
+        console.error('Migration failed', error);
+      }
+
+
+      DomainEvents.dispatchEventsForAggregate(
+        new UniqueEntityID(tenantOrError.getValue().tenantId.id.toString())
+      );
 
       return right(
         Result.ok<CreateTenantResponseDTO>({

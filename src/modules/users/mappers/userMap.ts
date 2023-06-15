@@ -26,8 +26,7 @@ export class UserMap implements Mapper<User> {
     const userEmailOrError = UserEmail.create(raw.email);
     // console.log(raw.address);
     let AddressOrError = null;
-    if(raw.address){
-    AddressOrError = Address.create(raw.address);}
+    if (raw.address) AddressOrError = Address.create(raw.address);
 
     const userOrError = User.create(
       {
@@ -36,14 +35,14 @@ export class UserMap implements Mapper<User> {
         name: raw.name,
         tenantId: TenantId.create(raw.tenantId).getValue(),
         isEmailVerified: raw.isEmailVerified,
-        ...(raw.phone?{phone: raw.phone}:{}),
-        ...(raw.isAdminUser?{isAdminUser: raw.isAdminUser}:{}),
-        ...(raw.isSuperAdmin?{isSuperAdmin: raw.isSuperAdmin}:{}),
-        ...(raw.accessToken?{accessToken: raw.accessToken}:{}),
-        ...(raw.refreshToken?{refreshToken: raw.refreshToken}:{}),
-        ...(raw.isDeleted?{isDeleted: raw.isDeleted}:{}),
-        ...(raw.lastLogin?{lastLogin: raw.lastLogin}:{}),
-        ...(raw.roles?{roles: raw.roles}:{}),
+        ...(raw.phone ? { phone: raw.phone } : {}),
+        ...(raw.isAdminUser ? { isAdminUser: raw.isAdminUser } : {}),
+        ...(raw.isSuperAdmin ? { isSuperAdmin: raw.isSuperAdmin } : {}),
+        ...(raw.accessToken ? { accessToken: raw.accessToken } : {}),
+        ...(raw.refreshToken ? { refreshToken: raw.refreshToken } : {}),
+        ...(raw.isDeleted ? { isDeleted: raw.isDeleted } : {}),
+        ...(raw.lastLogin ? { lastLogin: raw.lastLogin } : {}),
+        ...(raw.roles ? { roles: raw.roles } : {}),
         password: userPasswordOrError.getValue(),
         email: userEmailOrError.getValue(),
         ...(raw.address ? { address: AddressOrError.getValue() } : {})
@@ -67,10 +66,9 @@ export class UserMap implements Mapper<User> {
     }
     let address: any = null;
 
-  if(user.address){
-   address = await Address.toPersistence(user.address);
-
-  }
+    if (user.address) {
+      address = await Address.toPersistence(user.address);
+    }
     return {
       id: user.userId.id.toString(),
       email: user.email.value,
@@ -89,12 +87,6 @@ export class UserMap implements Mapper<User> {
 }
 
 // interface UserProps {
-
-
-
-
-
-
 
 //   isSuperAdmin?: boolean;
 //   accessToken?: JWTToken;

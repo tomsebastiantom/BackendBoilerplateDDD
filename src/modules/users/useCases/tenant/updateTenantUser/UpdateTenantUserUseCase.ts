@@ -6,12 +6,12 @@ import { UserEmail } from '../../../domain/userEmail';
 import { UserName } from '../../../domain/userName';
 import { UserPassword } from '../../../domain/userPassword';
 import { IUserRepo } from '../../../repos/userRepo';
-import { UpdateUserDTO } from './UpdateUserDTO';
-import { UpdateUserErrors } from './UpdateUserErrors';
-import { UpdateUserResponse } from './UpdateUserResponse';
+import { UpdateTenantUserDTO } from './UpdateTenantUserDTO';
+import { UpdateTenantUserErrors } from './UpdateTenantUserErrors';
+import { UpdateTenantUserResponse } from './UpdateTenantUserResponse';
 
-export class UpdateUserUseCase
-  implements UseCase<UpdateUserDTO, Promise<UpdateUserResponse>>
+export class UpdateTenantUserUseCase
+  implements UseCase<UpdateTenantUserDTO, Promise<UpdateTenantUserResponse>>
 {
   private userRepo: IUserRepo;
 
@@ -19,13 +19,13 @@ export class UpdateUserUseCase
     this.userRepo = userRepo;
   }
 
-  async execute(request: UpdateUserDTO): Promise<UpdateUserResponse> {
+  async execute(request: UpdateTenantUserDTO): Promise<UpdateTenantUserResponse> {
     try {
       const user = await this.userRepo.getUserByUserId(request.userId);
       if (!user) {
         return left(
-          new UpdateUserErrors.UserIdNotValidError(request.userId)
-        ) as UpdateUserResponse;
+          new UpdateTenantUserErrors.UserIdNotValidError(request.userId)
+        ) as UpdateTenantUserResponse;
       }
 
       const emailOrError = UserEmail.create(request.email);
@@ -41,7 +41,7 @@ export class UpdateUserUseCase
       if (dtoResult.isFailure) {
         return left(
           Result.fail<void>(dtoResult.getErrorValue())
-        ) as UpdateUserResponse;
+        ) as UpdateTenantUserResponse;
       }
 
       const email: UserEmail = emailOrError.getValue();
@@ -61,13 +61,13 @@ export class UpdateUserUseCase
         isSuperAdmin: user.isSuperAdmin,
         lastLogin: user.lastLogin,
         phone: user.phone,
-        accessToken: user.accessToken,
+        accessToken: user.accessToken
       });
 
       if (userOrError.isFailure) {
         return left(
           Result.fail<User>(userOrError.getErrorValue().toString())
-        ) as UpdateUserResponse;
+        ) as UpdateTenantUserResponse;
       }
 
       const updatedUser: User = userOrError.getValue();
@@ -76,7 +76,7 @@ export class UpdateUserUseCase
 
       return right(Result.ok<User>(updatedUser));
     } catch (err) {
-      return left(new AppError.UnexpectedError(err)) as UpdateUserResponse;
+      return left(new AppError.UnexpectedError(err)) as UpdateTenantUserResponse;
     }
   }
 }

@@ -8,6 +8,7 @@ const tenantRouter = express.Router();
 
 tenantRouter.post('/', (req, res) => {
   createTenantController.execute(req, res);
+  
 });
 
 tenantRouter.get('/:tenantId', (req, res) =>

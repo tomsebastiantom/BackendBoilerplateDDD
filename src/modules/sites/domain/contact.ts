@@ -27,6 +27,14 @@ export class Contact extends ValueObject<ContactProps> {
   public constructor(props: ContactProps) {
     super(props);
   }
+  public static toPersistence(contact: Contact): any {
+    return {
+      contactName: contact.contactName,
+      ...(contact.contactPhone ? { contactPhone: contact.contactPhone } : {}),
+      contactEmail: contact.contactEmail,
+      contactRole: contact.contactRole
+    };
+  }
   public static create(props: ContactProps): Result<Contact> {
     const nullGuard = Guard.againstNullOrUndefinedBulk([
       { argument: props.contactName, argumentName: 'contactName' },

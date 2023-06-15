@@ -52,7 +52,7 @@ export class LoginUserUseCase implements UseCase<LoginDTO, Promise<Response>> {
       }
 
       const passwordValid = await user.password.comparePassword(password.value);
-  console.log("passwordValid",user)
+ 
       if (!passwordValid) {
         return left(new LoginUseCaseErrors.PasswordDoesntMatchError());
       }

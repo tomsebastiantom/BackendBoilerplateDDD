@@ -1,16 +1,18 @@
 import { IHandle } from '../../../shared/domain/events/IHandle';
 import { DomainEvents } from '../../../shared/domain/events/DomainEvents';
 import { TenantCreated } from '../domain/events/tenantCreated';
-import { createUserUseCase } from '../useCases/user/createUser';
 import { CreateUserDTO } from '../useCases/user/createUser/CreateUserDTO';
+import { databaseService } from '../../../shared/services';
+import { PrismaUserRepo } from '../repos/implementations/prismaUserRepo';
+import { CreateUserUseCase } from '../useCases/user/createUser/CreateUserUseCase';
 
 export class AfterTenantCreated implements IHandle<TenantCreated> {
-  private createUser: typeof createUserUseCase;
+  // private createUser: typeof createUserUseCase;
 
-  constructor(createUser: typeof createUserUseCase) {
+  constructor() {
     this.setupSubscriptions();
     // console.log(`[AfterTenantCreated]: Subscribed to Domain Event`);
-    this.createUser = createUser;
+    // this.createUser = createUser;
   }
 
   setupSubscriptions(): void {
@@ -20,8 +22,12 @@ export class AfterTenantCreated implements IHandle<TenantCreated> {
   }
 
   private async onTenantCreated(event: TenantCreated): Promise<void> {
-    
- 
+    //using tenat id and conencting to tenat db and then puttin user
+    const prismaUserRepo = new PrismaUserRepo(
+      databaseService.getDBclient(event.tenant.tenantId.id.toString())
+    );
+    const createUserUseCase = new CreateUserUseCase(prismaUserRepo);
+
     try {
       let user: CreateUserDTO = {
         name: event.tenant.name,
@@ -30,7 +36,7 @@ export class AfterTenantCreated implements IHandle<TenantCreated> {
         username: event.tenant.username,
         phone: event.tenant.phone,
         tenantId: event.tenant.tenantId.id.toString(),
-        isAdminUser: true,
+        isAdminUser: true
       };
       //   try {
       if (event.tenant.address) {
@@ -51,8 +57,8 @@ export class AfterTenantCreated implements IHandle<TenantCreated> {
       //     console.log(`[AfterTenantCreated]: Adding Tenant as admin Error`, err);
       //   }
 
-      await this.createUser.execute({ ...user });
-    //   console.log(`[AfterTenantCreated]: Added Tenant as admin`);
+      await createUserUseCase.execute({ ...user });
+      //   console.log(`[AfterTenantCreated]: Added Tenant as admin`);
     } catch (err) {
       console.log(`[AfterTenantCreated]: Added Tenant as admin Error`);
     }

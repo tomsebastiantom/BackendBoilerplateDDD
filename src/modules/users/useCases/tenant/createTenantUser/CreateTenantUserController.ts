@@ -1,15 +1,15 @@
-import { CreateUserUseCase } from './CreateUserUseCase';
-import { CreateUserDTO } from './CreateUserDTO';
-import { CreateUserErrors } from './CreateUserErrors';
+import { CreateTenantUserUseCase } from './CreateTenantUserUseCase';
+import { CreateTenantUserDTO } from './CreateTenantUserDTO';
+import { CreateTenantUserErrors } from './CreateTenantUserErrors';
 import { BaseController } from '../../../../../shared/infra/http/models/BaseController';
 import { TextUtils } from '../../../../../shared/utils/TextUtils';
 import { DecodedExpressRequest } from '../../../infra/http/models/decodedRequest';
 import * as express from 'express';
 
-export class CreateUserController extends BaseController {
-  private useCase: CreateUserUseCase;
+export class CreateTenantUserController extends BaseController {
+  private useCase: CreateTenantUserUseCase;
 
-  constructor(useCase: CreateUserUseCase) {
+  constructor(useCase: CreateTenantUserUseCase) {
     super();
     this.useCase = useCase;
   }
@@ -18,8 +18,7 @@ export class CreateUserController extends BaseController {
     req: DecodedExpressRequest,
     res: express.Response
   ): Promise<any> {
-    let dto: CreateUserDTO = req.body as CreateUserDTO;
-
+    let dto: CreateTenantUserDTO = req.body as CreateTenantUserDTO;
     dto = {
       username: TextUtils.sanitize(dto.username),
       email: TextUtils.sanitize(dto.email),
@@ -30,6 +29,7 @@ export class CreateUserController extends BaseController {
       isAdminUser: dto.isAdminUser,
       address: dto.address
     };
+   
 
     // console.log(dto);
     try {
@@ -39,9 +39,9 @@ export class CreateUserController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case CreateUserErrors.UsernameTakenError:
+          case CreateTenantUserErrors.UsernameTakenError:
             return this.conflict(res, error.getErrorValue().message);
-          case CreateUserErrors.EmailAlreadyExistsError:
+          case CreateTenantUserErrors.EmailAlreadyExistsError:
             return this.conflict(res, error.getErrorValue().message);
           default:
             return this.fail(res, error.getErrorValue().message);

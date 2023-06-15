@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:postgres@localhost:5432/_b5630ef843104099b4a1b13fc51fa203?schema=public"
 }
 
 model Checkpoint {

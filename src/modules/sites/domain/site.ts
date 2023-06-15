@@ -100,9 +100,9 @@ export class Site extends AggregateRoot<SiteProps> {
 
       const site = new Site({ ...props, isActive: true }, id);
 
-      if (isNewSite) {
-        site.addDomainEvent(new SiteCreated(site));
-      }
+      // if (isNewSite) {
+      //   site.addDomainEvent(new SiteCreated(site));
+      // }
 
       return Result.ok<Site>(site);
     }

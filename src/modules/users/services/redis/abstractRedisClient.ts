@@ -1,11 +1,9 @@
-import { createClient } from 'redis';
-import type { RedisClientType } from 'redis';
 
 export abstract class AbstractRedisClient {
   private tokenExpiryTime: number = 604800;
-  protected client: RedisClientType;
+  protected client
 
-  constructor(client: RedisClientType) {
+  constructor(client) {
     this.client = client;
   }
 

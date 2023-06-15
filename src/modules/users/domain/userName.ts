@@ -20,7 +20,7 @@ export class UserName extends ValueObject<UserNameProps> {
   }
 
   public static create (props: UserNameProps): Result<UserName> {
-    console.log(props.name);
+    // console.log(props.name);
     const usernameResult = Guard.againstNullOrUndefined(props.name, 'username');
     if (usernameResult.isFailure) {
       return Result.fail<UserName>(usernameResult.getErrorValue())
