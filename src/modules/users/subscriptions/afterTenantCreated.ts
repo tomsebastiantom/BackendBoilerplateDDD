@@ -24,7 +24,7 @@ export class AfterTenantCreated implements IHandle<TenantCreated> {
   private async onTenantCreated(event: TenantCreated): Promise<void> {
     //using tenat id and conencting to tenat db and then puttin user
     const prismaUserRepo = new PrismaUserRepo(
-      databaseService.getDBclient(event.tenant.tenantId.id.toString())
+      await databaseService.getDBclient(event.tenant.tenantId.id.toString())
     );
     const createUserUseCase = new CreateUserUseCase(prismaUserRepo);
 

@@ -76,7 +76,7 @@ export class CreateTenantUseCase
 
       if (request.dbUrl) {
         tenant.dbUrl = request.dbUrl;
-        this.authService.saveTenantDBUrl(
+       await this.authService.saveTenantDBUrl(
           tenant.tenantId.id.toString(),
           request.dbUrl
         );
@@ -91,15 +91,16 @@ export class CreateTenantUseCase
       );
       try {
         await prismaMigrationService.updateSchemaAndMigrate(request?.dbUrl);
+        DomainEvents.dispatchEventsForAggregate(
+          new UniqueEntityID(tenantOrError.getValue().tenantId.id.toString())
+        );
         console.log('Migration successful');
       } catch (error) {
         console.error('Migration failed', error);
       }
 
 
-      DomainEvents.dispatchEventsForAggregate(
-        new UniqueEntityID(tenantOrError.getValue().tenantId.id.toString())
-      );
+     
 
       return right(
         Result.ok<CreateTenantResponseDTO>({
