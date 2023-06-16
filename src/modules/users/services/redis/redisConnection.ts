@@ -38,6 +38,7 @@ class DummyRedis {
 //   host: 'localhost',
 //   port: 6379,
 // });
+authConfig.redisConnectionString = authConfig.redisConnectionString || 'redis://localhost:6379';
 const redisConnection = new Redis({
   host: 'localhost',
   port: 6379,

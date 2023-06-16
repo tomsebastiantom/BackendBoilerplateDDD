@@ -73,21 +73,21 @@ export class CreateTenantUserUseCase
           ) as Response;
         }
       } catch (err) {}
-      const addressOrError = Address.create(request.address);
+      // const addressOrError = Address.create(request.address);
 
-      if (addressOrError.isFailure) {
-        return left(
-          Result.fail<User>(addressOrError.getErrorValue().toString())
-        ) as Response;
-      }
+      // if (addressOrError.isFailure) {
+      //   return left(
+      //     Result.fail<User>(addressOrError.getErrorValue().toString())
+      //   ) as Response;
+      // }
 
-      const userOrError: Result<User> = User.create({
+      const userOrError: Result<User> = User.createLoginUser({
         email,
         password,
         username,
         name,
         phone,
-        ...(request.address ? { address: addressOrError.getValue() } : {}),
+        // ...(request.address ? { address: addressOrError.getValue() } : {}),
         isAdminUser: request.isAdminUser,
         tenantId: TenantId.create(
           new UniqueEntityID(request.tenantId)

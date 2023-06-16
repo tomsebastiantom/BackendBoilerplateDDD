@@ -20,9 +20,9 @@ const userRouter = express.Router();
 userRouter.post(
   '/',
   middleware.ensureAuthenticated(),
-  (req: DecodedExpressRequest, res) => {
+  async (req: DecodedExpressRequest, res) => {
     const prismaUserRepo = new PrismaUserRepo(
-      databaseService.getDBclient(req.decoded.tenantId as string)
+      await databaseService.getDBclient(req.decoded.tenantId as string)
     );
     const createUserUseCase = new CreateUserUseCase(prismaUserRepo);
     const createUserController = new CreateUserController(createUserUseCase);
@@ -47,9 +47,9 @@ userRouter.post('/token/refresh', (req, res) =>
 userRouter.delete(
   '/:userId',
   middleware.ensureAuthenticated(),
-  (req: DecodedExpressRequest, res) => {
+  async (req: DecodedExpressRequest, res) => {
     const prismaUserRepo = new PrismaUserRepo(
-      databaseService.getDBclient(req.decoded.tenantId as string)
+      await databaseService.getDBclient(req.decoded.tenantId as string)
     );
     const deleteUserUseCase = new DeleteUserUseCase(prismaUserRepo);
     const deleteUserController = new DeleteUserController(deleteUserUseCase);

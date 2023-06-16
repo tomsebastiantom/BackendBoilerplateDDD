@@ -144,10 +144,38 @@ export class User extends AggregateRoot<UserProps> {
       },
       id
     );
-
+// console.log(`[User]: User created`,!!id === false);
     if (isNewUser) {
       user.addDomainEvent(new UserCreated(user));
     }
+
+    return Result.ok<User>(user);
+  }
+  public static createLoginUser(
+    props: UserProps,
+    id?: UniqueEntityID
+  ): Result<User> {
+    const guardResult = Guard.againstNullOrUndefinedBulk([
+      { argument: props.username, argumentName: 'username' },
+      { argument: props.email, argumentName: 'email' }
+    ]);
+
+    if (guardResult.isFailure) {
+      return Result.fail<User>(guardResult.getErrorValue());
+    }
+
+    const isNewUser = !!id === false;
+    const user = new User(
+      {
+        ...props,
+        isAdminUser: props.isAdminUser ? props.isAdminUser : false
+      },
+      id
+    );
+
+    // if (isNewUser) {
+    //   user.addDomainEvent(new UserCreated(user));
+    // }
 
     return Result.ok<User>(user);
   }

@@ -60,7 +60,7 @@ export class LoginUserUseCase implements UseCase<LoginDTO, Promise<Response>> {
   
       await databaseService.getDBclient(user.tenantId.id.toString());
 
- 
+  console.log(`[LoginUserUseCase]: User found`);
       const accessToken: JWTToken = this.authService.signJWT({
         username: user.username.value,
         email: user.email.value,

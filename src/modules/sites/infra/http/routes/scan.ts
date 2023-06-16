@@ -18,12 +18,12 @@ const scanRouter = express.Router();
 
 scanRouter.use(middleware.ensureAuthenticated());
 
-scanRouter.post('/', (req: DecodedExpressRequest, res) => {
+scanRouter.post('/', async (req: DecodedExpressRequest, res) => {
   const prismaScanRepo = new PrismaScanRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const prismaCheckpointRepo = new PrismaCheckpointRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const createScanUseCase = new CreateScanUseCase(
     prismaScanRepo,
@@ -33,34 +33,34 @@ scanRouter.post('/', (req: DecodedExpressRequest, res) => {
   createScanController.execute(req, res);
 });
 
-scanRouter.delete('/:scanId', (req: DecodedExpressRequest, res) => {
+scanRouter.delete('/:scanId', async (req: DecodedExpressRequest, res) => {
   const prismaScanRepo = new PrismaScanRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const deleteScanUseCase = new DeleteScanUseCase(prismaScanRepo);
   const deleteScanController = new DeleteScanController(deleteScanUseCase);
   deleteScanController.execute(req, res);
 });
-scanRouter.delete('/:siteId', (req: DecodedExpressRequest, res) => {
+scanRouter.delete('/:siteId',async (req: DecodedExpressRequest, res) => {
   const prismaScanRepo = new PrismaScanRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const deleteScanUseCase = new DeleteScanUseCase(prismaScanRepo);
   const deleteScanController = new DeleteScanController(deleteScanUseCase);
   deleteScanController.execute(req, res);
 });
-scanRouter.delete('/:checkpointId', (req: DecodedExpressRequest, res) => {
+scanRouter.delete('/:checkpointId', async (req: DecodedExpressRequest, res) => {
   const prismaScanRepo = new PrismaScanRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+   await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const deleteScanUseCase = new DeleteScanUseCase(prismaScanRepo);
   const deleteScanController = new DeleteScanController(deleteScanUseCase);
   deleteScanController.execute(req, res);
 });
 
-scanRouter.put('/:scanId', (req: DecodedExpressRequest, res) => {
+scanRouter.put('/:scanId', async (req: DecodedExpressRequest, res) => {
   const prismaScanRepo = new PrismaScanRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+   await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const prismaCheckpointRepo = new PrismaCheckpointRepo(
     databaseService.getDBclient(req.decoded.tenantId as string)
@@ -74,33 +74,33 @@ scanRouter.put('/:scanId', (req: DecodedExpressRequest, res) => {
   updateScanController.execute(req, res);
 });
 
-scanRouter.get('/:scanId', (req: DecodedExpressRequest, res) => {
+scanRouter.get('/:scanId', async (req: DecodedExpressRequest, res) => {
   const prismaScanRepo = new PrismaScanRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const getScanByIdUseCase = new GetScanByIdUseCase(prismaScanRepo);
   const getScanByIdController = new GetScanByIdController(getScanByIdUseCase);
   getScanByIdController.execute(req, res);
 });
-scanRouter.get('/:userId', (req: DecodedExpressRequest, res) => {
+scanRouter.get('/:userId', async (req: DecodedExpressRequest, res) => {
   const prismaScanRepo = new PrismaScanRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+   await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const getScanByIdUseCase = new GetScanByIdUseCase(prismaScanRepo);
   const getScanByIdController = new GetScanByIdController(getScanByIdUseCase);
   getScanByIdController.execute(req, res);
 });
-scanRouter.get('/:checkpointId', (req: DecodedExpressRequest, res) => {
+scanRouter.get('/:checkpointId', async (req: DecodedExpressRequest, res) => {
   const prismaScanRepo = new PrismaScanRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+   await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const getScanByIdUseCase = new GetScanByIdUseCase(prismaScanRepo);
   const getScanByIdController = new GetScanByIdController(getScanByIdUseCase);
   getScanByIdController.execute(req, res);
 });
-scanRouter.get('/:siteId', (req: DecodedExpressRequest, res) => {
+scanRouter.get('/:siteId', async (req: DecodedExpressRequest, res) => {
   const prismaScanRepo = new PrismaScanRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+   await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const getScanByIdUseCase = new GetScanByIdUseCase(prismaScanRepo);
   const getScanByIdController = new GetScanByIdController(getScanByIdUseCase);

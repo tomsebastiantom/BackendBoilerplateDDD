@@ -11,6 +11,7 @@ import { User } from '../../../domain/user';
 import { TenantId } from '../../../domain/tenantId';
 import { UniqueEntityID } from '../../../../../shared/domain/UniqueEntityID';
 import { Address } from '../../../../../shared/domain/nexa/address';
+import { DomainEvents } from '../../../../../shared/domain/events/DomainEvents';
 
 type Response = Either<
   | CreateUserErrors.EmailAlreadyExistsError
@@ -100,7 +101,9 @@ export class CreateUserUseCase
       const user: User = userOrError.getValue();
 
       await this.userRepo.save(user);
-
+      DomainEvents.dispatchEventsForAggregate(
+        new UniqueEntityID(userOrError.getValue().userId.id.toString())
+      );
       return right(Result.ok<void>());
     } catch (err) {
       return left(new AppError.UnexpectedError(err)) as Response;

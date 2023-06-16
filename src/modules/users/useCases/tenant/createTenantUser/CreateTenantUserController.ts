@@ -27,7 +27,6 @@ export class CreateTenantUserController extends BaseController {
       name: dto.name,
       tenantId: dto.tenantId,
       isAdminUser: dto.isAdminUser,
-      address: dto.address
     };
    
 

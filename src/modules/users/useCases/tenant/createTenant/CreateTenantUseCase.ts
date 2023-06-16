@@ -91,14 +91,14 @@ export class CreateTenantUseCase
       );
       try {
         await prismaMigrationService.updateSchemaAndMigrate(request?.dbUrl);
-        DomainEvents.dispatchEventsForAggregate(
-          new UniqueEntityID(tenantOrError.getValue().tenantId.id.toString())
-        );
+       
         console.log('Migration successful');
       } catch (error) {
         console.error('Migration failed', error);
       }
-
+      DomainEvents.dispatchEventsForAggregate(
+        new UniqueEntityID(tenantOrError.getValue().tenantId.id.toString())
+      );
 
      
 

@@ -16,42 +16,42 @@ import { GetSiteByIdController } from '../../../useCases/site/getSiteById/GetSit
 const siteRouter = express.Router();
 siteRouter.use(middleware.ensureAuthenticated());
 
-siteRouter.delete('/:siteId', (req: DecodedExpressRequest, res) => {
+siteRouter.delete('/:siteId', async (req: DecodedExpressRequest, res) => {
   const prismaSiteRepo = new PrismaSiteRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const deleteSiteUseCase = new DeleteSiteUseCase(prismaSiteRepo);
   const deleteSiteController = new DeleteSiteController(deleteSiteUseCase);
   deleteSiteController.execute(req, res);
 });
 
-siteRouter.put('/:siteId', (req: DecodedExpressRequest, res) => {
+siteRouter.put('/:siteId', async (req: DecodedExpressRequest, res) => {
   const prismaSiteRepo = new PrismaSiteRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const updateSiteUseCase = new UpdateSiteUseCase(prismaSiteRepo);
   const updateSiteController = new UpdateSiteController(updateSiteUseCase);
   updateSiteController.execute(req, res);
 });
-siteRouter.post('/', (req: DecodedExpressRequest, res) => {
+siteRouter.post('/', async (req: DecodedExpressRequest, res) => {
   const prismaSiteRepo = new PrismaSiteRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const createSiteUseCase = new CreateSiteUseCase(prismaSiteRepo);
   const createSiteController = new CreateSiteController(createSiteUseCase);
   createSiteController.execute(req, res);
 });
-siteRouter.get('/:siteId', (req: DecodedExpressRequest, res) => {
+siteRouter.get('/:siteId', async (req: DecodedExpressRequest, res) => {
   const prismaSiteRepo = new PrismaSiteRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const getSiteByIdUseCase = new GetSiteByIdUseCase(prismaSiteRepo);
   const getSiteByIdController = new GetSiteByIdController(getSiteByIdUseCase);
   getSiteByIdController.execute(req, res);
 });
-siteRouter.get('/:tenantId', (req: DecodedExpressRequest, res) => {
+siteRouter.get('/:tenantId', async (req: DecodedExpressRequest, res) => {
   const prismaSiteRepo = new PrismaSiteRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const getSiteByIdUseCase = new GetSiteByIdUseCase(prismaSiteRepo);
   const getSiteByIdController = new GetSiteByIdController(getSiteByIdUseCase);

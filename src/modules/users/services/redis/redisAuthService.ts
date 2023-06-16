@@ -7,7 +7,11 @@ import { AbstractRedisClient } from './abstractRedisClient';
 import { IAuthService } from '../authService';
 import { RefreshToken, JWTToken, JWTClaims } from '../../domain/jwt';
 import { User } from '../../domain/user';
+require('dotenv').config();
 
+// const { DATABASE_URL, BASE_DATABASE_URL } = process.env;
+authConfig.secret = process.env.NEXA_APP_SECRET;
+authConfig.tokenExpiryTime = Number(process.env.NEXA_EXPIRY_TIME);
 /**
  * @class JWTClient
  * @extends AbstractRedisClient

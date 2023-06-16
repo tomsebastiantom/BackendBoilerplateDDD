@@ -8,6 +8,5 @@ export interface CreateTenantUserDTO {
   name:string;
   tenantId: string;
   isAdminUser?: boolean;
-  address?: AddressDTO;
 }
 

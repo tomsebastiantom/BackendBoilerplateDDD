@@ -20,43 +20,43 @@ import { PrismaGuardReportRepo } from '../../../repos/implementations/prismaGuar
 const guardReportRouter = express.Router();
 guardReportRouter.use(middleware.ensureAuthenticated());
 
-guardReportRouter.post('/', (req: DecodedExpressRequest, res) => {
-  const prismaGuardReportRepo = new PrismaGuardReportRepo(databaseService.getDBclient(req.decoded.tenantId as string));
+guardReportRouter.post('/', async (req: DecodedExpressRequest, res) => {
+  const prismaGuardReportRepo = new PrismaGuardReportRepo(await databaseService.getDBclient(req.decoded.tenantId as string));
   const createGuardReportUseCase = new CreateGuardReportUseCase(prismaGuardReportRepo);
   const createGuardReportController = new CreateGuardReportController(createGuardReportUseCase);
   createGuardReportController.execute(req, res);
 });
 
-guardReportRouter.get('/:siteId', (req: DecodedExpressRequest, res) => {
-  const prismaGuardReportRepo = new PrismaGuardReportRepo(databaseService.getDBclient(req.decoded.tenantId as string));
+guardReportRouter.get('/:siteId', async (req: DecodedExpressRequest, res) => {
+  const prismaGuardReportRepo = new PrismaGuardReportRepo(await databaseService.getDBclient(req.decoded.tenantId as string));
   const getGuardReportBySiteIdUseCase = new GetGuardReportBySiteIdUseCase(prismaGuardReportRepo);
   const getGuardReportBySiteIdController = new GetGuardReportBySiteIdController(getGuardReportBySiteIdUseCase);
   getGuardReportBySiteIdController.execute(req, res);
 });
 
-guardReportRouter.get('/:userId', (req: DecodedExpressRequest, res) => {
-  const prismaGuardReportRepo = new PrismaGuardReportRepo(databaseService.getDBclient(req.decoded.tenantId as string));
+guardReportRouter.get('/:userId', async (req: DecodedExpressRequest, res) => {
+  const prismaGuardReportRepo = new PrismaGuardReportRepo(await databaseService.getDBclient(req.decoded.tenantId as string));
   const getGuardReportByUserIdUseCase = new GetGuardReportByUserIdUseCase(prismaGuardReportRepo);
   const getGuardReportByUserIdController = new GetGuardReportByUserIdController(getGuardReportByUserIdUseCase);
   getGuardReportByUserIdController.execute(req, res);
 });
 
-guardReportRouter.get('/:guardReportId', (req: DecodedExpressRequest, res) => {
-  const prismaGuardReportRepo = new PrismaGuardReportRepo(databaseService.getDBclient(req.decoded.tenantId as string));
+guardReportRouter.get('/:guardReportId', async  (req: DecodedExpressRequest, res) => {
+  const prismaGuardReportRepo = new PrismaGuardReportRepo(await databaseService.getDBclient(req.decoded.tenantId as string));
   const getGuardReportByIdUseCase = new GetGuardReportByIdUseCase(prismaGuardReportRepo);
   const getGuardReportByIdController = new GetGuardReportByIdController(getGuardReportByIdUseCase);
   getGuardReportByIdController.execute(req, res);
 });
 
-guardReportRouter.put('/:guardReportId', (req: DecodedExpressRequest, res) => {
-  const prismaGuardReportRepo = new PrismaGuardReportRepo(databaseService.getDBclient(req.decoded.tenantId as string));
+guardReportRouter.put('/:guardReportId', async (req: DecodedExpressRequest, res) => {
+  const prismaGuardReportRepo = new PrismaGuardReportRepo(await databaseService.getDBclient(req.decoded.tenantId as string));
   const updateGuardReportUseCase = new UpdateGuardReportUseCase(prismaGuardReportRepo);
   const updateGuardReportController = new UpdateGuardReportController(updateGuardReportUseCase);
   updateGuardReportController.execute(req, res);
 });
 
-guardReportRouter.delete('/:guardReportId', (req: DecodedExpressRequest, res) => {
-  const prismaGuardReportRepo = new PrismaGuardReportRepo(databaseService.getDBclient(req.decoded.tenantId as string));
+guardReportRouter.delete('/:guardReportId', async (req: DecodedExpressRequest, res) => {
+  const prismaGuardReportRepo = new PrismaGuardReportRepo(await databaseService.getDBclient(req.decoded.tenantId as string));
   const deleteGuardReportUseCase = new DeleteGuardReportUseCase(prismaGuardReportRepo);
   const deleteGuardReportController = new DeleteGuardReportController(deleteGuardReportUseCase);
   deleteGuardReportController.execute(req, res);

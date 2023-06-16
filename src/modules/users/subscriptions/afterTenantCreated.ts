@@ -7,12 +7,12 @@ import { PrismaUserRepo } from '../repos/implementations/prismaUserRepo';
 import { CreateUserUseCase } from '../useCases/user/createUser/CreateUserUseCase';
 
 export class AfterTenantCreated implements IHandle<TenantCreated> {
-  // private createUser: typeof createUserUseCase;
+  // private createUser
 
   constructor() {
     this.setupSubscriptions();
     // console.log(`[AfterTenantCreated]: Subscribed to Domain Event`);
-    // this.createUser = createUser;
+    // this.createUser = createTenantUserUseCase
   }
 
   setupSubscriptions(): void {
@@ -22,13 +22,25 @@ export class AfterTenantCreated implements IHandle<TenantCreated> {
   }
 
   private async onTenantCreated(event: TenantCreated): Promise<void> {
-    //using tenat id and conencting to tenat db and then puttin user
+    //using tenant id and connecting to tenant db and then putting user
     const prismaUserRepo = new PrismaUserRepo(
       await databaseService.getDBclient(event.tenant.tenantId.id.toString())
     );
     const createUserUseCase = new CreateUserUseCase(prismaUserRepo);
 
     try {
+
+      // export interface CreateTenantUserDTO {
+      //   username: string;
+      //   email: string;
+      //   phone: string;
+      //   password: string;
+      //   name:string;
+      //   tenantId: string;
+      //   isAdminUser?: boolean;
+      // }
+      
+      
       let user: CreateUserDTO = {
         name: event.tenant.name,
         email: event.tenant.email,
@@ -38,6 +50,7 @@ export class AfterTenantCreated implements IHandle<TenantCreated> {
         tenantId: event.tenant.tenantId.id.toString(),
         isAdminUser: true
       };
+      // await this.createUser.execute({ ...user });
       //   try {
       if (event.tenant.address) {
         //   console.log(
@@ -58,6 +71,7 @@ export class AfterTenantCreated implements IHandle<TenantCreated> {
       //   }
 
       await createUserUseCase.execute({ ...user });
+      
       //   console.log(`[AfterTenantCreated]: Added Tenant as admin`);
     } catch (err) {
       console.log(`[AfterTenantCreated]: Added Tenant as admin Error`);

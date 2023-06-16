@@ -21,9 +21,9 @@ const incidentReportRouter = express.Router();
 incidentReportRouter.use(middleware.ensureAuthenticated());
 
 // Create Incident Report
-incidentReportRouter.post('/', (req: DecodedExpressRequest, res) => {
+incidentReportRouter.post('/',async  (req: DecodedExpressRequest, res) => {
   const prismaIncidentReportRepo = new PrismaIncidentReportRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+   await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const createIncidentReportUseCase = new CreateIncidentReportUseCase(
     prismaIncidentReportRepo
@@ -37,9 +37,9 @@ incidentReportRouter.post('/', (req: DecodedExpressRequest, res) => {
 // Delete Incident Report
 incidentReportRouter.delete(
   '/:incidentReportId',
-  (req: DecodedExpressRequest, res) => {
+ async (req: DecodedExpressRequest, res) => {
     const prismaIncidentReportRepo = new PrismaIncidentReportRepo(
-      databaseService.getDBclient(req.decoded.tenantId as string)
+      await databaseService.getDBclient(req.decoded.tenantId as string)
     );
     const deleteIncidentReportUseCase = new DeleteIncidentReportUseCase(
       prismaIncidentReportRepo
@@ -54,9 +54,9 @@ incidentReportRouter.delete(
 // Update Incident Report
 incidentReportRouter.put(
   '/:incidentReportId',
-  (req: DecodedExpressRequest, res) => {
+ async (req: DecodedExpressRequest, res) => {
     const prismaIncidentReportRepo = new PrismaIncidentReportRepo(
-      databaseService.getDBclient(req.decoded.tenantId as string)
+      await databaseService.getDBclient(req.decoded.tenantId as string)
     );
     const updateIncidentReportUseCase = new UpdateIncidentReportUseCase(
       prismaIncidentReportRepo
@@ -69,9 +69,9 @@ incidentReportRouter.put(
 );
 
 // Get Incident Report by Site ID
-incidentReportRouter.get('/:siteId', (req: DecodedExpressRequest, res) => {
+incidentReportRouter.get('/:siteId', async (req: DecodedExpressRequest, res) => {
   const prismaIncidentReportRepo = new PrismaIncidentReportRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const getIncidentReportBySiteIdUseCase = new GetIncidentReportBySiteIdUseCase(
     prismaIncidentReportRepo
@@ -84,9 +84,9 @@ incidentReportRouter.get('/:siteId', (req: DecodedExpressRequest, res) => {
 // Get Incident Report by ID
 incidentReportRouter.get(
   '/:incidentReportId',
-  (req: DecodedExpressRequest, res) => {
+  async (req: DecodedExpressRequest, res) => {
     const prismaIncidentReportRepo = new PrismaIncidentReportRepo(
-      databaseService.getDBclient(req.decoded.tenantId as string)
+     await databaseService.getDBclient(req.decoded.tenantId as string)
     );
     const getIncidentReportByIdUseCase = new GetIncidentReportByIdUseCase(
       prismaIncidentReportRepo
@@ -99,9 +99,9 @@ incidentReportRouter.get(
 );
 
 // Get Incident Report by User ID
-incidentReportRouter.get('/:userId', (req: DecodedExpressRequest, res) => {
+incidentReportRouter.get('/:userId', async (req: DecodedExpressRequest, res) => {
   const prismaIncidentReportRepo = new PrismaIncidentReportRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const getIncidentReportByUserIdUseCase = new GetIncidentReportByUserIdUseCase(
     prismaIncidentReportRepo

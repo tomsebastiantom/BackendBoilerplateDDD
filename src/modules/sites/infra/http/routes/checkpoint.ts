@@ -20,9 +20,9 @@ const checkpointRouter = express.Router();
 checkpointRouter.post(
   '/',
   middleware.ensureAuthenticated(),
-  (req: DecodedExpressRequest, res) => {
+  async (req: DecodedExpressRequest, res) => {
     const prismaCheckpointRepo = new PrismaCheckpointRepo(
-      databaseService.getDBclient(req.decoded.tenantId as string)
+      await databaseService.getDBclient(req.decoded.tenantId as string)
     );
     const createCheckpointUseCase = new CreateCheckpointUseCase(
       prismaCheckpointRepo
@@ -34,9 +34,9 @@ checkpointRouter.post(
   }
 );
 
-checkpointRouter.delete('/:checkpointId', (req: DecodedExpressRequest, res) => {
+checkpointRouter.delete('/:checkpointId', async (req: DecodedExpressRequest, res) => {
   const prismaCheckpointRepo = new PrismaCheckpointRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const deleteCheckpointUseCase = new DeleteCheckpointUseCase(
     prismaCheckpointRepo
@@ -47,9 +47,9 @@ checkpointRouter.delete('/:checkpointId', (req: DecodedExpressRequest, res) => {
   deleteCheckpointController.execute(req, res);
 });
 
-checkpointRouter.put('/:checkpointId', (req: DecodedExpressRequest, res) => {
+checkpointRouter.put('/:checkpointId', async (req: DecodedExpressRequest, res) => {
   const prismaCheckpointRepo = new PrismaCheckpointRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+   await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const updateCheckpointUseCase = new UpdateCheckpointUseCase(
     prismaCheckpointRepo
@@ -60,9 +60,9 @@ checkpointRouter.put('/:checkpointId', (req: DecodedExpressRequest, res) => {
   updateCheckpointController.execute(req, res);
 });
 
-checkpointRouter.get('/:siteId', (req: DecodedExpressRequest, res) => {
+checkpointRouter.get('/:siteId', async (req: DecodedExpressRequest, res) => {
   const prismaCheckpointRepo = new PrismaCheckpointRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const getCheckpointBySiteIdUseCase = new GetCheckpointBySiteIdUseCase(
     prismaCheckpointRepo
@@ -73,9 +73,9 @@ checkpointRouter.get('/:siteId', (req: DecodedExpressRequest, res) => {
   getCheckpointBySiteIdController.execute(req, res);
 });
 
-checkpointRouter.get('/:checkpointId', (req: DecodedExpressRequest, res) => {
+checkpointRouter.get('/:checkpointId', async (req: DecodedExpressRequest, res) => {
   const prismaCheckpointRepo = new PrismaCheckpointRepo(
-    databaseService.getDBclient(req.decoded.tenantId as string)
+    await databaseService.getDBclient(req.decoded.tenantId as string)
   );
   const getCheckpointUseCase = new GetCheckpointUseCase(prismaCheckpointRepo);
   const getCheckpointController = new GetCheckpointController(
