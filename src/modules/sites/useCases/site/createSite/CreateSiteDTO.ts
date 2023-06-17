@@ -11,6 +11,7 @@ export interface CreateSiteDTO {
     instruction?: InstructionDTO;
     instructions?: InstructionDTO[];
     tenantId?: string;
+    decoded?: any;
   }
 
 

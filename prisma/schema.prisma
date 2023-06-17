@@ -104,7 +104,6 @@ model Site {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   tenantId        String           @db.Uuid
-  tenants         Tenant           @relation(fields: [tenantId], references: [id])
   checkpoints     Checkpoint[]
   guardreports    GuardReport[]
   incidentreports IncidentReport[]
@@ -126,7 +125,6 @@ model Tenant {
   phone       String?  @unique @db.VarChar(255)
   companyName String   @unique @db.VarChar(255)
   username    String?  @unique @db.VarChar(255)
-  Site        Site[]
 
   @@map("tenants")
 }

@@ -63,6 +63,9 @@ export class CreateSiteUseCase
       if (request.tenantId) {
         newSite.tenantId = request.tenantId;
       }
+      // else{
+      //   newSite.tenantId = request.decoded.tenantId
+      // }
 
       const siteOrError = Site.create({
         ...newSite,
@@ -74,8 +77,13 @@ export class CreateSiteUseCase
           Result.fail<any>(siteOrError.getErrorValue().toString())
         ) as CreateSiteResponse;
       }
+      try{
+        await this.siteRepo.save(siteOrError.getValue());
+      } catch (err) {
+        return left(new AppError.UnexpectedError(err));
+      }
 
-      await this.siteRepo.save(siteOrError.getValue());
+    
       return right(Result.ok<Site>(siteOrError.getValue()));
     } catch (err) {
       return left(new AppError.UnexpectedError(err));
