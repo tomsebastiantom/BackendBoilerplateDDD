@@ -1,1 +1,0 @@
-export type PatrolType = 'Hourly' | 'Daily'| 'Other';
