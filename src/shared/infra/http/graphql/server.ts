@@ -1,11 +1,6 @@
 
 
 
-// import { getRecentPosts } from '../../../../modules/forum/useCases/post/getRecentPosts';
-// import { PostDetailsMap } from '../../../../modules/forum/mappers/postDetailsMap';
-// import { GraphQLDateTime } from 'graphql-iso-date';
-// import { memberRepo } from '../../../../modules/forum/repos';
-// import { MemberDetailsMap } from '../../../../modules/forum/mappers/memberDetailsMap';
 // import { ApolloServer } from '@apollo/server';
 // import { gql } from 'graphql-tag';
 // import { expressMiddleware } from '@apollo/server/express4';
@@ -30,21 +25,15 @@
 //   typeDefs: [typeDefs, ForumTypeDefs, UserTypeDefs],
 //   resolvers: {
 //     DateTime: GraphQLDateTime,
-//     Post: {
-//       memberPostedBy: async (post, args, context) => {
-//         const memberDetails = await memberRepo.getMemberDetailsByPostLinkOrSlug(post.slug);
-//         return MemberDetailsMap.toDTO(memberDetails);
+//     Mutation: {
+//       createUser: async (parent, args, context) => {
+//         const response = await 
 //       },
 //     },
 //     Query: {
 //       posts: async (parent, args, context) => {
-//         const response = await getRecentPosts.execute({});
-//         if (response.isRight()) {
-//           const postDetails = response.value.getValue();
-//           return postDetails.map(PostDetailsMap.toDTO);
-//         } else {
-//           throw response.value;
-//         }
+//         const response = await 
+       
 //       },
 //     },
 //   },
