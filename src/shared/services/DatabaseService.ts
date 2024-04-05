@@ -22,7 +22,6 @@ export class DatabaseService implements IDatabaseService {
     if (!dbUrl)
       dbUrl =
         BASE_DATABASE_URL + '_'+ this.removeHyphens(tenantId) + '?schema=public';
-        console.log('dbUrl', dbUrl);
     const client = new PrismaClient({
       datasources: {
         db: {
