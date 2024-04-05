@@ -1,7 +1,7 @@
 {
-  "name": "nexamanagementsystem",
+  "name": "dddrestapiboilerplate",
   "version": "0.0.1",
-  "description": "Nexa management System",
+  "description": "Domain Driven Multi Tenant API",
   "main": "index.js",
   "scripts": {
     "lint": "eslint . --ext .ts",
